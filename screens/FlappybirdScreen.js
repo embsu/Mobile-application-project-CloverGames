@@ -1,16 +1,18 @@
 import React from "react";
-import { Canvas, useImage, Image } from "@shopify/react-native-skia";
+import { Canvas, useImage, Image, Group } from "@shopify/react-native-skia";
 import { useWindowDimensions } from "react-native";
-import { useSharedValue, withTiming, Easing, withSequence, withRepeat, useFrameCallback} from "react-native-reanimated";
+import { useSharedValue, withTiming, Easing, withSequence, withRepeat, useFrameCallback, useDerivedValue, interpolate, Extrapolation} from "react-native-reanimated";
 import { useEffect } from "react";
 import { GestureHandlerRootView, GestureDetector, Gesture} from "react-native-gesture-handler";
 
 // Lets add GRAVITY to the world
 //Here cause gravity does not change
-const GRAVITY = 500
-
+const GRAVITY = 900
+const JUMP_FORCE = -400
 
 const FlappybirdScreen = () => {
+
+  
   const { width, height } = useWindowDimensions()
 
   // load the images 
@@ -20,10 +22,27 @@ const FlappybirdScreen = () => {
   const pipeTop = useImage(require('../assets/FlappybirdSprites/pipe-green-top.png'));
   const base = useImage(require('../assets/FlappybirdSprites/base.png'));
 
-
   const x = useSharedValue(width)
-  const birdY = useSharedValue(height/2)
+  const birdY = useSharedValue(height/3)
   const birdYVelocity = useSharedValue(100)
+
+  //This is the bird rotation 
+  const birdTransform = useDerivedValue(() =>{
+    return [
+      {
+    rotate: interpolate(
+      birdYVelocity.value,
+      [-500, 500],
+      [-0.5, 0.5],
+      Extrapolation.CLAMP
+      ) 
+    }
+    ]
+  })
+
+  const birdOrigin = useDerivedValue(() => {
+    return { x: width / 4 + 32, y: birdY.value + 24}
+  })
 
   // This is animation for the bird
   // dt is the time since the last frame
@@ -36,7 +55,6 @@ const FlappybirdScreen = () => {
     birdY.value = birdY.value + birdYVelocity.value * dt / 1000
     birdYVelocity.value = birdYVelocity.value + GRAVITY * dt / 1000 // The gravity has been taken into account
     //console.log('Velocity:',birdYVelocity.value)
-
   })
 
   useEffect(() => {
@@ -52,10 +70,8 @@ const FlappybirdScreen = () => {
   //Katotaanpa mitä tällä nyt tehdään
   const gesture = Gesture.Tap().onStart(() => {
     console.log('Tapped')
-    birdYVelocity.value = -200
+    birdYVelocity.value = JUMP_FORCE
   })
-
-
 
   //Let's set the pipe offset. If offset is -100 pipe is upper and otherwise. Toppipe: offset - x, bottonpipe x + offset. 
   //Thats cause we dont want to move the pipes same direction. 
@@ -93,7 +109,11 @@ const FlappybirdScreen = () => {
         x={0}
         fit={'cover'}
       />
-
+      <Group 
+      transform={birdTransform} 
+      origin={birdOrigin}
+     
+      >
       {/* Bird */}
       <Image
         image={bird}
@@ -102,6 +122,7 @@ const FlappybirdScreen = () => {
         width={64}
         height={48}
       />
+       </Group>
     </Canvas>
     </GestureDetector>
     </GestureHandlerRootView>
