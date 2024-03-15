@@ -3,7 +3,7 @@ import React from 'react'
 import { TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-export default function homeScreen() {
+export default function HomeScreen() {
   const navigation = useNavigation();
 
   return (
