@@ -1,8 +1,20 @@
 import React from "react";
-import { Canvas, useImage, Image, Group } from "@shopify/react-native-skia";
-import { useWindowDimensions } from "react-native";
-import { useSharedValue, withTiming, Easing, withSequence, withRepeat, useFrameCallback, useDerivedValue, interpolate, Extrapolation} from "react-native-reanimated";
-import { useEffect } from "react";
+import { Canvas, useImage, Image, Group, Text, matchFont} from "@shopify/react-native-skia";
+import { useWindowDimensions, Platform} from "react-native";
+import { 
+  useSharedValue, 
+  withTiming, 
+  Easing, 
+  withSequence, 
+  withRepeat, 
+  useFrameCallback, 
+  useDerivedValue, 
+  interpolate, 
+  Extrapolation, 
+  useAnimatedReaction,
+  runOnJS
+} from "react-native-reanimated";
+import { useEffect, useState } from "react";
 import { GestureHandlerRootView, GestureDetector, Gesture} from "react-native-gesture-handler";
 
 // Lets add GRAVITY to the world
@@ -12,8 +24,8 @@ const JUMP_FORCE = -400
 
 const FlappybirdScreen = () => {
 
-  
   const { width, height } = useWindowDimensions()
+  const [score, setScore] = useState(0)
 
   // load the images 
   const bg = useImage(require('../assets/FlappybirdSprites/background-day.png'));
@@ -23,40 +35,13 @@ const FlappybirdScreen = () => {
   const base = useImage(require('../assets/FlappybirdSprites/base.png'));
 
   const x = useSharedValue(width)
+
   const birdY = useSharedValue(height/3)
   const birdYVelocity = useSharedValue(100)
+  const birdPos = {
+    x: width / 4}
 
-  //This is the bird rotation 
-  const birdTransform = useDerivedValue(() =>{
-    return [
-      {
-    rotate: interpolate(
-      birdYVelocity.value,
-      [-500, 500],
-      [-0.5, 0.5],
-      Extrapolation.CLAMP
-      ) 
-    }
-    ]
-  })
-
-  const birdOrigin = useDerivedValue(() => {
-    return { x: width / 4 + 32, y: birdY.value + 24}
-  })
-
-  // This is animation for the bird
-  // dt is the time since the last frame
-  // We use this to calculate the new position of the bird
-  // dividing by 1000 to convert from milliseconds to seconds
-
-  useFrameCallback(({timeSincePreviousFrame: dt}) => {
-    if(!dt){
-      return}
-    birdY.value = birdY.value + birdYVelocity.value * dt / 1000
-    birdYVelocity.value = birdYVelocity.value + GRAVITY * dt / 1000 // The gravity has been taken into account
-    //console.log('Velocity:',birdYVelocity.value)
-  })
-
+  //Background animation
   useEffect(() => {
     x.value = withRepeat(
       withSequence(
@@ -67,15 +52,76 @@ const FlappybirdScreen = () => {
     )
   }, [])
 
-  //Katotaanpa mitä tällä nyt tehdään
+  //This adds score when the pipes are over the middle of the screen
+  useAnimatedReaction(
+    () =>  x.value,
+    (currentValue, previousValue ) => {
+      const middle = birdPos.x
+      if(
+        currentValue !== previousValue &&
+        previousValue &&
+        currentValue <= middle &&
+        previousValue > middle
+        ){
+        //Do something
+        runOnJS(setScore)(score +1) //This is just cause we are using state. We need to use runOnJS to run the function
+        console.log('Score ++')
+
+    }
+  }
+  )
+
+  // This is pshysics for the bird
+  // dt is the time since the last frame
+  // We use this to calculate the new position of the bird
+  // dividing by 1000 to convert from milliseconds to seconds
+  useFrameCallback(({timeSincePreviousFrame: dt}) => {
+    if(!dt){
+      return}
+    birdY.value = birdY.value + birdYVelocity.value * dt / 1000
+    birdYVelocity.value = birdYVelocity.value + GRAVITY * dt / 1000 // The gravity has been taken into account
+    //console.log('Velocity:',birdYVelocity.value)
+  })
+
+  //This is for the tap gesture. So when we tap the bird will jump
   const gesture = Gesture.Tap().onStart(() => {
     console.log('Tapped')
     birdYVelocity.value = JUMP_FORCE
   })
 
+  //This is for the rotation of the bird
+  const birdTransform = useDerivedValue(() =>{
+    return [
+      {
+    rotate: interpolate(
+      birdYVelocity.value,
+      [-500, 500], // This is the range of the birdYVelocity
+      [-0.5, 0.5], // This is how much the bird will rotate
+      Extrapolation.CLAMP // This is to make sure the rotation is clamped between -0.5 and 0.5, not over that
+      ) 
+    }
+    ]
+  })
+
+//This is for the origin of the bird
+  const birdOrigin = useDerivedValue(() => {
+    return { x: width / 4 + 32, y: birdY.value + 24}
+  })
+
+
+
   //Let's set the pipe offset. If offset is -100 pipe is upper and otherwise. Toppipe: offset - x, bottonpipe x + offset. 
   //Thats cause we dont want to move the pipes same direction. 
   const pipeOffset = 0
+
+  const fontFamily = Platform.select({ios: 'Helvetica',default: 'serif'})
+  const fontStyle = {
+    fontFamily,
+    fontSize: 40,
+    fontWeight: 'bold'
+  }
+
+  const font = matchFont(fontStyle)
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -117,12 +163,22 @@ const FlappybirdScreen = () => {
       {/* Bird */}
       <Image
         image={bird}
-        x={width / 4 - 32}
+        x={birdPos.x}
         y={birdY}
         width={64}
         height={48}
       />
        </Group>
+       {/* Score */}
+        <Text
+        x={width / 2 -30}
+        y={100}
+        text= {score.toString()}
+        font={font}
+        
+        />
+
+       
     </Canvas>
     </GestureDetector>
     </GestureHandlerRootView>
