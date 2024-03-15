@@ -1,8 +1,13 @@
 import React from "react";
 import { Canvas, useImage, Image } from "@shopify/react-native-skia";
 import { useWindowDimensions } from "react-native";
-import { useSharedValue, withTiming, Easing, withSequence, withRepeat } from "react-native-reanimated";
+import { useSharedValue, withTiming, Easing, withSequence, withRepeat, useFrameCallback} from "react-native-reanimated";
 import { useEffect } from "react";
+import { GestureHandlerRootView, GestureDetector, Gesture} from "react-native-gesture-handler";
+
+// Lets add GRAVITY to the world
+//Here cause gravity does not change
+const GRAVITY = 500
 
 
 const FlappybirdScreen = () => {
@@ -16,7 +21,23 @@ const FlappybirdScreen = () => {
   const base = useImage(require('../assets/FlappybirdSprites/base.png'));
 
 
-  const x = useSharedValue(width - 50)
+  const x = useSharedValue(width)
+  const birdY = useSharedValue(height/2)
+  const birdYVelocity = useSharedValue(100)
+
+  // This is animation for the bird
+  // dt is the time since the last frame
+  // We use this to calculate the new position of the bird
+  // dividing by 1000 to convert from milliseconds to seconds
+
+  useFrameCallback(({timeSincePreviousFrame: dt}) => {
+    if(!dt){
+      return}
+    birdY.value = birdY.value + birdYVelocity.value * dt / 1000
+    birdYVelocity.value = birdYVelocity.value + GRAVITY * dt / 1000 // The gravity has been taken into account
+    //console.log('Velocity:',birdYVelocity.value)
+
+  })
 
   useEffect(() => {
     x.value = withRepeat(
@@ -28,6 +49,12 @@ const FlappybirdScreen = () => {
     )
   }, [])
 
+  //Katotaanpa mitä tällä nyt tehdään
+  const gesture = Gesture.Tap().onStart(() => {
+    console.log('Tapped')
+    birdYVelocity.value = -200
+  })
+
 
 
   //Let's set the pipe offset. If offset is -100 pipe is upper and otherwise. Toppipe: offset - x, bottonpipe x + offset. 
@@ -35,7 +62,11 @@ const FlappybirdScreen = () => {
   const pipeOffset = 0
 
   return (
-    <Canvas style={{ width, height }}>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <GestureDetector gesture = {gesture}>
+    <Canvas 
+    style={{ width, height }}
+    >
       {/* Background */}
       <Image image={bg} width={width} height={height} fit={'cover'} />
       {/* Pipes */}
@@ -67,11 +98,13 @@ const FlappybirdScreen = () => {
       <Image
         image={bird}
         x={width / 4 - 32}
-        y={height / 2 - 24}
+        y={birdY}
         width={64}
         height={48}
       />
     </Canvas>
+    </GestureDetector>
+    </GestureHandlerRootView>
   );
 };
 
