@@ -5,33 +5,47 @@ import { useWindowDimensions } from "react-native";
 
 const FlappybirdScreen = () => {
   const { width, height } = useWindowDimensions()
+
   // load the images 
   const bg = useImage(require('../assets/FlappybirdSprites/background-day.png'));
   const bird = useImage(require('../assets/FlappybirdSprites/yellowbird-midflap.png'));
-  const pipe = useImage(require('../assets/FlappybirdSprites/pipe-green.png'));
+  const pipeBottom = useImage(require('../assets/FlappybirdSprites/pipe-green.png'));
   const pipeTop = useImage(require('../assets/FlappybirdSprites/pipe-green-top.png'));
+  const base = useImage(require('../assets/FlappybirdSprites/base.png'));
 
+  //Let's set the pipe offset. If offset is -100 pipe is upper and otherwise. Toppipe: offset - x, bottonpipe x + offset. 
+  //Thats cause we dont want to move the pipes same direction. 
+  const pipeOffset = 0
 
-  const r = width * 0.33;
   return (
     <Canvas style={{ width, height}}>
       {/* Background */}
       <Image image ={bg}  width ={width} height ={height} fit = {'cover'} />
       {/* Pipes */}
       <Image 
-      image ={pipe} 
-      y ={height - 320}
+      image ={pipeTop} 
+      y ={pipeOffset - 320}
       x={width/2}
       width ={104}
       height ={640}
        />
       <Image 
-      image ={pipeTop} 
-      y ={- 320}
+      image ={pipeBottom} 
+      y ={height - 320 + pipeOffset}
       x={width/2}
       width ={104}
       height ={640}
        />
+      {/* Base */}
+      <Image
+      image ={base}  
+      width ={width}
+      height ={150}
+      y ={height - 150}
+      x={0}
+      fit={'cover'}
+       />
+
       {/* Bird */}
       <Image
        image ={bird}  
