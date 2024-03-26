@@ -1,23 +1,22 @@
-import { View, Text } from 'react-native'
-import React from 'react'
-import { useEffect } from 'react';
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
+import MemoryGame from '../games/MemoryGame'; // Varmista, että polku on oikea
 
 const MemoryScreen = () => {
-  useEffect(() => {
-    // Aloita muistipeli täällä
-    startMemoryGame();
-  }, []);
-
-  const startMemoryGame = () => {
-    // Toteuta pelin aloituslogiikka täällä
-    console.log('Muistipeli on käynnistetty!');
-  };
-
   return (
-    <>
-      {/* Tässä voit lisätä komponentit ja näkymät, jotka liittyvät muistipeliin */}
-    </>
+    <View style={styles.container}>
+      <MemoryGame />
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'lightgray', // Taustaväri voi olla mikä tahansa
+  },
+});
 
 export default MemoryScreen;
