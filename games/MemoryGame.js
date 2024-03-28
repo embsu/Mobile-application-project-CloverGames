@@ -1,34 +1,52 @@
-// MemoryGame.js
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
 import Cards from '../games/Cards';
 
+const kuvat = {
+ koretti: require('./assets/koretti.png')
+};
+
 const MemoryGame = () => {
-  const cards = [
-    { id: 1, content: 'Kortti 1' },
-    { id: 2, content: 'Kortti 2' },
-    { id: 3, content: 'Kortti 3' },
-    { id: 4, content: 'Kortti 4' },
-    { id: 5, content: 'Kortti 5' },
-    { id: 6, content: 'Kortti 6' },
-    { id: 7, content: 'Kortti 7' },
-    { id: 8, content: 'Kortti 8' },
-    { id: 9, content: 'Kortti 9' },
-    { id: 10, content: 'Kortti 10' },
-    { id: 11, content: 'Kortti 11' },
-    { id: 12, content: 'Kortti 12' },
-    { id: 13, content: 'Kortti 13' },
-    { id: 14, content: 'Kortti 14' },
-    { id: 15, content: 'Kortti 15' },
-    { id: 16, content: 'Kortti 16' },
+  // Määritä alkuperäiset kortit
+  const initialCards = [
+    { id: 1, content: 'Kortti 1', imageSource: kuvat.koretti},
+    { id: 2, content: 'Kortti 1' },
+    { id: 3, content: 'Kortti 2' },
+    { id: 4, content: 'Kortti 2' },
+    { id: 5, content: 'Kortti 3' },
+    { id: 6, content: 'Kortti 3' },
+    { id: 7, content: 'Kortti 4' },
+    { id: 8, content: 'Kortti 4' },
+    { id: 9, content: 'Kortti 5' },
+    { id: 10, content: 'Kortti 5' },
+    { id: 11, content: 'Kortti 6' },
+    { id: 12, content: 'Kortti 6' },
+    { id: 13, content: 'Kortti 7' },
+    { id: 14, content: 'Kortti 7' },
+    { id: 15, content: 'Kortti 8' },
+    { id: 16, content: 'Kortti 8' },
   ];
+
+  // Tilamuuttuja korttien säilyttämiseksi
+  const [cards, setCards] = useState([]);
+
+  // Funktio sekoittaa kortit satunnaisesti
+  const shuffleCards = (array) => {
+    return array.sort(() => Math.random() - 0.5);
+  };
+
+  useEffect(() => {
+    // Sekoita kortit ennen niiden asettamista tilamuuttujaan
+    setCards(shuffleCards(initialCards));
+  }, []);
 
   const renderCard = ({ item }) => (
     <Cards
       onPress={() => handleCardPress(item.id)}
       content={item.content}
+      imageSource={item.imageSource}
       style={styles.card}
-      color="lightblue"
+      color="darkgray"
     />
   );
 
@@ -51,29 +69,29 @@ const MemoryGame = () => {
 };
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: 'black',
-    },
-    cardContainer: {
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-      justifyContent: 'space-between',
-      alignContent: 'space-between', // Tasaa kortit sekä vaaka- että pystysuunnassa
-      paddingHorizontal: 10,
-      paddingVertical: 10,
-      width: '100%', // Koko näytön leveys
-      height: '100%', // Koko näytön korkeus
-    },
-    card: {
-      alignItems: 'center',
-      width: '22%',
-      aspectRatio: 0.6,
-      marginVertical: 5, // Väli korttien välillä
-      marginHorizontal: 5, // Väli korttien välillä
-    },
-  });
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff2fd', //taustaväri
+  },
+  cardContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    alignContent: 'space-between',
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    width: '100%',
+    height: '100%',
+  },
+  card: {
+    alignItems: 'center',
+    width: '22%',
+    aspectRatio: 0.6,
+    marginVertical: 5,
+    marginHorizontal: 5,
+  },
+});
 
 export default MemoryGame;
