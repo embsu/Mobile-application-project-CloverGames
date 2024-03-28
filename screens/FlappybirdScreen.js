@@ -51,7 +51,10 @@ const FlappybirdScreen = () => {
   const birdCenterY = useDerivedValue(() => birdY.value + 24)
   //Let's set the pipe offset. If offset is -100 pipe is upper and otherwise. Toppipe: offset - x, bottonpipe x + offset. 
   //Thats cause we dont want to move the pipes same direction. 
-  const pipeOffset = 0
+  const pipeOffset = useSharedValue(0)
+  const topPipeY = useDerivedValue(() => pipeOffset.value - 320)
+  const bottomPipeY = useDerivedValue(() => height - 320 + pipeOffset.value)
+
 
   //Lets do multiple obstacles
   const obstacles = useDerivedValue(() => {
@@ -59,7 +62,7 @@ const FlappybirdScreen = () => {
     // add bottom pipe
     allObstacles.push({
       x: x.value,
-      y: height - 320 + pipeOffset,
+      y: bottomPipeY.value,
       h: pipeHeight,
       w: pipeWidth
     })
@@ -67,7 +70,7 @@ const FlappybirdScreen = () => {
     // add top pipe
     allObstacles.push({
       x: x.value,
-      y: pipeOffset - 320,
+      y: topPipeY.value,
       h: pipeHeight,
       w: pipeWidth
     })
@@ -96,13 +99,18 @@ const FlappybirdScreen = () => {
     () => x.value,
     (currentValue, previousValue) => {
       const middle = birdPos.x
+
+      // Lets change the pipe offset when the pipe is out of the screen, so that there is different pipes in the screen
+      if(previousValue && currentValue < -100 && previousValue > -100) {
+        pipeOffset.value = Math.random() * 400 - 200 // To move up and down?? 
+      }
+
       if (
         currentValue !== previousValue &&
         previousValue &&
         currentValue <= middle &&
         previousValue > middle
       ) {
-        //Do something
         runOnJS(setScore)(score + 1) //This is just cause we are using state. We need to use runOnJS to run the function
       }
     }
@@ -169,10 +177,7 @@ const FlappybirdScreen = () => {
     x.value = width
     runOnJS(moveTheMap)()
     runOnJS(setScore)(0)
-
-
   }
-
 
   //This is for the tap gesture. So when we tap the bird will jump
   const gesture = Gesture.Tap().onStart(() => {
@@ -204,11 +209,6 @@ const FlappybirdScreen = () => {
   const birdOrigin = useDerivedValue(() => {
     return { x: width / 4 + 32, y: birdY.value + 24 }
   })
-
-
-
-
-
   const fontFamily = Platform.select({ ios: 'Helvetica', default: 'serif' })
   const fontStyle = {
     fontFamily,
@@ -229,14 +229,14 @@ const FlappybirdScreen = () => {
           {/* Pipes */}
           <Image
             image={pipeTop}
-            y={pipeOffset - 320}
+            y={topPipeY}
             x={x}
             width={pipeWidth}
             height={pipeHeight}
           />
           <Image
             image={pipeBottom}
-            y={height - 320 + pipeOffset}
+            y={bottomPipeY}
             x={x}
             width={pipeWidth}
             height={pipeHeight}
