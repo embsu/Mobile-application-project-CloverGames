@@ -8,9 +8,9 @@ const kuvat = {
 
 const MemoryGame = () => {
   // Määritä alkuperäiset kortit
-  const initialCards = [
-    { id: 1, content: 'Kortti 1', imageSource: kuvat.koretti},
-    { id: 2, content: 'Kortti 1' },
+    const initialCards = [
+    { id: 1, imageSource: require('./assets/koretti.png') },
+    { id: 2, imageSource: require('./assets/koretti.png') },
     { id: 3, content: 'Kortti 2' },
     { id: 4, content: 'Kortti 2' },
     { id: 5, content: 'Kortti 3' },
