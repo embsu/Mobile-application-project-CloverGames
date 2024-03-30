@@ -27,10 +27,10 @@ class Food extends Component {
             <View style={[styles.finger, { width: this.props.size, height: this.props.size, left: x * this.props.size, top: y * this.props.size }]} >
               <Image source={require('../assets/fly.png')}
               style={styles.image} />
-              <Image source={require('../assets/apple.png')}
+              {/* <Image source={require('../assets/apple.png')}
               style={styles.image} />
               <Image source={require('../assets/frog.png')}
-              style={styles.image} />
+              style={styles.image} /> */}
 
 
             </View>
@@ -40,8 +40,9 @@ class Food extends Component {
 
 const styles = StyleSheet.create({
     finger: {
-        backgroundColor: 'purple',
-        position: "absolute"
+        backgroundColor: 'gray',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     image: {
         width: Constants.CELL_SIZE,

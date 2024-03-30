@@ -18,8 +18,7 @@ export default function SnakegameScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'white', // Adjust as needed
+
+    backgroundColor: 'black', // Adjust as needed
   },
 })

@@ -34,7 +34,8 @@ class Tail extends Component {
 const styles = StyleSheet.create({
     finger: {
         backgroundColor: '#888888',
-        position: "absolute"
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     image: {
         width: 25,

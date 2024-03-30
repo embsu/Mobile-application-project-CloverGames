@@ -1,11 +1,15 @@
 import React, { Component } from "react";
 import { AppRegistry, StyleSheet, StatusBar, View, Alert, Button, TouchableOpacity, } from "react-native";
 import { GameEngine, dispatch } from 'react-native-game-engine'
+import Icon from 'react-native-vector-icons'
+
 import Constants from './components/Constants'
 import { GameLoop } from './systems'
 import { Head } from './components/Head'
 import { Food } from './components/Food'
 import { Tail } from './components/Tail'
+
+
 
 export default class Snake extends Component { 
     
@@ -53,13 +57,22 @@ export default class Snake extends Component {
     }
 
     render() {
+        
 
         return (
 
             <View style={styles.container}>
                 <GameEngine
                     ref={(ref) => { this.engine = ref; }}
-                    style={{ width: this.boardSize, height: this.boardSize, flex: null, backgroundColor: 'white'}}
+                    style={{ 
+                        width: this.boardSize, 
+                        height: this.boardSize, 
+                        flex: null, 
+                        backgroundColor: 'transparent', 
+                        borderRadius: 5, 
+                        borderColor: 'black', 
+                        borderWidth: 2,
+                        margin: 10}}
 
                     systems = {[ GameLoop ]} // ?
                     entities={{
@@ -74,9 +87,6 @@ export default class Snake extends Component {
                 </GameEngine>
 
                 <Button title="New Game" onPress={this.reset} />
-
-
-
 
 
                 <View style={styles.controls}>
@@ -109,7 +119,7 @@ export default class Snake extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'grey',
+        backgroundColor: 'pink',
         alignItems: 'center',
         justifyContent: 'center'
     },
@@ -128,7 +138,7 @@ const styles = StyleSheet.create({
     control: {
         width: 100,
         height: 100,
-        backgroundColor: 'blue'
+        backgroundColor: 'lightblue'
     }
 });
 
