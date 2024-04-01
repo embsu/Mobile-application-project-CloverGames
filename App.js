@@ -7,6 +7,7 @@ import MinesweeperScreen from './screens/MinesweeperScreen';
 import SnakegameScreen from './screens/SnakegameScreen';
 import HomeScreen from './screens/HomeScreen';
 import { PaperProvider } from 'react-native-paper';
+import MemoryGame from './games/MemoryGame';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,6 +20,7 @@ export default function App() {
           <Stack.Screen name="Minesweeper" component={MinesweeperScreen} />
           <Stack.Screen name="Snakegame" component={SnakegameScreen} />
           <Stack.Screen name="Memory" component={MemoryScreen} />
+          <Stack.Screen name="MemoryGame" component={MemoryGame} />
         </Stack.Navigator>
       </NavigationContainer>
   );

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
-import Cards from '../games/Cards';
+import Cards from './Cards';
 
 const kuvat = {
  koretti: require('./assets/koretti.png')
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff2fd', //taustaväri
+    backgroundColor: 'black', //taustaväri
   },
   cardContainer: {
     flexDirection: 'row',

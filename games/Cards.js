@@ -18,7 +18,7 @@ const Cards = ({ content, imageSource, style, color }) => {
         </View>
       ) : ( // Näytetään etupuolen sisältö, kun kortti ei ole käännetty
         <View style={[styles.cardContent, styles.cardFront]}>
-          <Text style={styles.cardText}>Käännä kortti</Text>
+          <Text style={styles.cardText}>Käännä</Text>
         </View>
       )}
     </TouchableOpacity>
