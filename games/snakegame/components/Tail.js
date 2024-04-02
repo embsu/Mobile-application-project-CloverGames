@@ -7,42 +7,61 @@ class Tail extends Component {
         super(props);
     }
 
-
     render() {
-
         let tailList = this.props.elements.map((el, idx) => {
-            return <View
-                key={idx}
-                style={{
-                    width: this.props.size, height: this.props.size, position: 'absolute', left: el[0] * this.props.size, top: el[1] * this.props.size,
-                    backgroundColor: 'blue' 
-                }} >
-                <Image source={require('../assets/snakebody.png')}
-                    style={styles.image} />
-            </View>
-
+            const [x, y] = el;
+            const tailStyle = {
+                width: this.props.size,
+                height: this.props.size,
+                position: "absolute",
+                left: x * this.props.size,
+                top: y * this.props.size,
+                // backgroundColor: "blue",
+                justifyContent: 'center',
+                alignItems: 'center',
+            };
+            return (
+                <View key={idx} style={tailStyle}>
+                    <Image
+                        source={require("../assets/snakebody.png")}
+                        style={styles.image}
+                    />
+                </View>
+            );
         });
 
         return (
             <View
-              style={{
-                width: Constants.GRID_SIZE * this.props.size,
-                height: Constants.GRID_SIZE * this.props.size,
-              }}>
-              {tailList}
+                style={{
+                    width: Constants.GRID_SIZE * this.props.size,
+                    height: Constants.GRID_SIZE * this.props.size,
+                    position: "absolute",
+                    left: 0,
+                    top: 0,
+                }}
+            >
+                {tailList}
             </View>
-          );
+        );
     }
 }
 
 const styles = StyleSheet.create({
 
-    image: {
-        width: 25,
-        height: 25,
-        
+    // snakeTail: {
+    //     backgroundColor: 'blue',
+    //     justifyContent: 'center',
+    //     alignItems: 'center',
+    //     position: 'absolute',
+    // },
 
-    }
+    image: {
+        width: 30,
+        height: 30,
+
+
+
+    },
 });
 
 export { Tail };

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { AppRegistry, StyleSheet, StatusBar, View, Alert, Button, BackHandler, TouchableOpacity, Text } from "react-native";
+import { AppRegistry, StyleSheet, StatusBar, View, Alert, Button, BackHandler, TouchableOpacity, Text, TouchableHighlight } from "react-native";
 import { GameEngine, dispatch } from 'react-native-game-engine'
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
 import IonIcon from 'react-native-vector-icons/Ionicons'
@@ -7,12 +7,15 @@ import IonIcon from 'react-native-vector-icons/Ionicons'
 import { useFonts } from 'expo-font';
 import { Font } from 'expo-font';
 import { loadAsync } from 'expo-font';
+import Modal from 'react-native-modal';
 
+import CustomAlert from './components/CustomAlertScore'
 import Constants from './components/Constants'
 import { GameLoop } from './systems'
 import { Head } from './components/Head'
 import { Food } from './components/Food'
 import { Tail } from './components/Tail'
+
 
 
 export default class Snake extends Component {
@@ -49,95 +52,103 @@ export default class Snake extends Component {
         return Math.floor(Math.random() * (max - min + 1) + min);
     }
 
+
+    handleAlertClose = () => {
+        this.setState({ showAlert: false });
+    };
     // the onEvent function is called when the game is over
- onEvent = (e) => {
-    const {score} = this.state;
-    if (e.type === 'game-over') {
-      this.setState({
-        running: false,
-      });
-      Alert.alert('Game over!' , 'Your score: ',  [
-        {
-            text: 'Cancel',
+    onEvent = (e) => {
+        const { score } = this.state;
+        if (e.type === 'game-over') {
+            this.setState({
+                running: false,
+                showAlert: true,
+            });
 
-        },
-        {text: 'Restart', onPress: () => this.reset()},
-      ]);
-    } else if (e.type === 'score+') {
-      var s = score + 1;
-      this.setState({
-        score: s,
-      });
+        } else if (e.type === 'score+') {
+            var s = score + 1;
+            this.setState({
+                score: s,
+            });
+        }
     }
-}
-
 
     // when game IS over, the reset function is called
     reset = () => {
         this.engine.swap({
-          head: {
-            position: [0, 0],
-            xspeed: 1,
-            yspeed: 0,
-            nextMove: 10,
-            updateFrequency: 10,
-            size: 20,
-            renderer: <Head />,
-          },
-          food: {
-            position: [
-              this.randomBetween(0, Constants.GRID_SIZE - 1),
-              this.randomBetween(0, Constants.GRID_SIZE - 1),
-            ],
-            size: 20,
-            renderer: <Food />,
-          },
-          tail: {size: 20, elements: [], renderer: <Tail />},
+            head: {
+                position: [0, 0],
+                xspeed: 1,
+                yspeed: 0,
+                nextMove: 10,
+                updateFrequency: 10,
+                size: 20,
+                renderer: <Head />,
+            },
+            food: {
+                position: [
+                    this.randomBetween(0, Constants.GRID_SIZE - 1),
+                    this.randomBetween(0, Constants.GRID_SIZE - 1),
+                ],
+                size: 20,
+                renderer: <Food />,
+            },
+            tail: { size: 20, elements: [], renderer: <Tail /> },
         });
         this.setState({
-          running: true,
-          score: 0,
+            running: true,
+            score: 0,
         });
-      };
-      handleFocuse = () => {
-        this.setState({onFocused: true});
-      };
-      handleBlur = () => {
-        this.setState({onFocused: false});
-      };
+        this.handleAlertClose(); // Close the alert after resetting the game
+    };
+    handleFocuse = () => {
+        this.setState({ onFocused: true });
+    };
+    handleBlur = () => {
+        this.setState({ onFocused: false });
+    };
 
     render() {
-        const { fontsLoaded, score } = this.state;
+        const { fontsLoaded, score, showAlert } = this.state;
+        
+        const message = "Game Over" + "\n" + "Your Score is: " + score;
 
         if (!fontsLoaded) {
-          return null; // Render nothing until fonts are loaded
+            return null; // Render nothing until fonts are loaded
         }
 
         return (
 
             <View style={styles.container}>
+                {/* Render the custom alert component only when the showAlert state is true */}
+                <CustomAlert
+                    isVisible={showAlert}
+                    message={message}
+                    onClose={this.handleAlertClose}
+                    reset={this.reset}
+                />
 
                 <View style={styles.topbar} >
 
-                <MaterialIcon name="arrow-back" size={40} color="#EC5E5E" 
-                // onPress={() => this.props.navigation.navigate('snakegame')}
-                />
-                <Text
-                style ={
-                    {
-                        fontFamily: 'Comfortaa',
-                        fontSize: 20,
-                        padding: 10,
-                        color: '#EA8282',
-                        textShadowColor: 'rgba(0, 0, 0, 0.9)',
-                        textShadowOffset: { width: 0, height: 1 },
-                        textShadowRadius: 4,
-                    
-                        
-                        
-                        }}>Score: {score}</Text>
+                    <MaterialIcon name="arrow-back" size={40} color="#EC5E5E"
+                    // onPress={() => this.props.navigation.navigate('snakegame')}
+                    />
+                    <Text
+                        style={
+                            {
+                                fontFamily: 'Comfortaa',
+                                fontSize: 20,
+                                padding: 10,
+                                color: '#EA8282',
+                                textShadowColor: 'rgba(0, 0, 0, 0.9)',
+                                textShadowOffset: { width: 0, height: 1 },
+                                textShadowRadius: 4,
 
-                        <IonIcon name="settings-sharp" size={30} color="#EC5E5E" />
+
+
+                            }}>Score: {score}</Text>
+
+                    <IonIcon name="settings-sharp" size={30} color="#EC5E5E" />
 
                 </View>
                 <GameEngine
@@ -151,29 +162,29 @@ export default class Snake extends Component {
                         borderColor: 'black',
                         borderWidth: 1,
                         marginTop: 20,
-                        
+
                     }}
 
                     systems={[GameLoop]}
                     entities={{
-                      head: {
-                        position: [0, 0],
-                        xspeed: 1,
-                        yspeed: 0,
-                        nextMove: 10,
-                        updateFrequency: 10,
-                        size: 20,
-                        renderer: <Head />,
-                      },
-                      food: {
-                        position: [
-                          this.randomBetween(0, Constants.GRID_SIZE - 1),
-                          this.randomBetween(0, Constants.GRID_SIZE - 1),
-                        ],
-                        size: 20,
-                        renderer: <Food />,
-                      },
-                      tail: {size: 20, elements: [], renderer: <Tail />},
+                        head: {
+                            position: [0, 0],
+                            xspeed: 1,
+                            yspeed: 0,
+                            nextMove: 10,
+                            updateFrequency: 10,
+                            size: 20,
+                            renderer: <Head />,
+                        },
+                        food: {
+                            position: [
+                                this.randomBetween(0, Constants.GRID_SIZE - 1),
+                                this.randomBetween(0, Constants.GRID_SIZE - 1),
+                            ],
+                            size: 20,
+                            renderer: <Food />,
+                        },
+                        tail: { size: 20, elements: [], renderer: <Tail /> },
                     }}
                     running={this.state.running}
                     onEvent={this.onEvent}>
@@ -233,6 +244,17 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
+
+    alertContainer: {
+        backgroundColor: 'white',
+        padding: 20,
+        borderRadius: 10,
+        alignItems: 'center',
+    },
+    message: {
+        fontSize: 18,
+        marginBottom: 20,
+    },
     topbar: {
         width: '100%',
         height: 60,
@@ -240,10 +262,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        
+
         paddingLeft: 10,
         paddingRight: 10,
-       
+
     },
     controls: {
         width: '90%',

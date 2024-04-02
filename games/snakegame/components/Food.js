@@ -24,7 +24,7 @@ class Food extends Component {
 
 
         return (
-            <View style={[styles.finger, { width: this.props.size, height: this.props.size, left: x * this.props.size, top: y * this.props.size }]} >
+            <View style={[styles.snakeFood, { width: this.props.size, height: this.props.size, left: x * this.props.size, top: y * this.props.size }]} >
               {/* <Image source={require('../assets/fly.png')}
               style={styles.image} /> */}
               <Image source={require('../assets/apple.png')}
@@ -39,14 +39,17 @@ class Food extends Component {
 }
 
 const styles = StyleSheet.create({
-    finger: {
+    snakeFood: {
         backgroundColor: 'gray',
         justifyContent: 'center',
         alignItems: 'center',
+        position: 'absolute',
     },
     image: {
         width: 25,
         height: 25,
+        alignSelf: 'center',
+
     },
     
 });
