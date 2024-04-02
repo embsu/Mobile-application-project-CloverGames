@@ -3,7 +3,7 @@ import React, { useCallback } from 'react'
 import { useFonts } from 'expo-font';
 
 
-export default function SnakegameStart({ navigation }) {
+export default function SnakegameMenuScreen({ navigation }) {
 
     const [fontsLoaded, fontError] = useFonts({
         'Pacifico': require('../games/snakegame/assets/fonts/Pacifico-Regular.ttf'),
@@ -37,7 +37,7 @@ export default function SnakegameStart({ navigation }) {
                     alignItems: 'center',
                     
                 }}
-                imageStyle={{ opacity: 0.5, }} //only to the background
+                imageStyle={{ opacity: 0.4, }} //only to the background
             >
 
                 <Text style={{

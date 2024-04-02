@@ -46,9 +46,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     image: {
-        width: 30,
-        height: 30,
-        zIndex: 10,
+        width: 38,
+        height: 38,
+        // zIndex: 10,
        
     }
 });

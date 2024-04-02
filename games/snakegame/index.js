@@ -1,7 +1,12 @@
 import React, { Component } from "react";
-import { AppRegistry, StyleSheet, StatusBar, View, Alert, Button, TouchableOpacity, } from "react-native";
+import { AppRegistry, StyleSheet, StatusBar, View, Alert, Button, TouchableOpacity, Text } from "react-native";
 import { GameEngine, dispatch } from 'react-native-game-engine'
-import Icon from 'react-native-vector-icons'
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
+import IonIcon from 'react-native-vector-icons/Ionicons'
+
+import { useFonts } from 'expo-font';
+import { Font } from 'expo-font';
+import { loadAsync } from 'expo-font';
 
 import Constants from './components/Constants'
 import { GameLoop } from './systems'
@@ -10,9 +15,8 @@ import { Food } from './components/Food'
 import { Tail } from './components/Tail'
 
 
+export default class Snake extends Component {
 
-export default class Snake extends Component { 
-    
     // props parameter represents the properties passed to the Snake component(class)
     constructor(props) {
         // super() is used to call the constructor of the parent class (Component)
@@ -26,6 +30,14 @@ export default class Snake extends Component {
         }
     }
 
+    async componentDidMount() {
+        await loadAsync({
+            'Pacifico': require('./assets/fonts/Pacifico-Regular.ttf'),
+            'Comfortaa': require('./assets/fonts/Comfortaa-VariableFont_wght.ttf'),
+        });
+        this.setState({ fontsLoaded: true });
+    }
+
     // the food is placed in a random position on the grid
     randomBetween = (min, max) => {
 
@@ -34,21 +46,21 @@ export default class Snake extends Component {
     }
 
     // the onEvent function is called when the game is over
-    // onEvent = (e) => {
-    //     if (e.type === "game-over"){
-    //         this.setState({
-    //             running: false
-    //         });
-    //         Alert.alert("Game Over");
-    //     }
-    // }
+    onEvent = (e) => {
+        if (e.type === "game-over"){
+            this.setState({
+                running: false
+            });
+            Alert.alert("Game Over, Your score was: " + e.score);
+        }
+    }
 
 
     // when game IS over, the reset function is called
     reset = () => {
         this.engine.swap({
-            head: { position: [0,  0], xspeed: 1, yspeed: 0, nextMove: 10, updateFrequency: 10, size: 20, renderer: <Head />},
-            food: { position: [this.randomBetween(0, Constants.GRID_SIZE - 1), this.randomBetween(0, Constants.GRID_SIZE - 1)], size: 20, renderer: <Food />},
+            head: { position: [0, 0], xspeed: 1, yspeed: 0, nextMove: 10, updateFrequency: 10, size: 10, renderer: <Head /> },
+            food: { position: [this.randomBetween(0, Constants.GRID_SIZE - 1), this.randomBetween(0, Constants.GRID_SIZE - 1)], size: 20, renderer: <Food /> },
             tail: { size: 20, elements: [], renderer: <Tail /> }
         });
         this.setState({
@@ -57,28 +69,57 @@ export default class Snake extends Component {
     }
 
     render() {
-        
+        const { fontsLoaded } = this.state;
+
+        if (!fontsLoaded) {
+          return null; // Render nothing until fonts are loaded
+        }
 
         return (
 
             <View style={styles.container}>
+
+                <View style={styles.topbar} >
+
+                <MaterialIcon name="arrow-back" size={40} color="#EC5E5E" 
+                // onPress={() => this.props.navigation.navigate('snakegame')}
+                />
+                <Text
+                style ={
+                    {
+                        fontFamily: 'Comfortaa',
+                        fontSize: 20,
+                        padding: 10,
+                        color: '#EA8282',
+                        textShadowColor: 'rgba(0, 0, 0, 0.9)',
+                        textShadowOffset: { width: 0, height: 1 },
+                        textShadowRadius: 4,
+                    
+                        
+                        
+                        }}>Score: </Text>
+
+                        <IonIcon name="settings-sharp" size={30} color="#EC5E5E" />
+
+                </View>
                 <GameEngine
                     ref={(ref) => { this.engine = ref; }}
-                    style={{ 
-                        width: this.boardSize, 
-                        height: this.boardSize, 
-                        flex: null, 
-                        backgroundColor: 'transparent', 
-                        borderRadius: 5, 
-                        borderColor: 'black', 
+                    style={{
+                        width: this.boardSize,
+                        height: this.boardSize,
+                        flex: null,
+                        backgroundColor: '#F0CACA',
+                        borderRadius: 15,
+                        borderColor: 'black',
                         borderWidth: 2,
-                        margin: 10}}
+                        margin: 10
+                    }}
 
-                    systems = {[ GameLoop ]} // ?
+                    systems={[GameLoop]} // ?
                     entities={{
-                        head: { position: [0,  0], xspeed: 1, yspeed: 0, nextMove: 10, updateFrequency: 10, size: 20, renderer: <Head />},
-                        food: { position: [this.randomBetween(0, Constants.GRID_SIZE - 1), this.randomBetween(0, Constants.GRID_SIZE - 1)], size: 20, renderer: <Food />},
-                        tail: { size: 20, elements: [], renderer: <Tail /> }
+                        head: { position: [0, 0], xspeed: 1, yspeed: 0, nextMove: 10, updateFrequency: 10, size: 20, renderer: <Head /> },
+                        food: { position: [this.randomBetween(0, Constants.GRID_SIZE - 1), this.randomBetween(0, Constants.GRID_SIZE - 1)], size: 20, renderer: <Food /> },
+                        tail: { size: 25, elements: [], renderer: <Tail /> }
                     }}
                     running={this.state.running}
                     onEvent={this.onEvent}>
@@ -90,23 +131,38 @@ export default class Snake extends Component {
 
 
                 <View style={styles.controls}>
+
                     <View style={styles.controlRow}>
-                        <TouchableOpacity onPress={() => { this.engine.dispatch({ type: "move-up" })} }>
-                            <View style={styles.control} />
+                        <TouchableOpacity onPress={() => { this.engine.dispatch({ type: "move-up" }) }}>
+                            <View style={styles.controlBtn}>
+                                <MaterialIcon name="keyboard-arrow-up" size={50} color="black" />
+                            </View>
                         </TouchableOpacity>
                     </View>
+
                     <View style={styles.controlRow}>
-                        <TouchableOpacity onPress={() => { this.engine.dispatch({ type: "move-left" })} }>
-                            <View style={styles.control} />
+                        <TouchableOpacity onPress={() => { this.engine.dispatch({ type: "move-left" }) }}>
+                            <View style={styles.controlBtn} >
+                                <MaterialIcon name="keyboard-arrow-left" size={50} color="black" />
+                            </View>
                         </TouchableOpacity>
-                        <View style={[styles.control, { backgroundColor: null}]} />
-                        <TouchableOpacity onPress={() => { this.engine.dispatch({ type: "move-right" })}}>
-                            <View style={styles.control} />
+
+                        {/* one invisible button in between */}
+                        <View style={[styles.controlBtn, { backgroundColor: null, width: 80, height: 80 }]} />
+                        {/* end */}
+
+                        <TouchableOpacity onPress={() => { this.engine.dispatch({ type: "move-right" }) }}>
+                            <View style={styles.controlBtn} >
+                                <MaterialIcon name="keyboard-arrow-right" size={50} color="black" />
+                            </View>
                         </TouchableOpacity>
                     </View>
+
                     <View style={styles.controlRow}>
-                        <TouchableOpacity onPress={() => { this.engine.dispatch({ type: "move-down" })} }>
-                            <View style={styles.control} />
+                        <TouchableOpacity onPress={() => { this.engine.dispatch({ type: "move-down" }) }}>
+                            <View style={styles.controlBtn} >
+                                <MaterialIcon name="keyboard-arrow-down" size={50} color="black" />
+                            </View>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -119,26 +175,44 @@ export default class Snake extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'pink',
+        backgroundColor: '#3d3433',
         alignItems: 'center',
         justifyContent: 'center'
     },
+    topbar: {
+        width: '100%',
+        height: 60,
+        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingLeft: 10,
+        paddingRight: 10,
+       
+    },
     controls: {
-        width: 280,
-        height: 280,
-        flexDirection: 'column',
+        width: '90%',
+        height: 260,
+        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+        justifyContent: 'center',
+        borderRadius: 20,
     },
     controlRow: {
-        height: 100,
-        width: 300,
+
         alignItems: 'center',
         justifyContent: 'center',
-        flexDirection: 'row'
+        flexDirection: 'row',
+        // backgroundColor: 'gray'
     },
-    control: {
-        width: 100,
-        height: 100,
-        backgroundColor: 'lightblue'
+    controlBtn: {
+        width: 80,
+        height: 80,
+        backgroundColor: '#EA8282',
+        // borderColor: '#EC5E5E',
+        // borderWidth: 1,
+        borderRadius: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
     }
 });
 
