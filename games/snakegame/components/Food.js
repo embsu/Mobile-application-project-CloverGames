@@ -40,14 +40,14 @@ class Food extends Component {
 
 const styles = StyleSheet.create({
     finger: {
-        // backgroundColor: 'gray',
+        backgroundColor: 'gray',
         justifyContent: 'center',
         alignItems: 'center',
     },
     image: {
-        width: Constants.CELL_SIZE,
-        height: Constants.CELL_SIZE,
-    }
+        width: 25,
+        height: 25,
+    },
     
 });
 

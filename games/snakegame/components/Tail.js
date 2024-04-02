@@ -7,6 +7,7 @@ class Tail extends Component {
         super(props);
     }
 
+
     render() {
 
         let tailList = this.props.elements.map((el, idx) => {
@@ -14,7 +15,7 @@ class Tail extends Component {
                 key={idx}
                 style={{
                     width: this.props.size, height: this.props.size, position: 'absolute', left: el[0] * this.props.size, top: el[1] * this.props.size,
-                    // backgroundColor: 'blue' 
+                    backgroundColor: 'blue' 
                 }} >
                 <Image source={require('../assets/snakebody.png')}
                     style={styles.image} />
@@ -23,23 +24,23 @@ class Tail extends Component {
         });
 
         return (
-            <View style={{ width: Constants.GRID_SIZE * this.props.size, height: Constants.GRID_SIZE * this.props.size }}>
-                {tailList}
-
+            <View
+              style={{
+                width: Constants.GRID_SIZE * this.props.size,
+                height: Constants.GRID_SIZE * this.props.size,
+              }}>
+              {tailList}
             </View>
-        );
+          );
     }
 }
 
 const styles = StyleSheet.create({
-    finger: {
-        backgroundColor: '#888888',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
+
     image: {
         width: 25,
         height: 25,
+        
 
     }
 });

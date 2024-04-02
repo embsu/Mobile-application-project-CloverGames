@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { AppRegistry, StyleSheet, StatusBar, View, Alert, Button, TouchableOpacity, Text } from "react-native";
+import { AppRegistry, StyleSheet, StatusBar, View, Alert, Button, BackHandler, TouchableOpacity, Text } from "react-native";
 import { GameEngine, dispatch } from 'react-native-game-engine'
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
 import IonIcon from 'react-native-vector-icons/Ionicons'
@@ -26,7 +26,11 @@ export default class Snake extends Component {
         this.boardSize = Constants.GRID_SIZE * Constants.CELL_SIZE;
         this.engine = null;
         this.state = {
-            running: true
+            running: true,
+            score: 0,
+            visible: false,
+            onFocused: true,
+            name: '',
         }
     }
 
@@ -46,30 +50,64 @@ export default class Snake extends Component {
     }
 
     // the onEvent function is called when the game is over
-    onEvent = (e) => {
-        if (e.type === "game-over"){
-            this.setState({
-                running: false
-            });
-            Alert.alert("Game Over, Your score was: " + e.score);
-        }
+ onEvent = (e) => {
+    const {score} = this.state;
+    if (e.type === 'game-over') {
+      this.setState({
+        running: false,
+      });
+      Alert.alert('Game over!' , 'Your score: ',  [
+        {
+            text: 'Cancel',
+
+        },
+        {text: 'Restart', onPress: () => this.reset()},
+      ]);
+    } else if (e.type === 'score+') {
+      var s = score + 1;
+      this.setState({
+        score: s,
+      });
     }
+}
 
 
     // when game IS over, the reset function is called
     reset = () => {
         this.engine.swap({
-            head: { position: [0, 0], xspeed: 1, yspeed: 0, nextMove: 10, updateFrequency: 10, size: 10, renderer: <Head /> },
-            food: { position: [this.randomBetween(0, Constants.GRID_SIZE - 1), this.randomBetween(0, Constants.GRID_SIZE - 1)], size: 20, renderer: <Food /> },
-            tail: { size: 20, elements: [], renderer: <Tail /> }
+          head: {
+            position: [0, 0],
+            xspeed: 1,
+            yspeed: 0,
+            nextMove: 10,
+            updateFrequency: 10,
+            size: 20,
+            renderer: <Head />,
+          },
+          food: {
+            position: [
+              this.randomBetween(0, Constants.GRID_SIZE - 1),
+              this.randomBetween(0, Constants.GRID_SIZE - 1),
+            ],
+            size: 20,
+            renderer: <Food />,
+          },
+          tail: {size: 20, elements: [], renderer: <Tail />},
         });
         this.setState({
-            running: true
+          running: true,
+          score: 0,
         });
-    }
+      };
+      handleFocuse = () => {
+        this.setState({onFocused: true});
+      };
+      handleBlur = () => {
+        this.setState({onFocused: false});
+      };
 
     render() {
-        const { fontsLoaded } = this.state;
+        const { fontsLoaded, score } = this.state;
 
         if (!fontsLoaded) {
           return null; // Render nothing until fonts are loaded
@@ -97,7 +135,7 @@ export default class Snake extends Component {
                     
                         
                         
-                        }}>Score: </Text>
+                        }}>Score: {score}</Text>
 
                         <IonIcon name="settings-sharp" size={30} color="#EC5E5E" />
 
@@ -109,17 +147,33 @@ export default class Snake extends Component {
                         height: this.boardSize,
                         flex: null,
                         backgroundColor: '#F0CACA',
-                        borderRadius: 15,
+                        borderRadius: 4,
                         borderColor: 'black',
-                        borderWidth: 2,
-                        margin: 10
+                        borderWidth: 1,
+                        marginTop: 20,
+                        
                     }}
 
-                    systems={[GameLoop]} // ?
+                    systems={[GameLoop]}
                     entities={{
-                        head: { position: [0, 0], xspeed: 1, yspeed: 0, nextMove: 10, updateFrequency: 10, size: 20, renderer: <Head /> },
-                        food: { position: [this.randomBetween(0, Constants.GRID_SIZE - 1), this.randomBetween(0, Constants.GRID_SIZE - 1)], size: 20, renderer: <Food /> },
-                        tail: { size: 25, elements: [], renderer: <Tail /> }
+                      head: {
+                        position: [0, 0],
+                        xspeed: 1,
+                        yspeed: 0,
+                        nextMove: 10,
+                        updateFrequency: 10,
+                        size: 20,
+                        renderer: <Head />,
+                      },
+                      food: {
+                        position: [
+                          this.randomBetween(0, Constants.GRID_SIZE - 1),
+                          this.randomBetween(0, Constants.GRID_SIZE - 1),
+                        ],
+                        size: 20,
+                        renderer: <Food />,
+                      },
+                      tail: {size: 20, elements: [], renderer: <Tail />},
                     }}
                     running={this.state.running}
                     onEvent={this.onEvent}>
@@ -186,6 +240,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+        
         paddingLeft: 10,
         paddingRight: 10,
        

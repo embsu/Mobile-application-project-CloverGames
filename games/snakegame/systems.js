@@ -79,14 +79,21 @@ const GameLoop = (entities, { touches, dispatch, events }) => {
 
             // check if it hits the tail
             for(let i=0; i<tail.elements.length; i++){
-                if (tail.elements[i][0] === head.position[0] && tail.elements[i][1] === head.position[1]){
+                if (tail.elements[i][0] === head.position[0] &&
+                     tail.elements[i][1] === head.position[1]
+                     ){
                     dispatch({ type: "game-over" })
                 }
             }
 
-            if (head.position[0] === food.position[0] && head.position[1] === food.position[1]){
+            if (head.position[0] === food.position[0] &&
+                 head.position[1] === food.position[1]
+                 ){
                 // eating Food
-                tail.elements = [[food.position[0], food.position[1]]].concat(tail.elements);
+                tail.elements = [[food.position[0], food.position[1]]].concat(
+                    tail.elements);
+                    
+                    dispatch({type: 'score+'});
 
                 food.position[0] = randomBetween(0, Constants.GRID_SIZE - 1);
                 food.position[1] = randomBetween(0, Constants.GRID_SIZE - 1);

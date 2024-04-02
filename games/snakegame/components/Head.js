@@ -41,14 +41,17 @@ class Head extends Component {
 
 const styles = StyleSheet.create({
     finger: {
-        backgroundColor: '#888888',
-        justifyContent: 'center',
-        alignItems: 'center',
+        backgroundColor: 'black',
+        // justifyContent: 'center',
+        // alignItems: 'center',
+        position: 'absolute',
     },
     image: {
         width: 38,
         height: 38,
         // zIndex: 10,
+        //         justifyContent: 'center',
+        // alignItems: 'center',
        
     }
 });
