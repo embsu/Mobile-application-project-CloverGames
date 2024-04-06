@@ -2,11 +2,12 @@
 import React, { useState } from 'react';
 import { TouchableOpacity, StyleSheet, Text, View, Image } from 'react-native';
 
-const Cards = ({ content, imageSource, style, color }) => {
+const Cards = ({ id, content, imageSource, style, color, onPress }) => {
   const [isFlipped, setIsFlipped] = useState(false); // Tilamuuttuja kortin kääntymiselle
 
   const handlePress = () => {
     setIsFlipped(!isFlipped); // Vaihdetaan kortin kääntymisen tilaa
+    onPress(id); // Välitetään kortin id handlePress-funktiolle
   };
 
   return (

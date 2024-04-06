@@ -7,7 +7,8 @@ import MinesweeperScreen from './screens/MinesweeperScreen';
 import SnakegameScreen from './screens/SnakegameScreen';
 import HomeScreen from './screens/HomeScreen';
 import { PaperProvider } from 'react-native-paper';
-import MemoryGame from './games/MemoryGame';
+import MemoryGame from './games/components/MemoryGame';
+import Options from "./games/components/Options";
 
 const Stack = createNativeStackNavigator();
 
@@ -19,8 +20,10 @@ export default function App() {
           <Stack.Screen name="Flappybird" component={FlappybirdScreen} />
           <Stack.Screen name="Minesweeper" component={MinesweeperScreen} />
           <Stack.Screen name="Snakegame" component={SnakegameScreen} />
-          <Stack.Screen name="Memory" component={MemoryScreen} />
-          <Stack.Screen name="MemoryGame" component={MemoryGame} />
+          <Stack.Screen name="Memory" component={MemoryScreen}
+          options={{ headerShown: false }} />
+          <Stack.Screen name="MemoryGame" component={MemoryGame}/>
+          <Stack.Screen name="Options" component={Options} />
         </Stack.Navigator>
       </NavigationContainer>
   );
