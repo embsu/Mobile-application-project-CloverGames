@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import TopinpeliScreen from './screens/TopinpeliScreen';
+import TopinpeliScreen from './screens/Memory';
 import FlappybirdScreen from './screens/FlappybirdScreen';
 import MinesweeperScreen from './screens/MinesweeperScreen';
 // mato
@@ -60,19 +60,23 @@ export default function App() {
 
             },
           }}
-          
-          
-          
+
           />
-         
-
-
-
         {/* mato ends */}
 
         <Stack.Screen name="Topinpeli" component={TopinpeliScreen} />
       </Stack.Navigator>
     </NavigationContainer>
+
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="Flappybird" component={FlappybirdScreen} />
+          <Stack.Screen name="Minesweeper" component={MinesweeperScreen} />
+          <Stack.Screen name="Snakegame" component={SnakegameScreen} />
+          <Stack.Screen name="Memory" component={TopinpeliScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
 
   );
 }
