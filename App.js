@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import React, { useState } from 'react';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import TopinpeliScreen from './screens/Memory';
 import FlappybirdScreen from './screens/FlappybirdScreen';
@@ -12,66 +13,86 @@ import SnakegameLeaderboard from './screens/SnakegameLeaderboard';
 // mato ends
 
 import HomeScreen from './screens/HomeScreen';
+import LoginScreen from './screens/LoginScreen';
 
 import { PaperProvider } from 'react-native-paper';
+
+import { firestore } from './firebase/Config';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+
+  //TESTI
+
+  // const [loggedIn, setLoggedIn] = useState(false);
+
+
+  // //if user has logged in, set loggedIn to true
+  // const login = () => {
+  //   setLoggedIn(true);
+  //   useNavigation().navigate('Home');
+  // }
+
+
   return (
-   
-      <NavigationContainer>
 
-        <Stack.Navigator>
-          <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="flappybird" component={FlappybirdScreen} />
-          <Stack.Screen name="minesweeper" component={MinesweeperScreen} />
+    <NavigationContainer>
 
-          {/* mato */}
-          <Stack.Screen
-            name="snakegame"
-            component={SnakegameMenuScreen}
-            options={{
+      <Stack.Navigator>
+        <Stack.Screen name="Login" component={LoginScreen} />
+
+        
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="flappybird" component={FlappybirdScreen} />
+        <Stack.Screen name="minesweeper" component={MinesweeperScreen} />
+
+        {/* mato */}
+        <Stack.Screen
+          name="snakegame"
+          component={SnakegameMenuScreen}
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
+          name="snakegameLeaderboard"
+          component={SnakegameLeaderboard} />
+        <Stack.Screen
+          name="actualgame"
+          component={SnakegameScreen}
+          options={
+            {
               headerShown: false
-            }}
-          />
-          <Stack.Screen
-            name="snakegameLeaderboard"
-            component={SnakegameLeaderboard} />
-          <Stack.Screen
-            name="actualgame"
-            component={SnakegameScreen} 
-            options={
-              {
-                headerShown: false
-              }
-            }/>
-          <Stack.Screen
-            name="snakeSettings"
-            component={SnakegameSettings} 
-            options={{
-              title: 'Settings',
-              headerStyle: {
-                backgroundColor: 'black',
-              },
-              headerTintColor: '#fff',
-              headerTitleStyle: {
-                fontFamily: 'comfortaa-regular',
+            }
+          } />
+        <Stack.Screen
+          name="snakeSettings"
+          component={SnakegameSettings}
+          options={{
+            title: 'Settings',
+            headerStyle: {
+              backgroundColor: 'black',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontFamily: 'comfortaa-regular',
 
-              }, }}/>
-          {/* mato ends */}
+            },
+          }} />
+        {/* mato ends */}
 
-          <Stack.Screen name="Topinpeli" component={TopinpeliScreen} />
+        <Stack.Screen name="Topinpeli" component={TopinpeliScreen} />
 
-        </Stack.Navigator>
-    
-  
+      </Stack.Navigator>
 
-     
 
-       
-      </NavigationContainer>
-    
+
+
+
+
+    </NavigationContainer>
+
   );
 }
 
