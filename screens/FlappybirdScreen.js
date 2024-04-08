@@ -32,11 +32,11 @@ const FlappybirdScreen = () => {
   const [score, setScore] = useState(0)
 
   // load the images 
-  const bg = useImage(require('../assets/FlappybirdSprites/background-day.png'));
-  const bird = useImage(require('../assets/FlappybirdSprites/yellowbird-midflap.png'));
-  const pipeBottom = useImage(require('../assets/FlappybirdSprites/pipe-green.png'));
-  const pipeTop = useImage(require('../assets/FlappybirdSprites/pipe-green-top.png'));
-  const base = useImage(require('../assets/FlappybirdSprites/base.png'));
+  const bg = useImage(require('../games/flappybird/assets/FlappybirdSprites/background-day.png'));
+  const bird = useImage(require('../games/flappybird/assets/FlappybirdSprites/yellowbird-midflap.png'));
+  const pipeBottom = useImage(require('../games/flappybird/assets/FlappybirdSprites/pipe-green.png'));
+  const pipeTop = useImage(require('../games/flappybird/assets/FlappybirdSprites/pipe-green-top.png'));
+  const base = useImage(require('../games/flappybird/assets/FlappybirdSprites/base.png'));
 
   const gameOver = useSharedValue(false)
   const x = useSharedValue(width)
@@ -102,7 +102,7 @@ const FlappybirdScreen = () => {
 
       // Lets change the pipe offset when the pipe is out of the screen, so that there is different pipes in the screen
       if(previousValue && currentValue < -100 && previousValue > -100) {
-        pipeOffset.value = Math.random() * 400 - 200 // To move up and down?? 
+        pipeOffset.value = Math.random() * 300 - 150 // To move up and down?? 
       }
 
       if (
