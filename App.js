@@ -19,56 +19,56 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="flappybird" component={FlappybirdScreen} />
-        <Stack.Screen name="minesweeper" component={MinesweeperScreen} />
-
-        {/* mato */}
-        <Stack.Screen
-          name="snakegame"
-          component={SnakegameMenuScreen}
-          options={{
-            headerShown: false
-          }}
-        />
-        <Stack.Screen
-          name="snakegameLeaderboard"
-          component={SnakegameLeaderboard} />
-        <Stack.Screen
-          name="actualgame"
-          component={SnakegameScreen} 
-          options={
-            {
-              headerShown: false
-            }
-          }/>
-        <Stack.Screen
-          name="snakeSettings"
-          component={SnakegameSettings} 
-         
-          options={{
-            title: 'Settings',
-            headerStyle: {
-              backgroundColor: 'black',
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-              fontFamily: 'comfortaa-regular',
-
-            },
-          }}
-
-          />
-        {/* mato ends */}
-
-        <Stack.Screen name="Topinpeli" component={TopinpeliScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
-
+   
       <NavigationContainer>
+
+        <Stack.Navigator>
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="flappybird" component={FlappybirdScreen} />
+          <Stack.Screen name="minesweeper" component={MinesweeperScreen} />
+
+          {/* mato */}
+          <Stack.Screen
+            name="snakegame"
+            component={SnakegameMenuScreen}
+            options={{
+              headerShown: false
+            }}
+          />
+          <Stack.Screen
+            name="snakegameLeaderboard"
+            component={SnakegameLeaderboard} />
+          <Stack.Screen
+            name="actualgame"
+            component={SnakegameScreen} 
+            options={
+              {
+                headerShown: false
+              }
+            }/>
+          <Stack.Screen
+            name="snakeSettings"
+            component={SnakegameSettings} 
+            options={{
+              title: 'Settings',
+              headerStyle: {
+                backgroundColor: 'black',
+              },
+              headerTintColor: '#fff',
+              headerTitleStyle: {
+                fontFamily: 'comfortaa-regular',
+
+              }, }}/>
+          {/* mato ends */}
+
+          <Stack.Screen name="Topinpeli" component={TopinpeliScreen} />
+
+        </Stack.Navigator>
+    
+  
+
+     
+
         <Stack.Navigator>
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Flappybird" component={FlappybirdScreen} />
@@ -77,7 +77,7 @@ export default function App() {
           <Stack.Screen name="Memory" component={TopinpeliScreen} />
         </Stack.Navigator>
       </NavigationContainer>
-
+    
   );
 }
 
