@@ -4,10 +4,15 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import TopinpeliScreen from './screens/TopinpeliScreen';
 import FlappybirdScreen from './screens/FlappybirdScreen';
 import MinesweeperScreen from './screens/MinesweeperScreen';
+// mato
 import SnakegameMenuScreen from './screens/SnakegameMenuScreen';
 import SnakegameScreen from './screens/SnakegameScreen';
-import HomeScreen from './screens/HomeScreen';
+import SnakegameSettings from './screens/SnakegameSettings';
 import SnakegameLeaderboard from './screens/SnakegameLeaderboard';
+// mato ends
+
+import HomeScreen from './screens/HomeScreen';
+
 import { PaperProvider } from 'react-native-paper';
 
 const Stack = createNativeStackNavigator();
@@ -40,6 +45,29 @@ export default function App() {
               headerShown: false
             }
           }/>
+        <Stack.Screen
+          name="snakeSettings"
+          component={SnakegameSettings} 
+         
+          options={{
+            title: 'Settings',
+            headerStyle: {
+              backgroundColor: 'black',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontFamily: 'comfortaa-regular',
+
+            },
+          }}
+          
+          
+          
+          />
+         
+
+
+
         {/* mato ends */}
 
         <Stack.Screen name="Topinpeli" component={TopinpeliScreen} />

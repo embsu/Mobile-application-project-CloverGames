@@ -15,6 +15,8 @@ import { GameLoop } from './systems'
 import { Head } from './components/Head'
 import { Food } from './components/Food'
 import { Tail } from './components/Tail'
+import Navbar from './components/Navbar'
+import { Icon, IconButton } from "react-native-paper";
 
 
 
@@ -110,8 +112,8 @@ export default class Snake extends Component {
 
     render() {
         const { fontsLoaded, score, showAlert } = this.state;
-        
-        const message = "Game Over" + "\n" + "Your Score is: " + score;
+
+        const message = "Game Over" + "\n" + "Your Score: " + score;
 
         if (!fontsLoaded) {
             return null; // Render nothing until fonts are loaded
@@ -127,8 +129,9 @@ export default class Snake extends Component {
                     onClose={this.handleAlertClose}
                     reset={this.reset}
                 />
+                <Navbar score={score} reset={this.reset} />
 
-                <View style={styles.topbar} >
+                {/* <View style={styles.topbar} >
 
                     <MaterialIcon name="arrow-back" size={40} color="#EC5E5E"
                     // onPress={() => this.props.navigation.navigate('snakegame')}
@@ -150,7 +153,7 @@ export default class Snake extends Component {
 
                     <IonIcon name="settings-sharp" size={30} color="#EC5E5E" />
 
-                </View>
+                </View> */}
                 <GameEngine
                     ref={(ref) => { this.engine = ref; }}
                     style={{
@@ -192,7 +195,19 @@ export default class Snake extends Component {
                     <StatusBar hidden={true} />
                 </GameEngine>
 
-                <Button title="New Game" onPress={this.reset} />
+              
+                
+                
+                {/* <Button title="New Game" onPress={this.reset} /> */}
+
+                {/* <IconButton 
+                icon="restart" 
+                color="white" 
+                size={30}
+                style={{backgroundColor: 'black', borderRadius: 10}}
+
+                    onPress={this.reset}
+                /> */}
 
 
                 <View style={styles.controls}>
@@ -255,18 +270,18 @@ const styles = StyleSheet.create({
         fontSize: 18,
         marginBottom: 20,
     },
-    topbar: {
-        width: '100%',
-        height: 60,
-        backgroundColor: 'rgba(0, 0, 0, 0.4)',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
+    // topbar: {
+    //     width: '100%',
+    //     height: 60,
+    //     backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    //     flexDirection: 'row',
+    //     justifyContent: 'space-between',
+    //     alignItems: 'center',
 
-        paddingLeft: 10,
-        paddingRight: 10,
+    //     paddingLeft: 10,
+    //     paddingRight: 10,
 
-    },
+    // },
     controls: {
         width: '90%',
         height: 260,

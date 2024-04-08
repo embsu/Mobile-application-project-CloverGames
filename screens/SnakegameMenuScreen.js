@@ -1,9 +1,12 @@
 import { View, Text, ImageBackground, TouchableOpacity, StyleSheet, StatusBar } from 'react-native'
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useFonts } from 'expo-font';
+import MusicPlayer from '../games/snakegame/components/MusicPlayer';
 
 
 export default function SnakegameMenuScreen({ navigation }) {
+
+    const [isMusicMuted, setIsMusicMuted] = useState(false);
 
     const [fontsLoaded, fontError] = useFonts({
         'Pacifico': require('../games/snakegame/assets/fonts/Pacifico-Regular.ttf'),
@@ -19,6 +22,12 @@ export default function SnakegameMenuScreen({ navigation }) {
     if (!fontsLoaded && !fontError) {
         return null;
     }
+
+    const handleStartPress = () => {
+        // Logic to start playing the music when the button is pressed
+        // setIsMusicMuted(false);
+        navigation.navigate('actualgame');
+      };
 
     return (
 
@@ -57,10 +66,13 @@ export default function SnakegameMenuScreen({ navigation }) {
 
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => navigation.navigate('actualgame')}
+                        onPress={handleStartPress}
+                    
+                    
                     >
                         <Text style={styles.buttonTxt}>Start</Text>
                     </TouchableOpacity>
+                    {/* <MusicPlayer source={require('../games/snakegame/assets/music/background.mp3')}/> */}
 
                     <TouchableOpacity
                         style={styles.button}

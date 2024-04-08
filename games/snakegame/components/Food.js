@@ -40,14 +40,14 @@ class Food extends Component {
 
 const styles = StyleSheet.create({
     snakeFood: {
-        backgroundColor: 'gray',
+        // backgroundColor: 'gray',
         justifyContent: 'center',
         alignItems: 'center',
         position: 'absolute',
     },
     image: {
-        width: 25,
-        height: 25,
+        width: 30,
+        height: 30,
         alignSelf: 'center',
 
     },
