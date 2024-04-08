@@ -1,5 +1,5 @@
 import React from "react";
-import { Canvas, useImage, Image, Group, Text, matchFont, Circle, Rect, rect } from "@shopify/react-native-skia";
+import { Canvas, useImage, Image, Group, Text, matchFont} from "@shopify/react-native-skia";
 import { useWindowDimensions, Platform, Alert } from "react-native";
 import {
   useSharedValue,
@@ -17,6 +17,10 @@ import {
 } from "react-native-reanimated";
 import { useEffect, useState } from "react";
 import { GestureHandlerRootView, GestureDetector, Gesture } from "react-native-gesture-handler";
+import BackgroundComponent from '../games/flappybird/components/BackgroundComponent'
+import PipeComponent from "../games/flappybird/components/PipeComponent";
+import BirdComponent from "../games/flappybird/components/BirdComponent";
+import ScoreComponent from "../games/flappybird/components/ScoreComponent";
 
 // Lets add GRAVITY to the world
 //Here cause gravity does not change
@@ -32,11 +36,11 @@ const FlappybirdScreen = () => {
   const [score, setScore] = useState(0)
 
   // load the images 
-  const bg = useImage(require('../games/flappybird/assets/FlappybirdSprites/background-day.png'));
-  const bird = useImage(require('../games/flappybird/assets/FlappybirdSprites/yellowbird-midflap.png'));
-  const pipeBottom = useImage(require('../games/flappybird/assets/FlappybirdSprites/pipe-green.png'));
-  const pipeTop = useImage(require('../games/flappybird/assets/FlappybirdSprites/pipe-green-top.png'));
-  const base = useImage(require('../games/flappybird/assets/FlappybirdSprites/base.png'));
+  //const bg = useImage(require('../games/flappybird/assets/FlappybirdSprites/background-day.png'));
+  //const bird = useImage(require('../games/flappybird/assets/FlappybirdSprites/yellowbird-midflap.png'));
+  //const pipeBottom = useImage(require('../games/flappybird/assets/FlappybirdSprites/pipe-green.png'));
+  //const pipeTop = useImage(require('../games/flappybird/assets/FlappybirdSprites/pipe-green-top.png'));
+  //const base = useImage(require('../games/flappybird/assets/FlappybirdSprites/base.png'));
 
   const gameOver = useSharedValue(false)
   const x = useSharedValue(width)
@@ -74,9 +78,7 @@ const FlappybirdScreen = () => {
       h: pipeHeight,
       w: pipeWidth
     })
-
     return allObstacles
-
   })
 
   //Background animation
@@ -134,19 +136,17 @@ const FlappybirdScreen = () => {
       if (currentValue > height - 150 || currentValue < 0) {
         gameOver.value = true
       }
-
       const isColliding = obstacles.value.some((rect) => 
         isPointCollingWithRect(
           { x: birdCenterX.value, y: birdCenterY.value }, 
           rect)
       )
-
       if (isColliding) {
         gameOver.value = true
       }
     })
 
-  // Mikä tämän idea oikein olikaan? No selvitä maanantaina
+  // This function will stop the animation when the game is over
   useAnimatedReaction(
     () => gameOver.value, // This is the value we are watching
     (currentValue, previousValue) => {
@@ -215,7 +215,6 @@ const FlappybirdScreen = () => {
     fontSize: 40,
     fontWeight: 'bold'
   }
-
   const font = matchFont(fontStyle)
 
   return (
@@ -224,9 +223,8 @@ const FlappybirdScreen = () => {
         <Canvas
           style={{ width, height }}
         >
-          {/* Background */}
-          <Image image={bg} width={width} height={height} fit={'cover'} />
-          {/* Pipes */}
+        <BackgroundComponent />
+          {/* Pipes 
           <Image
             image={pipeTop}
             y={topPipeY}
@@ -240,8 +238,9 @@ const FlappybirdScreen = () => {
             x={x}
             width={pipeWidth}
             height={pipeHeight}
-          />
-          {/* Base  */}
+          />*/}
+          <PipeComponent x={x} topPipeY={topPipeY} bottomPipeY={bottomPipeY} pipeWidth={pipeWidth} pipeHeight={pipeHeight}/>
+          {/* Base  
           <Image
             image={base}
             width={width}
@@ -249,10 +248,13 @@ const FlappybirdScreen = () => {
             y={height - 150}
             x={0}
             fit={'cover'}
-          />
+          />*/}
+          <BirdComponent birdX={birdPos.x} birdY={birdY} birdTransform={birdTransform} birdOrigin={birdOrigin}/>
+          <ScoreComponent score={score} width font={font} />
+          {/* Bird 
           <Group
             transform={birdTransform} origin={birdOrigin}>
-            {/* Bird */}
+            
             <Image
         image={bird}
         x={birdPos.x}
@@ -260,18 +262,19 @@ const FlappybirdScreen = () => {
         width={64}
         height={48}
   />
-
           </Group>
-          {/* Score */}
+          */}
+          
+          {/* Score 
+
           <Text
             x={width / 2 - 30}
             y={100}
             text={score.toString()}
             font={font}
 
-          />
-
-
+          />*/}
+       
         </Canvas>
       </GestureDetector>
     </GestureHandlerRootView>

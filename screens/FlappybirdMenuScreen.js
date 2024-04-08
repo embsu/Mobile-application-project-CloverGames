@@ -1,32 +1,24 @@
 import { View, Text, ImageBackground, TouchableOpacity, StyleSheet, StatusBar } from 'react-native'
-import React, { useCallback, useState } from 'react'
-import { useFonts } from 'expo-font';
+import React from 'react'
 
 export default function FlappybirdMenuScreen({ navigation }) {
 
-
     const handleStartPress = () => {
-        // Logic to start playing the music when the button is pressed
-        // setIsMusicMuted(false);
         navigation.navigate('flappybirdgame');
       };
 
     return (
-
         <View style={styles.container}>
             <StatusBar hidden={true} />
-
             <ImageBackground source={require('../games/flappybird/assets/FlappybirdSprites/background-day.png')}
                 style={{
                     width: '100%',
                     height: '100%',
                     resizeMode: 'cover',
                     alignItems: 'center',
-                    
                 }}
                 imageStyle={{ opacity: 0.8, }} //only to the background
             >
-
                 <Text style={{
                     marginTop: 150,
                     fontSize: 60,
@@ -36,7 +28,7 @@ export default function FlappybirdMenuScreen({ navigation }) {
                     textShadowOffset: { width: -1, height: 1.2 },
                     textShadowRadius: 4,
                 }}>Flappy Bird</Text>
-                
+
                 <View style={styles.allButtons}>
 
                     <TouchableOpacity
@@ -46,7 +38,6 @@ export default function FlappybirdMenuScreen({ navigation }) {
                         <Text style={styles.buttonTxt}>Start</Text>
                     </TouchableOpacity>
                   
-
                     <TouchableOpacity
                         style={styles.button}
                         onPress={() => navigation.navigate('flappybirdLeaderboard')}
@@ -61,11 +52,8 @@ export default function FlappybirdMenuScreen({ navigation }) {
                         <Text style={styles.buttonTxt}>Exit</Text>
                     </TouchableOpacity>
                 </View>
-
             </ImageBackground>
         </View>
-
-
     )
 }
 
@@ -104,15 +92,9 @@ const styles = StyleSheet.create({
         borderColor: 'white',
         borderWidth: 2,
         margin: 10,
-
-        // elevation: 5,
-
-        
     },
     buttonTxt: {
         color: 'gray',
         fontSize: 20,
-        
-
     }
 })
