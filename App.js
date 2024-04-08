@@ -69,13 +69,7 @@ export default function App() {
 
      
 
-        <Stack.Navigator>
-          <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen name="Flappybird" component={FlappybirdScreen} />
-          <Stack.Screen name="Minesweeper" component={MinesweeperScreen} />
-          <Stack.Screen name="Snakegame" component={SnakegameScreen} />
-          <Stack.Screen name="Memory" component={TopinpeliScreen} />
-        </Stack.Navigator>
+       
       </NavigationContainer>
     
   );

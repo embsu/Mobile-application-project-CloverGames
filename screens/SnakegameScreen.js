@@ -4,11 +4,6 @@ import Snake from '../games/snakegame/index.js'
 
 
 
-
-export default function SnakegameScreen() {
-
-
-
 export default function SnakegameScreen() {
 
   return (
