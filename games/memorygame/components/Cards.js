@@ -1,23 +1,19 @@
-// games/cards.js
-import React, { useState } from 'react';
+import React, { memo } from 'react';
 import { TouchableOpacity, StyleSheet, Text, View, Image } from 'react-native';
 
-const Cards = ({ id, content, imageSource, style, color, onPress }) => {
-  const [isFlipped, setIsFlipped] = useState(false); // Tilamuuttuja kortin kääntymiselle
-
+const Cards = ({ id, content, imageSource, style, color, onPress, isFlipped }) => {
   const handlePress = () => {
-    setIsFlipped(!isFlipped); // Vaihdetaan kortin kääntymisen tilaa
-    onPress(id); // Välitetään kortin id handlePress-funktiolle
+    onPress(id);
   };
 
   return (
     <TouchableOpacity onPress={handlePress} style={[styles.card, style]}>
-      {isFlipped ? ( // Näytetään kääntöpuolen sisältö, kun kortti on käännetty
+      {isFlipped ? (
         <View style={[styles.cardContent, { backgroundColor: color }]}>
           {imageSource && <Image source={imageSource} style={styles.image} />}
           <Text style={styles.cardText}>{content}</Text>
         </View>
-      ) : ( // Näytetään etupuolen sisältö, kun kortti ei ole käännetty
+      ) : (
         <View style={[styles.cardContent, styles.cardFront]}>
           <Text style={styles.cardText}>Käännä</Text>
         </View>
@@ -35,40 +31,37 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 10,
     borderWidth: 2,
-    borderColor: 'gray', // Kortin reunan väri
+    borderColor: 'gray',
   },
   cardContent: {
     width: '100%',
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#7ebacf', // Kortin sisällön väri
+    backgroundColor: '#7ebacf',
     borderRadius: 10,
     position: 'relative',
-    overflow: 'hidden', // Tämä rajausta varmistaa, että kuva ei mene kortin reunan yli
+    overflow: 'hidden',
   },
   cardText: {
     fontSize: 20,
     fontWeight: 'bold',
     fontFamily: '',
-    color: '#404040', // Tekstin väri
+    color: '#404040',
     marginTop: 10,
   },
   image: {
-    width: '100%', // Kuva peittää koko kortin leveyden
-    height: '100%', // Kuva peittää koko kortin korkeuden
+    width: '100%',
+    height: '100%',
     position: 'absolute',
-    top: 0, // Sijoitetaan kuva yläreunaan
-    left: 0, // Sijoitetaan kuva vasempaan reunaan
-    bottom: 0, // Sijoitetaan kuva alareunaan
-    right: 0, // Sijoitetaan kuva oikeaan reunaan
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
   },
   cardFront: {
-    backgroundColor: '#7ebacf', // Etupuolen väri
-  },
-  cardBack: {
-    backgroundColor: 'black', // Kääntöpuolen väri
+    backgroundColor: '#7ebacf',
   },
 });
 
-export default Cards;
+export default memo(Cards);

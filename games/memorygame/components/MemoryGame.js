@@ -1,29 +1,32 @@
-import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, FlatList, ToastAndroid } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet, FlatList, Text } from 'react-native';
 import Cards from './Cards';
 
 const MemoryGame = () => {
   const initialCards = [
-    { id: 1, imageSource: require('../assets/koretti.png') },
-    { id: 2, imageSource: require('../assets/koretti.png') },
-    { id: 3, content: 'Kortti 2' },
-    { id: 4, content: 'Kortti 2' },
-    { id: 5, content: 'Kortti 3' },
-    { id: 6, content: 'Kortti 3' },
-    { id: 7, content: 'Kortti 4' },
-    { id: 8, content: 'Kortti 4' },
-    { id: 9, content: 'Kortti 5' },
-    { id: 10, content: 'Kortti 5' },
-    { id: 11, content: 'Kortti 6' },
-    { id: 12, content: 'Kortti 6' },
-    { id: 13, content: 'Kortti 7' },
-    { id: 14, content: 'Kortti 7' },
-    { id: 15, content: 'Kortti 8' },
-    { id: 16, content: 'Kortti 8' },
+    { id: 1, imageSource: require('../assets/koretti.png'), content: 'Kortti 1' },
+    { id: 2, imageSource: require('../assets/koretti.png'), content: 'Kortti 1' },
+    { id: 3, imageSource: null, content: 'Kortti 2' },
+    { id: 4, imageSource: null, content: 'Kortti 2' },
+    { id: 5, imageSource: null, content: 'Kortti 3' },
+    { id: 6, imageSource: null, content: 'Kortti 3' },
+    { id: 7, imageSource: null, content: 'Kortti 4' },
+    { id: 8, imageSource: null, content: 'Kortti 4' },
+    { id: 9, imageSource: null, content: 'Kortti 5' },
+    { id: 10, imageSource: null, content: 'Kortti 5' },
+    { id: 11, imageSource: null, content: 'Kortti 6' },
+    { id: 12, imageSource: null, content: 'Kortti 6' },
+    { id: 13, imageSource: null, content: 'Kortti 7' },
+    { id: 14, imageSource: null, content: 'Kortti 7' },
+    { id: 15, imageSource: null, content: 'Kortti 8' },
+    { id: 16, imageSource: null, content: 'Kortti 8' },
   ];
 
   const [cards, setCards] = useState([]);
   const [selectedCards, setSelectedCards] = useState([]);
+  const [matchedCards, setMatchedCards] = useState([]); // Lisätty matchedCards-tilamuuttuja
+  const [attempts, setAttempts] = useState(0); // Yritysten määrä
+  const [points, setPoints] = useState(0); // Pisteiden määrä
 
   const shuffleCards = (array) => {
     return array.sort(() => Math.random() - 0.5);
@@ -34,8 +37,8 @@ const MemoryGame = () => {
   }, []);
 
   const handleCardPress = (cardId) => {
-    // Jos kortti on jo valittu, älä tee mitään
-    if (selectedCards.includes(cardId)) {
+    // Jos kortti on jo valittu tai kortti muodostaa jo parin, älä tee mitään
+    if (selectedCards.includes(cardId) || matchedCards.includes(cardId)) {
       return;
     }
   
@@ -49,20 +52,48 @@ const MemoryGame = () => {
   
       // Jos valitut kortit muodostavat parin, tyhjennä valitut kortit
       if (firstCard && secondCard && firstCard.content === secondCard.content) {
-        setSelectedCards([]);
+        setMatchedCards([...matchedCards, firstCard.id, secondCard.id]);
+        setSelectedCards([])
+        setAttempts(attempts + 1); // Päivitetään yritysten määrä
+        console.log('yritysten määrä:', attempts); // Päivitetään yritysten määrä
+        setPoints(points + 1); // Päivitetään pisteiden määrä
+        console.log('pisteiden määrä:', points);
       } else {
-        // Jos valitut kortit eivät muodosta paria, käännä kortit takaisin 3 sekunnin kuluttua
+        // Jos valitut kortit eivät muodosta paria, käännä kortit takaisin 1,5 sekunnin kuluttua
         setTimeout(() => {
           setSelectedCards([]);
-        }, 3000);
+        }, 1500);
+        setAttempts(attempts + 1)
+        console.log('yritysten määrä:', attempts); // Päivitetään yritysten määrä
       }
     } else if (selectedCards.length === 2) {
-      // Jos valittuja kortteja on jo kaksi, käännä ne takaisin 3 sekunnin kuluttua
+      // Jos valittuja kortteja on jo kaksi, käännä ne takaisin 1,5 sekunnin kuluttua
       setTimeout(() => {
         setSelectedCards([]);
-      }, 3000);
+      }, 1500);
     }
   };
+
+  useEffect(() => {
+    // Tarkista, onko valittuna kaksi korttia
+    if (selectedCards.length === 2) {
+      // Haetaan valitut kortit
+      const [firstCardId, secondCardId] = selectedCards;
+      const firstCard = cards.find((card) => card.id === firstCardId);
+      const secondCard = cards.find((card) => card.id === secondCardId);
+  
+      // Jos valitut kortit muodostavat parin, lisätään ne matchedCards-tilamuuttujaan
+      if (firstCard && secondCard && firstCard.content === secondCard.content) {
+        setMatchedCards([...matchedCards, firstCardId, secondCardId]);
+      }
+  
+      // Tyhjennä valitut kortit
+      setTimeout(() => {
+        setSelectedCards([]);
+      }, 1000);
+    }
+  }, [matchedCards]); // Liitetty matchedCards riippuvuutena
+  
 
   const renderCard = ({ item }) => (
     <Cards
@@ -72,11 +103,16 @@ const MemoryGame = () => {
       imageSource={item.imageSource}
       style={styles.card}
       color="darkgray"
+      isFlipped={selectedCards.includes(item.id) || matchedCards.includes(item.id)}
     />
   );
 
   return (
     <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={styles.headerText}>Yritykset: {attempts}</Text>
+        <Text style={styles.headerText}>Pisteet: {points}</Text>
+      </View>
       <View style={styles.cardContainer}>
         <FlatList
           data={cards}
@@ -94,6 +130,22 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: 'black',
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    width: '100%',
+    backgroundColor: 'black',
+  },
+  headerText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+    paddingTop: 140,
     backgroundColor: 'black',
   },
   cardContainer: {
