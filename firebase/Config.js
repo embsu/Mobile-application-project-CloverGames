@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs, setDoc, doc } from "firebase/firestore";
+import { getFirestore, collection, getDocs, setDoc, doc, getDoc } from "firebase/firestore";
 import { getAuth, initializeAuth, signInWithEmailAndPassword, updateProfile, createUserWithEmailAndPassword, getReactNativePersistence } from "firebase/auth";
 import { snapshot } from "firebase/database";
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
@@ -45,7 +45,8 @@ export {
     collection,
     setDoc,
     getDocs,
-    doc
+    doc,
+    getDoc,
 
    
 };

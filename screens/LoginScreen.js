@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { TextInput } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
 import firebase from '../firebase/Config'
-import { firestore, auth, getAuth, signInWithEmailAndPassword, snapshot, collection, getDocs, setDoc, doc, createUserWithEmailAndPassword } from '../firebase/Config';
+import { firestore, auth, getAuth, signInWithEmailAndPassword, snapshot, collection, getDocs, setDoc, doc, getDoc, createUserWithEmailAndPassword } from '../firebase/Config';
 
 export default function Login() {
 
@@ -12,14 +12,14 @@ export default function Login() {
     const [loggedIn, setLoggedIn] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [nickname, setNickname] = useState('');
+    const [username, setUsername] = useState('');
     const [registerModalVisible, setRegisterModalVisible] = useState(false);
     const [registrationSuccess, setRegistrationSuccess] = useState(false);
 
     //ERRORS WHILE LOGIN AND REGISTER
     const [emailRegError, setEmailRegError] = useState(null); // email already in use
     const [passwordRegError, setPasswordRegError] = useState(null); // password too weak
-    const [nicknameRegError, setNicknameRegError] = useState(null); // nickname already in use
+    const [usernameRegError, setUsernameRegError] = useState(null); // username already in use
     const [loginError, setLoginError] = useState(null); // wrong email / password
     const [loginErrorTMR, setLoginErrorTMR] = useState(null); // too many requests
     const [loginErrorUnknown, setLoginErrorUnknown] = useState(null); // unknown error
@@ -28,7 +28,7 @@ export default function Login() {
 
     const handleLogin = async () => {
         try {
-            await signInWithEmailAndPassword(auth, email, password);
+            await signInWithEmailAndPassword(auth, email, password); 
             navigation.navigate('Home');
         }
         catch (error) {
@@ -44,38 +44,15 @@ export default function Login() {
                 loginErrorUnknown("Unknown error. Try again later.");
             }
         }
-
-        // signInWithEmailAndPassword(auth, email, password)
-
-        //     .then((userCredential) => {
-
-        //         // Signed in 
-        //         console.log("User logged in: ", userCredential.user);
-
-        //         setLoggedIn(true);
-        //         navigation.navigate('Home');
-        //         // ...
-        //     })
-        //     .catch((error) => {
-        //         if (error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
-        //             console.log("Wrong password or user not found");
-        //         }
-        //         else if ((error.code === 'auth/too-many-requests')) {
-        //             console.log("Too many requests. Try again later.")
-        //         } else {
-        //             console.log("Error: ", error);
-        //         }
-        //     }
-        //     );
     }
 
     handleRegister = async () => {
         try {
-            const nicknameAvailable = await checkNicknameAvailability(nickname);
+            const usernameAvailable = await checkUsernameAvailability(username);
 
-            if (!nicknameAvailable) { // If nickname is already taken
-                console.log("Nickname is already taken");
-                setNicknameRegError("Nickname is already taken");
+            if (!usernameAvailable) { // If username is already taken
+                console.log("Username is already taken");
+                setUsernameRegError("Username is already taken");
                 return;
             }
 
@@ -86,17 +63,18 @@ export default function Login() {
                 return;
             }
 
-            // Create user with email and password
+            // Create user with email and password to Firebase Authentication
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
 
-             // Store additional user data in Firestore
-            await storeUserData(user.uid, { nickname, email });
+            // Store the username in the usernames collection
+            await storeUsername(username, email, user.uid);
+            console.log("KÄYTTÄJÄNIMI TALLENNETTU CLOUDIIN");
 
             // Signed up succesfully
-            console.log("User signed up\nNickname:" + nickname,'\nEmail:', email)
+            console.log("User signed up\nUsername:" + username, '\nEmail:', email)
             registerSuccessModal();
-           
+
         } catch (error) {
             if (error.code === 'auth/email-already-in-use') {
                 console.log("Email is already in use");
@@ -108,34 +86,50 @@ export default function Login() {
     }
 
 
-    const checkNicknameAvailability = async (nickname) => {
+    const checkUsernameAvailability = async (username) => {
         try {
-            const querySnapshot = await getDocs(collection(firestore, 'users'));
-            querySnapshot.forEach((doc) => {
-                const userData = doc.data();
-                if (userData.nickname === nickname) {
-                    //  Nickname is already taken
-                    return false; // Placeholder return value
-                }
+            console.log("Before getDoc");
+            const docSnap = await getDoc(doc(firestore, 'users',username));
+            console.log("After getDoc");
+            if (docSnap.exists()) {
+                console.log("Username is already taken");
+                return false;
+            } else {
+                console.log("Username is available");
+                return true;
+            }
+        } catch (error) {
+            console.error('Error checking username availability:', error);
+            return false;
+        }
+    };
 
-            });
-            return true; // Placeholder return value
-        } catch (error) {
-            console.error('Error querying Firestore:', error);
-            return false; // Placeholder return value
-        }
-    };
-    const storeUserData = async (userId, userData) => {
+    //To store the username in the cloud firestore usernames collection
+    const storeUsername = async (username, email, userId) => {
         try {
-            // Reference the Firestore document for the user
-            const userDocRef = doc(firestore, 'users', userId);
-    
-            // Set user data in the document
-            await setDoc(userDocRef, userData);
+            // Reference the Firestore document for the username
+            const usernameDocRef = doc(firestore, 'users', username);
+
+            // Set user UID in the document
+            await setDoc(usernameDocRef, { uid: userId, email: email });
         } catch (error) {
-            console.error('Error storing user data:', error);
+            console.error('Error storing username:', error);
         }
-    };
+    }
+
+
+    
+
+    // const storeUserData = async (userId, userData) => {
+    //     try {
+    //         // Here you can write logic to store user data in Firestore
+    //         const userRef = doc(firestore, 'users', userId);
+    //         await setDoc(userRef, userData, { merge: true });
+    //     } catch (error) {
+    //         console.error('Error storing user data:', error);
+    //         throw error;
+    //     }
+    // };
 
 
     // Register modal
@@ -197,7 +191,7 @@ export default function Login() {
                 transparent={true}
                 visible={registerModalVisible}
                 onRequestClose={closeRegisterModal}
-                >
+            >
 
                 <View style={styles.modalView}>
                     <Text style={styles.regTxt}>Register</Text>
@@ -213,12 +207,12 @@ export default function Login() {
                     />
 
                     {/* Display error message */}
-                    {nicknameRegError && <Text style={styles.errorText}>{nicknameRegError}</Text>}
+                    {usernameRegError && <Text style={styles.errorText}>{usernameRegError}</Text>}
                     <TextInput
-                        label="Nickname"
+                        label="Username"
                         style={styles.inputField}
-                        onChangeText={setNickname}
-                        value={nickname}
+                        onChangeText={setUsername}
+                        value={username}
 
                     />
 
@@ -247,24 +241,24 @@ export default function Login() {
                 </View>
             </Modal>
 
-             {/* Display registration success message */}
-             <Modal
-                        animationType='slide'
-                        transparent={false}
-                        visible={registrationSuccess}
-                        onRequestClose={closeRegisterSuccessModal}    
-                        >
-                        <View style={styles.modalView}>
-                            <Text style={styles.successText}>Registration successful</Text>
-                            <Text style={styles.successText}>You can now log in!</Text>
-                            <TouchableOpacity
-                                style={styles.button}
-                                onPress={closeRegisterSuccessModal}
-                            >
-                                <Text style={styles.buttonText}>Close</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </Modal>
+            {/* Display registration success message */}
+            <Modal
+                animationType='slide'
+                transparent={false}
+                visible={registrationSuccess}
+                onRequestClose={closeRegisterSuccessModal}
+            >
+                <View style={styles.modalView}>
+                    <Text style={styles.successText}>Registration successful</Text>
+                    <Text style={styles.successText}>You can now log in!</Text>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={closeRegisterSuccessModal}
+                    >
+                        <Text style={styles.buttonText}>Close</Text>
+                    </TouchableOpacity>
+                </View>
+            </Modal>
 
 
 

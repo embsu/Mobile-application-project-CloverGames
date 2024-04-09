@@ -9,6 +9,10 @@ export default function HomeScreen() {
   return (
 
     <View>
+      <Text>Welcome </Text>
+    
+
+    <View>
       <TouchableOpacity
         style={{ backgroundColor: 'blue', width: 100, height: 100 }}
         onPress={() => navigation.navigate('flappybird')}
@@ -30,6 +34,7 @@ export default function HomeScreen() {
       >
       </TouchableOpacity>
 
+    </View>
     </View>
   )
 }
