@@ -4,22 +4,22 @@ import Cards from './Cards';
 
 const MemoryGame = () => {
   const initialCards = [
-    { id: 1, imageSource: require('../assets/persikka.png'), content: 1 },
-    { id: 2, imageSource: require('../assets/persikka.png'), content: 1 },
-    { id: 3, imageSource: require('../assets/kiivi.png'), content: 2 },
-    { id: 4, imageSource: require('../assets/kiivi.png'), content: 2 },
-    { id: 5, imageSource: require('../assets/luumu.png'), content: 3 },
-    { id: 6, imageSource: require('../assets/luumu.png'), content: 3 },
-    { id: 7, imageSource: require('../assets/lime.png'), content: 4 },
-    { id: 8, imageSource: require('../assets/lime.png'), content: 4 },
-    { id: 9, imageSource: require('../assets/paaryna.png'), content: 5 },
-    { id: 10, imageSource: require('../assets/paaryna.png'), content: 5 },
-    { id: 11, imageSource: require('../assets/vesimeloni.png'), content: 6 },
-    { id: 12, imageSource: require('../assets/vesimeloni.png'), content: 6 },
-    { id: 13, imageSource: require('../assets/viinirypale.png'), content: 7 },
-    { id: 14, imageSource: require('../assets/viinirypale.png'), content: 7 },
-    { id: 15, imageSource: require('../assets/mustikka.png'), content: 8 },
-    { id: 16, imageSource: require('../assets/mustikka.png'), content: 8 },
+    { id: 1, imageSource: require('../assets/nelio_persikka.png'), content: 1 },
+    { id: 2, imageSource: require('../assets/nelio_persikka.png'), content: 1 },
+    { id: 3, imageSource: require('../assets/nelio_kiivi.png'), content: 2 },
+    { id: 4, imageSource: require('../assets/nelio_kiivi.png'), content: 2 },
+    { id: 5, imageSource: require('../assets/nelio_luumu.png'), content: 3 },
+    { id: 6, imageSource: require('../assets/nelio_luumu.png'), content: 3 },
+    { id: 7, imageSource: require('../assets/nelio_lime.png'), content: 4 },
+    { id: 8, imageSource: require('../assets/nelio_lime.png'), content: 4 },
+    { id: 9, imageSource: require('../assets/nelio_paaryna.png'), content: 5 },
+    { id: 10, imageSource: require('../assets/nelio_paaryna.png'), content: 5 },
+    { id: 11, imageSource: require('../assets/nelio_vesimeloni.png'), content: 6 },
+    { id: 12, imageSource: require('../assets/nelio_vesimeloni.png'), content: 6 },
+    { id: 13, imageSource: require('../assets/nelio_viinirypale.png'), content: 7 },
+    { id: 14, imageSource: require('../assets/nelio_viinirypale.png'), content: 7 },
+    { id: 15, imageSource: require('../assets/nelio_mustikka.png'), content: 8 },
+    { id: 16, imageSource: require('../assets/nelio_mustikka.png'), content: 8 },
   ];
 
   const [cards, setCards] = useState([]);
