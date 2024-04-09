@@ -2,12 +2,14 @@ import { View, Text, StyleSheet, TouchableOpacity, Modal } from 'react-native'
 import React, { useState } from 'react'
 import { TextInput } from 'react-native-paper'
 import { useNavigation } from '@react-navigation/native'
+import { ActivityIndicator } from 'react-native-paper'
 import firebase from '../firebase/Config'
-import { firestore, auth, getAuth, signInWithEmailAndPassword, snapshot, collection, getDocs, setDoc, doc, getDoc, createUserWithEmailAndPassword } from '../firebase/Config';
+import { firestore, updateProfile, auth, getAuth, signInWithEmailAndPassword, snapshot, collection, getDocs, setDoc, doc, getDoc, createUserWithEmailAndPassword } from '../firebase/Config';
 
 export default function Login() {
 
     const navigation = useNavigation();
+    const [loading, setLoading] = useState(false);
     // LOGIN AND REGISTER
     const [loggedIn, setLoggedIn] = useState(false);
     const [email, setEmail] = useState('');
@@ -28,8 +30,12 @@ export default function Login() {
 
     const handleLogin = async () => {
         try {
-            await signInWithEmailAndPassword(auth, email, password); 
+            await signInWithEmailAndPassword(auth, email, password);
+            // setLoading(true);
             navigation.navigate('Home');
+            console.log("User logged in");
+            
+            console.log(auth.currentUser.uid);
         }
         catch (error) {
             if (error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
@@ -67,9 +73,13 @@ export default function Login() {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
 
+            // Set the username as the displayName // IMPORTANT WHEN FETCHING USERNAME
+            await updateProfile(user, { displayName: username });
+
             // Store the username in the usernames collection
             await storeUsername(username, email, user.uid);
             console.log("KÄYTTÄJÄNIMI TALLENNETTU CLOUDIIN");
+
 
             // Signed up succesfully
             console.log("User signed up\nUsername:" + username, '\nEmail:', email)
@@ -89,7 +99,7 @@ export default function Login() {
     const checkUsernameAvailability = async (username) => {
         try {
             console.log("Before getDoc");
-            const docSnap = await getDoc(doc(firestore, 'users',username));
+            const docSnap = await getDoc(doc(firestore, 'users', username));
             console.log("After getDoc");
             if (docSnap.exists()) {
                 console.log("Username is already taken");
@@ -110,26 +120,13 @@ export default function Login() {
             // Reference the Firestore document for the username
             const usernameDocRef = doc(firestore, 'users', username);
 
-            // Set user UID in the document
-            await setDoc(usernameDocRef, { uid: userId, email: email });
+            // Set username, email, and UID in the document
+            await setDoc(usernameDocRef, { username, email, uid: userId });
         } catch (error) {
             console.error('Error storing username:', error);
         }
-    }
+    };
 
-
-    
-
-    // const storeUserData = async (userId, userData) => {
-    //     try {
-    //         // Here you can write logic to store user data in Firestore
-    //         const userRef = doc(firestore, 'users', userId);
-    //         await setDoc(userRef, userData, { merge: true });
-    //     } catch (error) {
-    //         console.error('Error storing user data:', error);
-    //         throw error;
-    //     }
-    // };
 
 
     // Register modal

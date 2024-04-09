@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, getDocs, setDoc, doc, getDoc } from "firebase/firestore";
-import { getAuth, initializeAuth, signInWithEmailAndPassword, updateProfile, createUserWithEmailAndPassword, getReactNativePersistence } from "firebase/auth";
+import { signOut, getAuth, initializeAuth, signInWithEmailAndPassword, updateProfile, createUserWithEmailAndPassword, getReactNativePersistence } from "firebase/auth";
 import { snapshot } from "firebase/database";
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -21,32 +21,28 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-initializeApp(firebaseConfig);
+const firebaseApp = initializeApp(firebaseConfig);
 
-//Instances
+// Get Firestore instance
+const firestore = getFirestore(firebaseApp);
 
-
-
-// initialize Firebase Auth for that app immediately
-const auth = initializeAuth(initializeApp(firebaseConfig), {
-    persistence: getReactNativePersistence(ReactNativeAsyncStorage)
-  });
-
-const firestore = getFirestore();
+// Get Auth instance
+const auth = initializeAuth(firebaseApp, {
+  persistence: getReactNativePersistence(ReactNativeAsyncStorage),
+});
 
 export {
-    firestore,
-    auth,
-    getAuth,
-    signInWithEmailAndPassword,
-    createUserWithEmailAndPassword,
-    updateProfile,
-    snapshot,
-    collection,
-    setDoc,
-    getDocs,
-    doc,
-    getDoc,
-
-   
+  firestore,
+  auth,
+  getAuth,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  updateProfile,
+  snapshot,
+  collection, // Make sure this import is correct
+  setDoc,
+  getDocs,
+  doc,
+  getDoc,
+  signOut,
 };

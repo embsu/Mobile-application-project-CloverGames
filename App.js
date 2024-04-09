@@ -1,31 +1,38 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React, { useState } from 'react';
+import { IconButton } from 'react-native-paper';
+import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+//____SCREENS____
+import HomeScreen from './screens/HomeScreen';
+import LoginScreen from './screens/LoginScreen';
 import TopinpeliScreen from './screens/Memory';
 import FlappybirdScreen from './screens/FlappybirdScreen';
 import MinesweeperScreen from './screens/MinesweeperScreen';
-// mato
+
+// Snakegame
 import SnakegameMenuScreen from './screens/SnakegameMenuScreen';
 import SnakegameScreen from './screens/SnakegameScreen';
 import SnakegameSettings from './screens/SnakegameSettings';
 import SnakegameLeaderboard from './screens/SnakegameLeaderboard';
-// mato ends
 
-import HomeScreen from './screens/HomeScreen';
-import LoginScreen from './screens/LoginScreen';
+// for Firebase
+import { handleSignOut } from './firebase/Logout';
+import { signOut } from './firebase/Config';
+
+
 
 import { PaperProvider } from 'react-native-paper';
 
-import { firestore } from './firebase/Config';
+
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
 
-  //TESTI
-
-  // const [loggedIn, setLoggedIn] = useState(false);
+const [userLogged, setUserLogged] = useState(false);
 
 
   // //if user has logged in, set loggedIn to true
@@ -40,10 +47,32 @@ export default function App() {
     <NavigationContainer>
 
       <Stack.Navigator>
-        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Login" component={LoginScreen}
+          options={{
+            headerTitleAlign: 'center',
+          }}
+        />
 
-        
-        <Stack.Screen name="Home" component={HomeScreen} />
+
+        <Stack.Screen name="Home" component={HomeScreen}
+          options={({ navigation }) => ({
+            title: 'Home',
+            headerTitleAlign: 'center',
+            headerLeft: () => (
+              <IconButton
+                icon="logout"
+                color="black"
+                size={30}
+                onPress={async() => {
+                  handleSignOut();  
+                  navigation.navigate('Login');
+                }}
+              />
+            ),})
+          }
+        />
+
+
         <Stack.Screen name="flappybird" component={FlappybirdScreen} />
         <Stack.Screen name="minesweeper" component={MinesweeperScreen} />
 
