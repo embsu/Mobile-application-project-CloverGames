@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { TouchableOpacity, StyleSheet, Text, View, Image } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text, View, Image, ImageBackground } from 'react-native';
 
 const Cards = ({ id, content, imageSource, style, color, onPress, isFlipped }) => {
   const handlePress = () => {
@@ -14,9 +14,8 @@ const Cards = ({ id, content, imageSource, style, color, onPress, isFlipped }) =
           <Text style={styles.cardText}>{content}</Text>
         </View>
       ) : (
-        <View style={[styles.cardContent, styles.cardFront]}>
-          <Text style={styles.cardText}>Käännä</Text>
-        </View>
+        <ImageBackground source={require('../assets/nelio_korttitausta.png')} style={styles.cardFront}>
+        </ImageBackground>
       )}
     </TouchableOpacity>
   );
@@ -60,7 +59,12 @@ const styles = StyleSheet.create({
     right: 0,
   },
   cardFront: {
-    backgroundColor: '#7ebacf',
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    overflow: 'hidden',
   },
 });
 
