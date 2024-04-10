@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, FlatList, Text } from 'react-native';
+import { View, StyleSheet, FlatList, Text, ImageBackground } from 'react-native';
 import Cards from './Cards';
 
 const MemoryGame = () => {
@@ -20,6 +20,14 @@ const MemoryGame = () => {
     { id: 14, imageSource: require('../assets/nelio_viinirypale.png'), content: 7 },
     { id: 15, imageSource: require('../assets/nelio_mustikka.png'), content: 8 },
     { id: 16, imageSource: require('../assets/nelio_mustikka.png'), content: 8 },
+    { id: 17, imageSource: require('../assets/nelio_vadelma.png'), content: 9 },
+    { id: 18, imageSource: require('../assets/nelio_vadelma.png'), content: 9 },
+    { id: 19, imageSource: require('../assets/nelio_banaani.png'), content: 10 },
+    { id: 20, imageSource: require('../assets/nelio_banaani.png'), content: 10},
+    { id: 21, imageSource: require('../assets/nelio_appelsiini.png'), content: 11 },
+    { id: 22, imageSource: require('../assets/nelio_appelsiini.png'), content: 11 },
+    { id: 23, imageSource: require('../assets/nelio_ananas.png'), content: 12 },
+    { id: 24, imageSource: require('../assets/nelio_ananas.png'), content: 12 },
   ];
 
   const [cards, setCards] = useState([]); // Kortit
@@ -28,6 +36,17 @@ const MemoryGame = () => {
   const [attempts, setAttempts] = useState(0); // Yritysten määrä
   const [points, setPoints] = useState(0); // Pisteiden määrä
   const [gameStarted, setGameStarted] = useState(false); // Pelin aloitus
+
+  const totalPairs = 12; // Parit yhteensä
+  const [foundPairs, setFoundPairs] = useState(0); // Löydetyt parit
+
+  useEffect(() => {
+    // Tarkista, ovatko kaikki parit löydetty
+    if (foundPairs === totalPairs) {
+      // Näytä ilmoitus "löysit kaikki parit"
+      alert('Löysit kaikki parit!');
+    }
+  }, [foundPairs]);
 
   const shuffleCards = (array) => {
     return array.sort(() => Math.random() - 0.5);
@@ -80,6 +99,8 @@ const MemoryGame = () => {
         console.log('yritysten määrä:', attempts);
         setPoints(points + 1); // Päivitetään pisteiden määrä
         console.log('pisteiden määrä:', points);
+        setFoundPairs(foundPairs + 1); // Päivitetään löydettyjen parien määrä
+        
       } else {
         // Jos valitut kortit eivät muodosta paria, käännä kortit takaisin 1,5 sekunnin kuluttua
         setTimeout(() => {
@@ -124,7 +145,9 @@ const MemoryGame = () => {
   );
 
   return (
+    
     <View style={styles.container}>
+      <ImageBackground source={require('../assets/background_game.png')} style={styles.background}>
       <View style={styles.header}>
         <Text style={styles.headerText}>Yritykset: {attempts}</Text>
         <Text style={styles.headerText}>Pisteet: {points}</Text>
@@ -135,8 +158,9 @@ const MemoryGame = () => {
           renderItem={renderCard}
           keyExtractor={(item) => item.id.toString()}
           numColumns={4}
-        />
-      </View>
+        />       
+      </View>   
+      </ImageBackground>
     </View>
   );
 };
@@ -146,7 +170,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'black',
+  },
+  imageBackground: {
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    resizeMode: "cover",
   },
   header: {
     flexDirection: 'row',
@@ -167,8 +197,8 @@ const styles = StyleSheet.create({
   cardContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    alignContent: 'space-between',
+    justifyContent: 'center',
+    alignContent: 'center',
     paddingHorizontal: 10,
     paddingVertical: 10,
     width: '100%',
@@ -177,7 +207,7 @@ const styles = StyleSheet.create({
   card: {
     alignItems: 'center',
     width: '22%',
-    aspectRatio: 0.6,
+    aspectRatio: 0.95,
     marginVertical: 5,
     marginHorizontal: 5,
   },

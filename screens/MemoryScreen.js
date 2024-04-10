@@ -22,26 +22,24 @@ const MemoryScreen = () => {
   };
 
   return (
-    <ImageBackground source={require('../games/memorygame/assets/containerbackground.png')} style={styles.background}>
+  <ImageBackground source={require('../games/memorygame/assets/background_container.png')} style={styles.background}>
     <View style={styles.container}>
     <TouchableOpacity onPress={handleNewGame} style={styles.button}>
-      <ImageBackground source={require('../games/memorygame/assets/background.png')} style={styles.imageBackground} borderRadius={10} borderWidth={4} borderColor="#121212" resizeMode="cover">
+      <ImageBackground source={require('../games/memorygame/assets/background_button.png')} style={styles.imageBackground} borderRadius={10} borderWidth={4} borderColor="#121212" resizeMode="cover">
         <Text style={styles.buttonText}>New Game</Text>
       </ImageBackground>
     </TouchableOpacity>
     <TouchableOpacity onPress={handleOptions} style={styles.button}>
-      <ImageBackground source={require('../games/memorygame/assets/background.png')} style={styles.imageBackground} borderRadius={10} borderWidth={4} borderColor="#121212" resizeMode="cover">
+      <ImageBackground source={require('../games/memorygame/assets/background_button.png')} style={styles.imageBackground} borderRadius={10} borderWidth={4} borderColor="#121212" resizeMode="cover">
         <Text style={styles.buttonText}>Options</Text>
       </ImageBackground>
     </TouchableOpacity>
     <TouchableOpacity onPress={handleExit} style={styles.button}>
-      <ImageBackground source={require('../games/memorygame/assets/background.png')} style={styles.imageBackground} borderRadius={10} borderWidth={4} borderColor="#121212" resizeMode="cover">
+      <ImageBackground source={require('../games/memorygame/assets/background_button.png')} style={styles.imageBackground} borderRadius={10} borderWidth={4} borderColor="#121212" resizeMode="cover">
         <Text style={styles.buttonText}>Exit</Text>
       </ImageBackground>
     </TouchableOpacity>
-    
-  </View>
-  
+    </View>
   </ImageBackground>
   );
 };
@@ -82,4 +80,4 @@ const styles = StyleSheet.create({
 
 export default MemoryScreen;
 
-//<Snowfall />n
+//<Snowfall />
