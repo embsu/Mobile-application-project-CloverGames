@@ -22,9 +22,9 @@ const MemoryGame = () => {
     { id: 16, imageSource: require('../assets/nelio_mustikka.png'), content: 8 },
   ];
 
-  const [cards, setCards] = useState([]);
-  const [selectedCards, setSelectedCards] = useState([]);
-  const [matchedCards, setMatchedCards] = useState([]); // Lisätty matchedCards-tilamuuttuja
+  const [cards, setCards] = useState([]); // Kortit
+  const [selectedCards, setSelectedCards] = useState([]); // Valitut kortit
+  const [matchedCards, setMatchedCards] = useState([]); // Tilamuuttuja parille
   const [attempts, setAttempts] = useState(0); // Yritysten määrä
   const [points, setPoints] = useState(0); // Pisteiden määrä
   const [gameStarted, setGameStarted] = useState(false); // Pelin aloitus
@@ -54,7 +54,6 @@ const MemoryGame = () => {
   
 
   const handleCardPress = (cardId) => {
-    //console.log(selectedCards)
     // Jos kortti on jo valittu tai kortti muodostaa jo parin, älä tee mitään
     if (selectedCards.includes(cardId) || matchedCards.includes(cardId)) {
       return;
@@ -78,7 +77,7 @@ const MemoryGame = () => {
         setMatchedCards([...matchedCards, firstCard.id, secondCard.id]);
         setSelectedCards([])
         setAttempts(attempts + 1); // Päivitetään yritysten määrä
-        console.log('yritysten määrä:', attempts); // Päivitetään yritysten määrä
+        console.log('yritysten määrä:', attempts);
         setPoints(points + 1); // Päivitetään pisteiden määrä
         console.log('pisteiden määrä:', points);
       } else {
@@ -86,49 +85,11 @@ const MemoryGame = () => {
         setTimeout(() => {
           setSelectedCards([]);
         }, 1500);
-        setAttempts(attempts + 1)
-        console.log('yritysten määrä:', attempts); // Päivitetään yritysten määrä
+        setAttempts(attempts + 1) // Päivitetään yritysten määrä
+        console.log('yritysten määrä:', attempts);
       }
     }
   };
-  
-  // const handleCardPress = (cardId) => {
-  //   // Jos kortti on jo valittu tai kortti muodostaa jo parin, älä tee mitään
-  //   if (selectedCards.includes(cardId) || matchedCards.includes(cardId)) {
-  //     return;
-  //   }
-  
-  //   // Valitse kortti ja päivitä valittujen korttien tila
-  //   setSelectedCards([...selectedCards, cardId]);
-  
-  //   // Jos valittuja kortteja on kaksi, tarkista ovatko ne pari
-  //   if (selectedCards.length === 1) {
-  //     const firstCard = cards.find((card) => card.id === selectedCards[0]);
-  //     const secondCard = cards.find((card) => card.id === cardId);
-  
-  //     // Jos valitut kortit muodostavat parin, tyhjennä valitut kortit
-  //     if (firstCard && secondCard && firstCard.content === secondCard.content) {
-  //       setMatchedCards([...matchedCards, firstCard.id, secondCard.id]);
-  //       setSelectedCards([])
-  //       setAttempts(attempts + 1); // Päivitetään yritysten määrä
-  //       console.log('yritysten määrä:', attempts); // Päivitetään yritysten määrä
-  //       setPoints(points + 1); // Päivitetään pisteiden määrä
-  //       console.log('pisteiden määrä:', points);
-  //     } else {
-  //       // Jos valitut kortit eivät muodosta paria, käännä kortit takaisin 1,5 sekunnin kuluttua
-  //       setTimeout(() => {
-  //         setSelectedCards([]);
-  //       }, 1500);
-  //       setAttempts(attempts + 1)
-  //       console.log('yritysten määrä:', attempts); // Päivitetään yritysten määrä
-  //     }
-  //   } else if (selectedCards.length === 2) {
-  //     // Jos valittuja kortteja on jo kaksi, käännä ne takaisin 1,5 sekunnin kuluttua
-  //     setTimeout(() => {
-  //       setSelectedCards([]);
-  //     }, 1500);
-  //   }
-  // };
 
   useEffect(() => {
     // Tarkista, onko valittuna kaksi korttia
@@ -142,26 +103,24 @@ const MemoryGame = () => {
       if (firstCard && secondCard && firstCard.content === secondCard.content) {
         setMatchedCards([...matchedCards, firstCardId, secondCardId]);
       }
-  
+
       // Tyhjennä valitut kortit
       setTimeout(() => {
         setSelectedCards([]);
       }, 1000);
     }
-  }, [matchedCards]); // Liitetty matchedCards riippuvuutena
+  }, [matchedCards]);
   
 
   const renderCard = ({ item }) => (
     <Cards
       id={item.id}
       onPress={handleCardPress}
-      //content={item.content}
       imageSource={item.imageSource}
       style={styles.card}
       color="darkgray"
       isFlipped={selectedCards.includes(item.id) || matchedCards.includes(item.id)}
-    />
-    
+    /> 
   );
 
   return (

@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, Text, StyleSheet, ImageBackground } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import Snowfall from '../games/memorygame/components/Snowfall';
 
 const MemoryScreen = () => {
   const navigation = useNavigation();
@@ -21,108 +22,64 @@ const MemoryScreen = () => {
   };
 
   return (
+    <ImageBackground source={require('../games/memorygame/assets/containerbackground.png')} style={styles.background}>
     <View style={styles.container}>
-      <TouchableOpacity style={styles.button} onPress={handleNewGame}>
+    <TouchableOpacity onPress={handleNewGame} style={styles.button}>
+      <ImageBackground source={require('../games/memorygame/assets/background.png')} style={styles.imageBackground} borderRadius={10} borderWidth={4} borderColor="#121212" resizeMode="cover">
         <Text style={styles.buttonText}>New Game</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={handleOptions}>
+      </ImageBackground>
+    </TouchableOpacity>
+    <TouchableOpacity onPress={handleOptions} style={styles.button}>
+      <ImageBackground source={require('../games/memorygame/assets/background.png')} style={styles.imageBackground} borderRadius={10} borderWidth={4} borderColor="#121212" resizeMode="cover">
         <Text style={styles.buttonText}>Options</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={handleExit}>
+      </ImageBackground>
+    </TouchableOpacity>
+    <TouchableOpacity onPress={handleExit} style={styles.button}>
+      <ImageBackground source={require('../games/memorygame/assets/background.png')} style={styles.imageBackground} borderRadius={10} borderWidth={4} borderColor="#121212" resizeMode="cover">
         <Text style={styles.buttonText}>Exit</Text>
-      </TouchableOpacity>
-    </View>
+      </ImageBackground>
+    </TouchableOpacity>
+    
+  </View>
+  
+  </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    justifyContent: 'center',
+    resizeMode: 'cover',
+    alignItems: 'center',
+  },
   container: {
     flex: 1,
-    backgroundColor: 'black',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  imageBackground: {
+    width: 200,
+    height: 50,
     justifyContent: 'center',
     alignItems: 'center',
   },
   button: {
-    backgroundColor: '#05a6f7',
+    position: 'relative',
     paddingVertical: 10,
     paddingHorizontal: 20,
     marginVertical: 10,
-    borderRadius: 5,
+    borderRadius: 0,
   },
   buttonText: {
-    color: '#f705e7',
-    textShadowColor: 'black', // Varjon väri
-    textShadowOffset: { width: -1, height: 4 }, // Varjon offset (x, y)
-    textShadowRadius: 12, // Varjon leveys
+    color: '#ffffff',
     fontSize: 18,
+    textShadowColor: 'black',
+    textShadowOffset: { width: 0, height: 0 },
+    textShadowRadius: 10,
   },
 });
 
 export default MemoryScreen;
 
-/*import React from 'react';
-import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import FallingSnow from '../games/FallingSnow'; // Tuodaan FallingSnow-komponentti
-
-const MemoryScreen = () => {
-  const navigation = useNavigation();
-
-  const handleNewGame = () => {
-    navigation.navigate('MemoryGame');
-    console.log("Siirry peliin");
-  };
-
-  const handleOptions = () => {
-    navigation.navigate('Options');
-    console.log("Siirry optionssiin");
-  };
-
-  const handleExit = () => {
-    navigation.navigate('Home');
-    console.log("Siirry asetusnäyttöön");
-  };
-
-  return (
-    <View style={styles.container}>
-      {/* Tähän lisätään FallingSnow-komponentti *//*
-      <FallingSnow />
-      
-      <TouchableOpacity style={styles.button} onPress={handleNewGame}>
-        <Text style={styles.buttonText}>New Game</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={handleOptions}>
-        <Text style={styles.buttonText}>Options</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={handleExit}>
-        <Text style={styles.buttonText}>Exit</Text>
-      </TouchableOpacity>
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'black',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  button: {
-    backgroundColor: '#05a6f7',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    marginVertical: 10,
-    borderRadius: 5,
-  },
-  buttonText: {
-    color: '#f705e7',
-    textShadowColor: 'black', // Varjon väri
-    textShadowOffset: { width: -1, height: 4 }, // Varjon offset (x, y)
-    textShadowRadius: 10, // Varjon leveys
-    fontSize: 18,
-  },
-});
-
-export default MemoryScreen;
-*/
+//<Snowfall />n
