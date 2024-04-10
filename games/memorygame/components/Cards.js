@@ -14,7 +14,7 @@ const Cards = ({ id, content, imageSource, style, color, onPress, isFlipped }) =
           <Text style={styles.cardText}>{content}</Text>
         </View>
       ) : (
-        <ImageBackground source={require('../assets/nelio_korttitausta.png')} style={styles.cardFront}>
+        <ImageBackground source={require('../assets/background_card.png')} style={styles.cardFront}>
         </ImageBackground>
       )}
     </TouchableOpacity>
@@ -28,17 +28,17 @@ const styles = StyleSheet.create({
     margin: 5,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 10,
+    borderRadius: 8,
     borderWidth: 2,
-    borderColor: 'gray',
+    borderColor: '#131313',
   },
   cardContent: {
     width: '100%',
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#7ebacf',
-    borderRadius: 10,
+    //backgroundColor: '#7ebacf',
+    borderRadius: 8,
     position: 'relative',
     overflow: 'hidden',
   },
@@ -59,11 +59,11 @@ const styles = StyleSheet.create({
     right: 0,
   },
   cardFront: {
-    width: '100%',
-    height: '100%',
+    width: '102%',
+    height: '102%',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 10,
+    borderRadius: 8,
     overflow: 'hidden',
   },
 });
