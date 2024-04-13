@@ -41,7 +41,7 @@ export default function HomeScreen() {
 
   return (
 
-    <View>
+    <View style={styles.container}>
       <View style={styles.appnameAndImage}>
         <Text style={styles.appnameTxt}>CloverGames</Text>
         <Image source={require('../assets/images/clover3.png')} style={{ width: 50, height: 55, }} />
@@ -93,6 +93,12 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#ebf0ed',
+},
   appnameAndImage: {
     flexDirection: 'row',
     justifyContent: 'center',
@@ -130,7 +136,7 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     marginTop: 20,
     gap: 20,
-    backgroundColor: 'rgba(234, 130, 130, 0.9)',
+    backgroundColor: '#faa0a0',
     borderRadius: 20,
     margin: 20,
     padding: 20,

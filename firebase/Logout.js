@@ -1,13 +1,26 @@
 import { signOut, auth } from './Config';
-import { Button, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { IconButton } from 'react-native-paper';
+import { View, Text, StyleSheet, TouchableOpacity, Modal } from 'react-native';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
-
+import React, { useState } from 'react';
 
 export default function Logout({ navigation }) {
 
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const showModal = () => {
+    setModalVisible(true);
+  }
+
+  const hideModal = () => {
+    setModalVisible(false);
+  }
+
+  const confirmLogout = () => {
+    console.log('Logging out...');
+    handleLogout();
+    hideModal();
+  }
 
   const handleLogout = async () => {
     try {
@@ -29,10 +42,31 @@ export default function Logout({ navigation }) {
   return (
     <View styles={styles.exitContainer}>
 
-      <TouchableOpacity onPress={handleLogout} style={styles.touchable}>
+      <TouchableOpacity onPress={showModal} style={styles.touchable}>
         <Icon style={styles.icon} name="logout" size={20} color="black" />
         <Text style={{ fontSize: 10 }}>Logout</Text>
       </TouchableOpacity>
+
+      <Modal
+        animationType='slide'
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={hideModal}
+      >
+          <View style={styles.modalView}>
+            <Text style={styles.modaltextQ}>Are you sure you want to logout?</Text>
+            <View style={{ flexDirection: 'row' }}>
+              <TouchableOpacity style={styles.modalButtonYes} onPress={confirmLogout}>
+              <Text style={styles.modaltext}>Yes</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.modalButtonNo} onPress={hideModal}>
+              <Text style={styles.modaltext}>No</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+       
+      </Modal>
+        
     </View>
   );
 }
@@ -48,7 +82,6 @@ styles = StyleSheet.create({
     marginRight: 5,
   },
   touchable: {
-
     alignItems: 'center',
     justifyContent: 'center',
     padding: 5,
@@ -56,6 +89,62 @@ styles = StyleSheet.create({
     borderRadius: 10,
 
   },
+  modalView: {
+    backgroundColor: '#f59f9f',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 20,
+    borderColor: '#EA8282',
+    borderWidth: 2,
+    
+    elevation: 5,
+
+
+
+  },
+
+  modaltextQ: {
+    marginBottom: 15,
+    textAlign: 'center',
+    fontFamily: 'comfortaa-variable',
+    fontSize: 20,
+    color: 'white',
+
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+    fontFamily: 'comfortaa-variable',
+
+  },
+  modalButtonYes: {
+    backgroundColor: '#cdfcc0',
+    padding: 10,
+    margin: 10,
+    borderRadius: 10,
+    width: 100,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderColor: 'black',
+    borderWidth: 1,
+    elevation: 5,
+  },
+  modalButtonNo: {
+    backgroundColor: '#ffe0f2',
+    padding: 10,
+    margin: 10,
+    borderRadius: 10,
+    width: 100,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderColor: 'black',
+    borderWidth: 1,
+    elevation: 5,
+  },
+
+
 
 })
 
