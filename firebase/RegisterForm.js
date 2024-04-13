@@ -1,18 +1,20 @@
-import { View, Text, StyleSheet, TouchableOpacity, Modal } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Modal, Image } from 'react-native'
 import React, { useState } from 'react'
 import { TextInput } from 'react-native-paper'
 import { firestore, updateProfile, auth, setDoc, doc, getDoc, createUserWithEmailAndPassword } from '../firebase/Config';
+import { set } from 'firebase/database';
 
 
-export default function RegisterForm({ navigation }) {
+export default function RegisterForm() {
 
+    // REGISTER FORM STATES
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [username, setUsername] = useState('');
     const [registerModalVisible, setRegisterModalVisible] = useState(false);
     const [registrationSuccess, setRegistrationSuccess] = useState(false);
 
-    //ERRORS WHILE LOGIN AND REGISTER
+    //ERRORS IN REGISTER
     const [emailRegError, setEmailRegError] = useState(null); // email already in use
     const [passwordRegError, setPasswordRegError] = useState(null); // password too weak
     const [usernameRegError, setUsernameRegError] = useState(null); // username already in use
@@ -27,7 +29,7 @@ export default function RegisterForm({ navigation }) {
                 return;
             }
 
-            // Check if the password meets your criteria (e.g., minimum length)
+            // Check if the password meets minimum length requirements
             if (password.length < 6) {
                 console.log("Password is too weak");
                 setPasswordRegError("Password is too weak");
@@ -45,7 +47,6 @@ export default function RegisterForm({ navigation }) {
             await storeUsername(username, email, user.uid);
             console.log("KÄYTTÄJÄNIMI TALLENNETTU CLOUDIIN");
 
-
             // Signed up succesfully
             console.log("User signed up\nUsername:" + username, '\nEmail:', email)
             registerSuccessModal();
@@ -55,13 +56,16 @@ export default function RegisterForm({ navigation }) {
             if (error.code === 'auth/email-already-in-use') {
                 console.log("Email is already in use");
                 setEmailRegError("Email is already in use");
+            } else if (error.code === 'auth/invalid-email') {
+                console.log("Invalid email");
+                setEmailRegError("Invalid email");
             } else {
-                console.log("Error: ", error);
+                console.error('Error signing up:', error);
             }
         }
     }
 
-
+            
     const checkUsernameAvailability = async (username) => {
         try {
             console.log("Before getDoc");
@@ -126,11 +130,10 @@ export default function RegisterForm({ navigation }) {
                 animationType='slide'
                 transparent={true}
                 visible={registerModalVisible}
-                onRequestClose={closeRegisterModal}
-                
+                onRequestClose={closeRegisterModal}               
             >
-
                 <View style={styles.modalView}>
+                    <Image source={require('../assets/images/clover3.png')} style={{ width: 80, height: 85, }} />
                     <Text style={styles.regTxt}>Register</Text>
 
                     <View style={styles.modalInputs}>
@@ -145,7 +148,6 @@ export default function RegisterForm({ navigation }) {
                             setEmailRegError(null);
                         }
                         }
-
                         value={email}
                         keyboardType='email-address'
                     />
@@ -200,17 +202,15 @@ export default function RegisterForm({ navigation }) {
                 animationType='slide'
                 transparent={false}
                 visible={registrationSuccess}
-                onRequestClose={closeRegisterSuccessModal}
-                style={styles.openModal}
-            >
+                onRequestClose={closeRegisterSuccessModal}>
                 <View style={styles.modalView}>
+                    <Image source={require('../assets/images/clover3.png')} style={{ width: 80, height: 85, marginBottom: 20}} />
                     <Text style={styles.successText}>Registration successful</Text>
                     <Text style={styles.successText}>You can now log in!</Text>
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={closeRegisterSuccessModal}
-                    >
-                        <Text style={styles.buttonText}>Close</Text>
+                        onPress={closeRegisterSuccessModal}>
+                        <Text style={styles.buttonText}>Log in</Text>
                     </TouchableOpacity>
                 </View>
             </Modal>
@@ -227,7 +227,6 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: '#2A2A2A',
         padding: 10,
-
         borderRadius: 10,
         width: 200,
         alignItems: 'center',
@@ -242,7 +241,8 @@ const styles = StyleSheet.create({
         fontSize: 16,
         marginBottom: 10,
         fontFamily: 'comfortaa-variable',
-        color: 'black',
+        color: 'white',
+        width: 200,
 
     },
 
@@ -260,11 +260,8 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-
-  
-        backgroundColor: '#eda8af',
+        backgroundColor: '#EA8282',
         borderRadius: 20,
-
         shadowColor: '#000',
         shadowOffset: {
             width: 0,
@@ -279,7 +276,7 @@ const styles = StyleSheet.create({
         width: 300,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'rgba(253, 253, 253, 0.6)',
+        backgroundColor: 'rgba(253, 253, 253, 0.7)',
         borderRadius: 20,
         padding: 20,
         borderColor: '#EA8282',
@@ -327,6 +324,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         marginBottom: 20,
         fontFamily: 'comfortaa-variable',
+        color: 'white',
     },
 })
 
