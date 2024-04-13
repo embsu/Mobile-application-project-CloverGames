@@ -76,7 +76,7 @@ export default function SnakegameMenuScreen({ navigation }) {
 
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => navigation.navigate('snakegameLeaderboard')}
+                        onPress={() => navigation.navigate('SnakegameLeaderboard')}
                     >
                         <Text style={styles.buttonTxt}>Leaderboard</Text>
                     </TouchableOpacity>

@@ -74,7 +74,7 @@ export default function App() {
             <Stack.Screen
             name="Login"
             component={LoginScreen}
-            options={({ navigation }) => ({
+            options={() => ({
               headerShown: false,
               headerTitleAlign: 'center',
               headerStyle: {
@@ -103,8 +103,23 @@ export default function App() {
             }}
           />
           <Stack.Screen
-            name="snakegameLeaderboard"
-            component={SnakegameLeaderboard} />
+            name="SnakegameLeaderboard"
+            component={SnakegameLeaderboard} 
+            options={{
+              title: 'Leaderboard',
+              headerStyle: {
+                backgroundColor: '#EA8282',
+              },
+              headerTitleAlign: 'center',
+              headerTintColor: '#fff',
+              headerTitleStyle: {
+                fontFamily: 'comfortaa-variable',
+                alignItems: 'center',
+
+              },
+            }}
+          />
+
           <Stack.Screen
             name="actualgame"
             component={SnakegameScreen}
