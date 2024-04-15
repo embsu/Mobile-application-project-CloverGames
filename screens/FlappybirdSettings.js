@@ -20,6 +20,7 @@ export default function FlappybirdSettings({ route }) {
                 imageStyle={{ opacity: 0.8, }} //only to the background
             >
                 <DifficultyComponent navigation={navigation} />
+                
             </ImageBackground>
         </View>
     )

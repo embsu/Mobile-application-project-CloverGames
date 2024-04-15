@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity,StyleSheet, StatusBar, ImageBackground} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage'
+
 
 export default function DifficultyComponent({ navigation }) {
 
@@ -7,12 +9,24 @@ export default function DifficultyComponent({ navigation }) {
     
         const handleDifficultySelection = (difficulty) => {
           setSelectedDifficulty(difficulty)
+        saveDifficultyToStorage(difficulty)
 
           console.log("Difficulty selected: ", difficulty)
           
             // Navigate to the game screen with the selected difficulty
-            navigation.navigate('flappybirdgame', {difficulty:difficulty});
-        };
+
+            // Ei navigoida ihan vielä!
+            //navigation.navigate('flappybirdgame', {difficulty:difficulty});
+        }
+
+        const saveDifficultyToStorage = async (difficulty) => {
+            try {
+                await AsyncStorage.setItem('difficulty', difficulty)
+                console.log("Difficulty saved to storage: ", difficulty)
+            } catch (e) {
+                console.log("Error saving difficulty to storage: ", e)
+            }
+            }
 
     return(
         <View>

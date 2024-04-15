@@ -45,7 +45,6 @@ const FlappybirdScreen = ({route}) => {
     'Hard': -800
   }
 
-
   const difficultyLevel = useSharedValue(difficulty) // This is the difficulty level
 
   const GRAVITY = useDerivedValue(() => gravityValues[difficultyLevel.value]) // This is the gravity value for the current difficulty
@@ -83,7 +82,6 @@ const FlappybirdScreen = ({route}) => {
       GRAVITY.value = gravityValues[currentDifficulty]
     }
   )
-
 
   //Lets do multiple obstacles
   const obstacles = useDerivedValue(() => {
