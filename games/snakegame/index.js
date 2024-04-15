@@ -2,13 +2,7 @@ import React, { Component } from "react";
 import { AppRegistry, StyleSheet, StatusBar, View, Alert, Button, BackHandler, TouchableOpacity, Text, TouchableHighlight } from "react-native";
 import { GameEngine, dispatch } from 'react-native-game-engine'
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
-import IonIcon from 'react-native-vector-icons/Ionicons'
-
-import { useFonts } from 'expo-font';
-import { Font } from 'expo-font';
 import { loadAsync } from 'expo-font';
-import Modal from 'react-native-modal';
-
 import CustomAlert from './components/CustomAlertScore'
 import Constants from './components/Constants'
 import { GameLoop } from './systems'
@@ -16,9 +10,7 @@ import { Head } from './components/Head'
 import { Food } from './components/Food'
 import { Tail } from './components/Tail'
 import Navbar from './components/Navbar'
-import { Icon, IconButton } from "react-native-paper";
-
-
+import { saveScoreToFirebase } from './components/ScoreToFirebase'
 
 export default class Snake extends Component {
 
@@ -66,6 +58,9 @@ export default class Snake extends Component {
                 running: false,
                 showAlert: true,
             });
+
+            // Save the score to Firebase
+            saveScoreToFirebase(score);
 
         } else if (e.type === 'score+') {
             var s = score + 1;
@@ -131,29 +126,7 @@ export default class Snake extends Component {
                 />
                 <Navbar score={score} reset={this.reset} />
 
-                {/* <View style={styles.topbar} >
-
-                    <MaterialIcon name="arrow-back" size={40} color="#EC5E5E"
-                    // onPress={() => this.props.navigation.navigate('snakegame')}
-                    />
-                    <Text
-                        style={
-                            {
-                                fontFamily: 'Comfortaa',
-                                fontSize: 20,
-                                padding: 10,
-                                color: '#EA8282',
-                                textShadowColor: 'rgba(0, 0, 0, 0.9)',
-                                textShadowOffset: { width: 0, height: 1 },
-                                textShadowRadius: 4,
-
-
-
-                            }}>Score: {score}</Text>
-
-                    <IonIcon name="settings-sharp" size={30} color="#EC5E5E" />
-
-                </View> */}
+             
                 <GameEngine
                     ref={(ref) => { this.engine = ref; }}
                     style={{
@@ -194,20 +167,6 @@ export default class Snake extends Component {
 
                     <StatusBar hidden={true} />
                 </GameEngine>
-
-              
-                
-                
-                {/* <Button title="New Game" onPress={this.reset} /> */}
-
-                {/* <IconButton 
-                icon="restart" 
-                color="white" 
-                size={30}
-                style={{backgroundColor: 'black', borderRadius: 10}}
-
-                    onPress={this.reset}
-                /> */}
 
 
                 <View style={styles.controls}>
@@ -270,18 +229,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         marginBottom: 20,
     },
-    // topbar: {
-    //     width: '100%',
-    //     height: 60,
-    //     backgroundColor: 'rgba(0, 0, 0, 0.4)',
-    //     flexDirection: 'row',
-    //     justifyContent: 'space-between',
-    //     alignItems: 'center',
-
-    //     paddingLeft: 10,
-    //     paddingRight: 10,
-
-    // },
+   
     controls: {
         width: '90%',
         height: 260,

@@ -27,16 +27,13 @@ export default function SnakegameMenuScreen({ navigation }) {
         // Logic to start playing the music when the button is pressed
         // setIsMusicMuted(false);
         navigation.navigate('actualgame');
-      };
+    };
 
     return (
 
 
         <View style={styles.container}>
             <StatusBar hidden={true} />
-
-
-
             <ImageBackground source={require('../games/snakegame/assets/mato2.jpg')}
                 style={{
                     width: '100%',
@@ -44,7 +41,7 @@ export default function SnakegameMenuScreen({ navigation }) {
                     resizeMode: 'cover',
                     // justifyContent: 'center',
                     alignItems: 'center',
-                    
+
                 }}
                 imageStyle={{ opacity: 0.4, }} //only to the background
             >
@@ -58,17 +55,12 @@ export default function SnakegameMenuScreen({ navigation }) {
                     textShadowOffset: { width: -1, height: 1.2 },
                     textShadowRadius: 4,
 
-
-
                 }}>Snake Game</Text>
-                
-                <View style={styles.allButtons}>
 
+                <View style={styles.allButtons}>
                     <TouchableOpacity
                         style={styles.button}
                         onPress={handleStartPress}
-                    
-                    
                     >
                         <Text style={styles.buttonTxt}>Start</Text>
                     </TouchableOpacity>
@@ -76,7 +68,7 @@ export default function SnakegameMenuScreen({ navigation }) {
 
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => navigation.navigate('snakegameLeaderboard')}
+                        onPress={() => navigation.navigate('SnakegameLeaderboard')}
                     >
                         <Text style={styles.buttonTxt}>Leaderboard</Text>
                     </TouchableOpacity>
@@ -88,7 +80,6 @@ export default function SnakegameMenuScreen({ navigation }) {
                         <Text style={styles.buttonTxt}>Exit</Text>
                     </TouchableOpacity>
                 </View>
-
             </ImageBackground>
         </View>
 
@@ -112,7 +103,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(253, 253, 253, 0.4)',
         borderRadius: 20,
         width: 300,
-       
         gap: 20,
         padding: 20,
         borderColor: '#EA8282',
@@ -120,11 +110,6 @@ const styles = StyleSheet.create({
         borderStyle: 'dashed',
         position: 'absolute',
         bottom: 160,
-       
-
-
-    
-
     },
     button: {
         width: 200,
@@ -136,16 +121,10 @@ const styles = StyleSheet.create({
         borderColor: '#EC5E5E',
         borderWidth: 1,
         margin: 10,
-
-        // elevation: 5,
-
-        
     },
     buttonTxt: {
         color: 'white',
         fontFamily: 'Comfortaa',
         fontSize: 20,
-        
-
     }
 })

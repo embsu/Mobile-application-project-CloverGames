@@ -2,42 +2,25 @@ import { View, Text, StyleSheet, Image, ImageBackground} from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { TouchableOpacity } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { auth } from '../firebase/Config'; // Adjust the import path as needed
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export default function HomeScreen() {
   const navigation = useNavigation();
   const route = useRoute();
-  const username = route.params?.username;
+  const [username, setUsername] = useState(route.params?.username); // username is passed as a parameter from LoginScreen
+  // const username = route.params?.username;
 
+  // when navigatin back from a game, the username is not passed as a parameter anymore
+  // so we need to fetch it from AsyncStorage here again
+  useEffect(() => {
+    const fetchUsername = async () => {
+      const username = await AsyncStorage.getItem('username');
+      setUsername(username);
+    }
+    fetchUsername();
+  },[]);
 
-  // const [username, setUsername] = useState('');
-  // const [loading, setLoading] = useState(true);
-
-  // useEffect(() => {
-  //   fetchUsername();
-  // }, [username]);
-
-  // // Function to fetch the username of the currently logged-in user
-  // const fetchUsername = async () => { // Same as the display name (set in registration)
-  //   // Retrieve the current user from Firebase Authentication
-  //   const currentUser = auth.currentUser;
-
-  //   // Check if a user is logged in
-  //   if (currentUser) {
-  //     try {
-  //       const username = currentUser.displayName;
-  //       setUsername(username);
-  //       setLoading(false);
-  //       console.log('User data fetched:', username);
-  //     }
-  //     catch (error) {
-  //       console.error('Error fetching user data:', error);
-  //       // Handle erro 
-
-  //     }
-  //   };
-  // }
 
   return (
 
