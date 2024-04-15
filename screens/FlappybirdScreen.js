@@ -17,6 +17,7 @@ import {
 } from "react-native-reanimated";
 import { useEffect, useState} from "react";
 import { GestureHandlerRootView, GestureDetector, Gesture } from "react-native-gesture-handler"
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import BackgroundComponent from '../games/flappybird/components/BackgroundComponent'
 import PipeComponent from "../games/flappybird/components/PipeComponent"
@@ -27,10 +28,29 @@ import ScoreComponent from "../games/flappybird/components/ScoreComponent"
 const pipeWidth = 104
 const pipeHeight = 640
 
-const FlappybirdScreen = ({route}) => {
+const FlappybirdScreen = () => {
 
-  const { difficulty } = route.params // saves the difficulty level from difficulty component
-  
+  const difficultyLevel = useSharedValue('Easy') // This is the difficulty level
+
+    // function to load the difficulty level from local storage
+    const loadDifficultyFromStorage = async () => {
+      try {
+        const difficultyFromStorage = await AsyncStorage.getItem('difficulty')
+        if (difficultyFromStorage !== null) {
+          console.log("Difficulty loaded from storage: ", difficultyFromStorage)
+          difficultyLevel.value = difficultyFromStorage
+        }
+      } catch (error) {
+        console.log("Error loading difficulty from storage: ", error)
+        return null 
+      }
+    }
+
+    useEffect(() => {
+      console.log("Tullaanko me koskaan tänne?")
+      loadDifficultyFromStorage()
+    }, [])
+
   // This is the gravity values for the different difficulties
   const gravityValues = {
     'Easy': 900,
@@ -44,13 +64,11 @@ const FlappybirdScreen = ({route}) => {
     'Medium': -500,
     'Hard': -800
   }
-
-  const difficultyLevel = useSharedValue(difficulty) // This is the difficulty level
-
   const GRAVITY = useDerivedValue(() => gravityValues[difficultyLevel.value]) // This is the gravity value for the current difficulty
   const JUMP_FORCE = useDerivedValue(() => jumpForceValues[difficultyLevel.value]) // This is the jump force for the current difficulty
 
-  console.log("Difficulty flapyssä: ", difficulty)
+
+  console.log("Difficulty flapyssä: ", difficultyLevel.value)
   console.log ("gravity: ", GRAVITY.value)
   console.log ("jumpforce: ", JUMP_FORCE.value)
   

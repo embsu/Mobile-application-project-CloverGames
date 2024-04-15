@@ -1,11 +1,11 @@
 import { View, Text, ImageBackground, TouchableOpacity, StyleSheet, StatusBar } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 
 export default function FlappybirdMenuScreen({ navigation }) {
 
     const handleStartPress = () => {
         navigation.navigate('flappybirdgame');
-      };
+    };
 
     return (
         <View style={styles.container}>
@@ -37,7 +37,7 @@ export default function FlappybirdMenuScreen({ navigation }) {
                     >
                         <Text style={styles.buttonTxt}>Start</Text>
                     </TouchableOpacity>
-                  
+
                     <TouchableOpacity
                         style={styles.button}
                         onPress={() => navigation.navigate('flappybirdLeaderboard')}
@@ -47,7 +47,7 @@ export default function FlappybirdMenuScreen({ navigation }) {
 
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => navigation.navigate('flappybirdSettings',{navigation})}
+                        onPress={() => navigation.navigate('flappybirdSettings', { navigation })}
                     >
                         <Text style={styles.buttonTxt}>Settings</Text>
                     </TouchableOpacity>
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(253, 253, 253, 0.4)',
         borderRadius: 20,
         width: 300,
-       
+
         gap: 20,
         padding: 20,
         borderColor: '#FFCC00',
