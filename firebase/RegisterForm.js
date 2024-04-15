@@ -1,8 +1,9 @@
 import { View, Text, StyleSheet, TouchableOpacity, Modal, Image } from 'react-native'
 import React, { useState } from 'react'
-import { TextInput } from 'react-native-paper'
+import { TextInput, ActivityIndicator } from 'react-native-paper'
 import { firestore, updateProfile, auth, setDoc, doc, getDoc, createUserWithEmailAndPassword } from '../firebase/Config';
 import { set } from 'firebase/database';
+
 
 
 export default function RegisterForm() {
@@ -13,6 +14,7 @@ export default function RegisterForm() {
     const [username, setUsername] = useState('');
     const [registerModalVisible, setRegisterModalVisible] = useState(false);
     const [registrationSuccess, setRegistrationSuccess] = useState(false);
+    const [registering, setRegistering] = useState(false);
 
     //ERRORS IN REGISTER
     const [emailRegError, setEmailRegError] = useState(null); // email already in use
@@ -48,6 +50,7 @@ export default function RegisterForm() {
             console.log("KÄYTTÄJÄNIMI TALLENNETTU CLOUDIIN");
 
             // Signed up succesfully
+         
             console.log("User signed up\nUsername:" + username, '\nEmail:', email)
             registerSuccessModal();
             closeRegisterModal();
@@ -135,6 +138,8 @@ export default function RegisterForm() {
                 <View style={styles.modalView}>
                     <Image source={require('../assets/images/clover3.png')} style={{ width: 80, height: 85, }} />
                     <Text style={styles.regTxt}>Register</Text>
+
+                    {registering && <ActivityIndicator size='large' color='#000000' />}
 
                     <View style={styles.modalInputs}>
 
