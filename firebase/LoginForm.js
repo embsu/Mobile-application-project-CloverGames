@@ -31,7 +31,11 @@ export default function LoginForm({navigation}) {
                 error.code === 'auth/wrong-password' ||
                 error.code === 'auth/user-not-found' ||
                 error.code === 'auth/invalid-credential' ||
-                error.code === 'auth/invalid-email') {
+                error.code === 'auth/invalid-email' ||
+                error.code === 'auth/missing-password' ||
+                error.code === 'auth/missing-email'
+            )
+             {
                 console.log("Wrong password or user not found");
                 setLoginError("Wrong password or user not found");
             }
