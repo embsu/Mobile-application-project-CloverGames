@@ -47,6 +47,13 @@ export default function FlappybirdMenuScreen({ navigation }) {
 
                     <TouchableOpacity
                         style={styles.button}
+                        onPress={() => navigation.navigate('flappybirdSettings',{navigation})}
+                    >
+                        <Text style={styles.buttonTxt}>Settings</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        style={styles.button}
                         onPress={() => navigation.navigate('Home')}
                     >
                         <Text style={styles.buttonTxt}>Exit</Text>

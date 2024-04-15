@@ -9,6 +9,7 @@ import SnakegameScreen from './screens/SnakegameScreen';
 import HomeScreen from './screens/HomeScreen';
 import { PaperProvider } from 'react-native-paper';
 import FlappybirdLeaderboard from './screens/FlappybirdLeaderboard';
+import FlappybirdSettings from './screens/FlappybirdSettings';
 
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +30,10 @@ export default function App() {
           <Stack.Screen
            name="flappybirdLeaderboard" 
            component={FlappybirdLeaderboard} 
+           />
+               <Stack.Screen
+           name="flappybirdSettings" 
+           component={FlappybirdSettings} 
            />
            <Stack.Screen 
            name="flappybirdgame" 

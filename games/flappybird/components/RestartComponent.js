@@ -1,34 +1,41 @@
+
 import React from 'react';
-import { Text, matchFont} from '@shopify/react-native-skia';
 import { useWindowDimensions, Platform } from 'react-native';
+import { Canvas, matchFont, Text} from "@shopify/react-native-skia";
 
+const RestartComponent = () => {
 
-
-const ScoreComponent = ({ score }) => {
     const { width, height } = useWindowDimensions()
+
     const fontFamily = Platform.select({ ios: 'Helvetica', default: 'serif' })
     const fontStyle = {
         fontFamily,
         fontSize: 40,
         fontWeight: 'bold'
     }
-    const font = matchFont(fontStyle)
+
+    const handleRestart = () =>{
+        console.log('Restarting game')
+    }
 
     return (
-        <>
-            <Text
+        <>  
+             <Text
                 x={width / 2 - 35}
                 y={100}
-                text={'Score:'}
-                fontSize={30}
+                text={'Game Over'}
+                fontSize={500}
             />
             <Text
                 x={width / 2 - 30}
                 y={150}
-                text={score.toString()}
-                font={font}
+                text={'Restart'}
+                fontSize={30}
+                
             />
-      </>
+        </>
+
+
     )
 };
-export default ScoreComponent;
+export default RestartComponent;
