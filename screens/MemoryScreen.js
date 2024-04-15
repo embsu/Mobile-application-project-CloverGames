@@ -1,46 +1,80 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet, ImageBackground } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import Snowfall from '../games/memorygame/components/Snowfall';
+import { Audio } from 'expo-av';
 
 const MemoryScreen = () => {
   const navigation = useNavigation();
+  const [backgroundMusic, setBackgroundMusic] = useState(null);
+  const [isMusicLoaded, setIsMusicLoaded] = useState(false);
+
+  useEffect(() => {
+    const loadBackgroundMusic = async () => {
+      if (!isMusicLoaded) {
+        const soundObject = new Audio.Sound();
+        try {
+          await soundObject.loadAsync(require('../games/memorygame/assets/background_music_menu.mp3'));
+          await soundObject.setIsLoopingAsync(true);
+          await soundObject.playAsync();
+          setBackgroundMusic(soundObject);
+          setIsMusicLoaded(true);
+        } catch (error) {
+          console.error('Virhe taustaäänen toistossa:', error);
+        }
+      }
+    };
+
+    loadBackgroundMusic();
+
+    return () => {
+      if (backgroundMusic) {
+        backgroundMusic.stopAsync(); // Pysäytä äänilooppi komponentin purkamisen yhteydessä
+        backgroundMusic.unloadAsync(); // Vapauta resurssit
+      }
+    };
+  }, []);
 
   const handleNewGame = () => {
+    if (backgroundMusic) {
+      backgroundMusic.stopAsync(); // Pysäytä äänilooppi
+    }
     navigation.navigate('MemoryGame');
-    console.log("Siirry peliin");
   };
 
   const handleOptions = () => {
+    if (backgroundMusic) {
+      backgroundMusic.stopAsync(); // Pysäytä äänilooppi
+    }
     navigation.navigate('Options');
-    console.log("Siirry optionssiin");
   };
 
   const handleExit = () => {
+    if (backgroundMusic) {
+      backgroundMusic.stopAsync(); // Pysäytä äänilooppi
+    }
     navigation.navigate('Home');
-    console.log("Siirry asetusnäyttöön");
   };
 
   return (
-  <ImageBackground source={require('../games/memorygame/assets/background_container.png')} style={styles.background}>
-    <View style={styles.container}>
-    <TouchableOpacity onPress={handleNewGame} style={styles.button}>
-      <ImageBackground source={require('../games/memorygame/assets/background_button.png')} style={styles.imageBackground} borderRadius={10} borderWidth={4} borderColor="#121212" resizeMode="cover">
-        <Text style={styles.buttonText}>New Game</Text>
-      </ImageBackground>
-    </TouchableOpacity>
-    <TouchableOpacity onPress={handleOptions} style={styles.button}>
-      <ImageBackground source={require('../games/memorygame/assets/background_button.png')} style={styles.imageBackground} borderRadius={10} borderWidth={4} borderColor="#121212" resizeMode="cover">
-        <Text style={styles.buttonText}>Options</Text>
-      </ImageBackground>
-    </TouchableOpacity>
-    <TouchableOpacity onPress={handleExit} style={styles.button}>
-      <ImageBackground source={require('../games/memorygame/assets/background_button.png')} style={styles.imageBackground} borderRadius={10} borderWidth={4} borderColor="#121212" resizeMode="cover">
-        <Text style={styles.buttonText}>Exit</Text>
-      </ImageBackground>
-    </TouchableOpacity>
-    </View>
-  </ImageBackground>
+    <ImageBackground source={require('../games/memorygame/assets/background_container.png')} style={styles.background}>
+      <View style={styles.container}>
+        <TouchableOpacity onPress={handleNewGame} style={styles.button}>
+          <ImageBackground source={require('../games/memorygame/assets/background_button.png')} style={styles.imageBackground} borderRadius={10} borderWidth={4} borderColor="#121212" resizeMode="cover">
+            <Text style={styles.buttonText}>New Game</Text>
+          </ImageBackground>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleOptions} style={styles.button}>
+          <ImageBackground source={require('../games/memorygame/assets/background_button.png')} style={styles.imageBackground} borderRadius={10} borderWidth={4} borderColor="#121212" resizeMode="cover">
+            <Text style={styles.buttonText}>Options</Text>
+          </ImageBackground>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleExit} style={styles.button}>
+          <ImageBackground source={require('../games/memorygame/assets/background_button.png')} style={styles.imageBackground} borderRadius={10} borderWidth={4} borderColor="#121212" resizeMode="cover">
+            <Text style={styles.buttonText}>Exit</Text>
+          </ImageBackground>
+        </TouchableOpacity>
+      </View>
+    </ImageBackground>
   );
 };
 
@@ -79,5 +113,3 @@ const styles = StyleSheet.create({
 });
 
 export default MemoryScreen;
-
-//<Snowfall />
