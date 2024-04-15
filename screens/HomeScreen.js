@@ -1,25 +1,25 @@
 import { View, Text, StyleSheet, Image, ImageBackground} from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { TouchableOpacity } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export default function HomeScreen() {
   const navigation = useNavigation();
-  const route = useRoute();
-  const [username, setUsername] = useState(route.params?.username); // username is passed as a parameter from LoginScreen
-  // const username = route.params?.username;
 
-  // when navigatin back from a game, the username is not passed as a parameter anymore
-  // so we need to fetch it from AsyncStorage here again
-  useEffect(() => {
-    const fetchUsername = async () => {
-      const username = await AsyncStorage.getItem('username');
-      setUsername(username);
-    }
-    fetchUsername();
-  },[]);
+  const [username, setUsername] = useState('');
+
+  // to get the username from the AsyncStorage everytime the screen is focused/loaded
+  useFocusEffect(
+    React.useCallback(() => {
+      const fetchUsername = async () => {
+        const username = await AsyncStorage.getItem('username');
+        setUsername(username);
+      }
+      fetchUsername();
+    }, [])
+  );
 
 
   return (
@@ -78,7 +78,7 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    // justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#ebf0ed',
 },
