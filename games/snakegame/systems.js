@@ -30,33 +30,6 @@ const GameLoop = (entities, { touches, dispatch, events }) => {
         }
     }
 
-    /*
-    // Want swipe controls? Uncomment these and comment the above block
-    touches.filter(t => t.type === "move").forEach(t => {
-        if (head && head.position) {
-            if (t.delta.pageY && t.delta.pageX){
-                if (t.delta.pageY && Math.abs(t.delta.pageY) > Math.abs(t.delta.pageX)){
-                    if (t.delta.pageY < 0 && head.yspeed != 1){
-                        head.yspeed = -1;
-                        head.xspeed = 0;
-                    } else if (t.delta.pageY > 0 && head.yspeed != -1) {
-                        head.yspeed = 1;
-                        head.xspeed = 0;
-                    }
-                } else if (t.delta.pageX) {
-                    if (t.delta.pageX < 0 && head.xspeed != 1){
-                        head.xspeed = -1;
-                        head.yspeed = 0;
-                    } else if (t.delta.pageX > 0 && head.xspeed != -1) {
-                        head.xspeed = 1;
-                        head.yspeed = 0;
-                    }
-                }
-            }
-
-        }
-    });
-    */
     head.nextMove -= 1;
     if (head.nextMove === 0){
         head.nextMove = head.updateFrequency;

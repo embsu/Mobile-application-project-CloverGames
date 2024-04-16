@@ -1,33 +1,26 @@
 import { View, Text, ImageBackground, TouchableOpacity, StyleSheet, StatusBar } from 'react-native'
 import React, { useCallback, useState } from 'react'
-import { useFonts } from 'expo-font';
+import { IconButton } from 'react-native-paper';
+
 import MusicPlayer from '../games/snakegame/components/MusicPlayer';
 
 
 export default function SnakegameMenuScreen({ navigation }) {
 
-    const [isMusicMuted, setIsMusicMuted] = useState(false);
-
-    const [fontsLoaded, fontError] = useFonts({
-        'Pacifico': require('../games/snakegame/assets/fonts/Pacifico-Regular.ttf'),
-        'Comfortaa': require('../games/snakegame/assets/fonts/Comfortaa-VariableFont_wght.ttf'),
-    });
-
-    const onLayoutRootView = useCallback(async () => {
-        if (fontsLoaded || fontError) {
-            await SplashScreen.hideAsync();
-        }
-    }, [fontsLoaded, fontError]);
-
-    if (!fontsLoaded && !fontError) {
-        return null;
-    }
+    const [musicPlaying, setMusicPlaying] = useState(true);
 
     const handleStartPress = () => {
-        // Logic to start playing the music when the button is pressed
-        // setIsMusicMuted(false);
         navigation.navigate('actualgame');
     };
+
+    const toggleMusic = () => {
+        
+        setMusicPlaying(!musicPlaying);
+        console.log("Music playing: ", musicPlaying);
+
+
+    }
+
 
     return (
 
@@ -47,7 +40,7 @@ export default function SnakegameMenuScreen({ navigation }) {
             >
 
                 <Text style={{
-                    fontFamily: 'Pacifico',
+                    fontFamily: 'pacifico-regular',
                     fontSize: 40,
                     padding: 10,
                     color: '#EA8282',
@@ -79,6 +72,14 @@ export default function SnakegameMenuScreen({ navigation }) {
                     >
                         <Text style={styles.buttonTxt}>Exit</Text>
                     </TouchableOpacity>
+
+                    <IconButton icon={musicPlaying ? "music" : "music-off"} 
+                    iconColor="#EA8282" size={45} onPress={toggleMusic} />
+
+                    {/* <MusicPlayer source={require('../games/snakegame/assets/music/background.mp3')} 
+                    musicPlaying={musicPlaying} /> */}
+
+
                 </View>
             </ImageBackground>
         </View>
@@ -124,7 +125,7 @@ const styles = StyleSheet.create({
     },
     buttonTxt: {
         color: 'white',
-        fontFamily: 'Comfortaa',
+        fontFamily: 'comfortaa-variable',
         fontSize: 20,
     }
 })

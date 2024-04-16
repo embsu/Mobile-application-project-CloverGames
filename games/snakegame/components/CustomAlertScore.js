@@ -1,16 +1,13 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import Modal from 'react-native-modal';
-import { useFonts } from 'expo-font';
+
 
 
 //gets props from index.js
 const CustomAlert = ({ isVisible, message, onClose, reset}) => {
 
-    useFonts({
-        'comfortaa-regular': require('../assets/fonts/Comfortaa-VariableFont_wght.ttf'),
-
-    });
+    
     
     
     return (
@@ -24,13 +21,13 @@ const CustomAlert = ({ isVisible, message, onClose, reset}) => {
                 style={styles.modalBtns}
                 
                 >
-                    <Text style={{ color: 'white', fontFamily: 'comfortaa-regular', backgroundColor: 'black' }}>Close</Text>
+                    <Text style={{ color: 'white', fontFamily: 'comfortaa-variable', backgroundColor: 'black' }}>Close</Text>
                 </TouchableOpacity>
                 <TouchableOpacity 
                 onPress={reset}
                 style={styles.modalBtns}
                 >
-                    <Text style={{ color: 'white', fontFamily: 'comfortaa-regular', backgroundColor: 'black', }}>Restart</Text>
+                    <Text style={{ color: 'white', fontFamily: 'comfortaa-variable', backgroundColor: 'black', }}>Restart</Text>
                 </TouchableOpacity>
                 </View>
 
@@ -50,7 +47,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         marginBottom: 20,
         color: 'white',
-        fontFamily: 'comfortaa-regular',
+        fontFamily: 'comfortaa-variable',
     },
     modalButtonContainer: {
         flexDirection: 'row',

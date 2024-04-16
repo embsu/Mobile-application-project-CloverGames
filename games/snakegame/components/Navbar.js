@@ -57,7 +57,7 @@ export default function Navbar(props) {
 const styles = StyleSheet.create({
 
     txtStyle: {
-        fontFamily: 'Comfortaa',
+        fontFamily: 'comfortaa-variable',
         fontSize: 20,
         padding: 10,
         color: '#EA8282',

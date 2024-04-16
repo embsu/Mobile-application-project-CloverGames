@@ -2,28 +2,32 @@
 import React, { useState, useEffect } from 'react';
 import { Audio } from 'expo-av';
 
-const MusicPlayer = ({ source, mute }) => {
+const MusicPlayer = ({ source, musicPlaying }) => {
   const [sound, setSound] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(musicPlaying);
 
-  const loadSound = async () => {
-    const { sound } = await Audio.Sound.createAsync(source);
-    setSound(sound);
-  };
+  useEffect(() => {
+    const loadSound = async () => {
+      const { sound } = await Audio.Sound.createAsync(source, { shouldPlay: isPlaying });
+      setSound(sound);
+    };
 
-  const playSound = async () => {
-    if (!sound) {
-      await loadSound();
-    }
-    await sound.playAsync();
-  };
+    loadSound();
 
-  const stopSound = async () => {
+    return () => {
+      if (sound) {
+        sound.unloadAsync();
+      }
+    };
+  }, [source]);
+
+  useEffect(() => {
     if (sound) {
-      await sound.stopAsync();
+      isPlaying ? sound.playAsync() : sound.pauseAsync();
     }
-  };
+  }, [isPlaying]);
 
-  return null; // MusicPlayer component doesn't render anything visible
-};
+  return null;
+}
 
 export default MusicPlayer;
