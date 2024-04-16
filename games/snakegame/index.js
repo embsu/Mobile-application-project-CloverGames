@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { AppRegistry, StyleSheet, StatusBar, View, Alert, Button, BackHandler, TouchableOpacity, Text, TouchableHighlight } from "react-native";
 import { GameEngine, dispatch } from 'react-native-game-engine'
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
-import { loadAsync } from 'expo-font';
 import CustomAlert from './components/CustomAlertScore'
 import Constants from './components/Constants'
 import { GameLoop } from './systems'
@@ -29,14 +28,6 @@ export default class Snake extends Component {
             onFocused: true,
             name: '',
         }
-    }
-
-    async componentDidMount() {
-        await loadAsync({
-            'Pacifico': require('./assets/fonts/Pacifico-Regular.ttf'),
-            'Comfortaa': require('./assets/fonts/Comfortaa-VariableFont_wght.ttf'),
-        });
-        this.setState({ fontsLoaded: true });
     }
 
     // the food is placed in a random position on the grid
@@ -106,13 +97,10 @@ export default class Snake extends Component {
     };
 
     render() {
-        const { fontsLoaded, score, showAlert } = this.state;
+        const { score, showAlert } = this.state;
 
         const message = "Game Over" + "\n" + "Your Score: " + score;
 
-        if (!fontsLoaded) {
-            return null; // Render nothing until fonts are loaded
-        }
 
         return (
 
