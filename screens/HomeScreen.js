@@ -61,7 +61,7 @@ export default function HomeScreen() {
         </View>
         <View style={styles.gameAppAndText}>
           <TouchableOpacity style={styles.gameApp}
-            onPress={() => navigation.navigate('Memory')}
+            onPress={() => navigation.navigate('Memory')}>
             <ImageBackground source={require('../assets/images/memorygame.jpg')} style={styles.gameAppImage} />
           </TouchableOpacity>
           <Text style={styles.gameAppText}>Memory Game</Text>
