@@ -22,7 +22,6 @@ export default function HomeScreen() {
 
 
   return (
-
     <View style={styles.container}>
       <View style={styles.appnameAndImage}>
         <Text style={styles.appnameTxt}>CloverGames</Text>
@@ -60,10 +59,9 @@ export default function HomeScreen() {
           </TouchableOpacity>
           <Text style={styles.gameAppText}>Snake Game</Text>
         </View>
-
         <View style={styles.gameAppAndText}>
           <TouchableOpacity style={styles.gameApp}
-            onPress={() => navigation.navigate('Topinpeli')}>
+            onPress={() => navigation.navigate('Memory')}
             <ImageBackground source={require('../assets/images/memorygame.jpg')} style={styles.gameAppImage} />
           </TouchableOpacity>
           <Text style={styles.gameAppText}>Memory Game</Text>

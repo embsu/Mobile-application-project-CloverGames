@@ -4,6 +4,8 @@ import { IconButton } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import MemoryScreen from './screens/MemoryScreen';
 import { PaperProvider } from 'react-native-paper';
 import { useFonts } from 'expo-font';
 import FontLoader from './appComponents.js/FontLoader';
@@ -15,7 +17,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 //____SCREENS____
 import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginScreen';
-import TopinpeliScreen from './screens/Memory';
 import LoadingScreen from './screens/LoadingScreen';
 
 // Snakegame
@@ -27,6 +28,7 @@ import SnakegameLeaderboard from './screens/SnakegameLeaderboard';
 //Flappy Bird
 import FlappybirdLeaderboard from './screens/FlappybirdLeaderboard';
 import FlappybirdSettings from './screens/FlappybirdSettings';
+
 import FlappybirdScreen from './screens/FlappybirdScreen';
 import FlappybirdMenuScreen from './screens/FlappybirdMenuScreen';
 
@@ -35,18 +37,22 @@ import MinesweeperScreen from './screens/MinesweeperScreen';
 import MinesweeperMenuScreen from './screens/MinesweeperMenuScreen';
 import MinesweeperLeaderboard from './screens/MinesweeperLeaderboard';
 
+// Memory
+import MemoryGame from './games/memorygame/components/MemoryGame';
+import Options from "./games/memorygame/components/Options";
+
 // for Firebase
 
 import { auth } from './firebase/Config';
 import LoginForm from './firebase/LoginForm';
 import Logout from './firebase/Logout';
 
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
 
   return (
-
     <NavigationContainer>
       {/* you can use fontloader to use custom fonts anywhere in the app */}
       <FontLoader>
@@ -201,11 +207,17 @@ export default function App() {
             }} />
           {/* snake ends */}
 
-          <Stack.Screen name="Topinpeli" component={TopinpeliScreen} />
-
+          {/* memory */}
+          <Stack.Screen name="Memory" component={MemoryScreen}
+          options={{ headerShown: false }} />
+          <Stack.Screen name="MemoryGame" component={MemoryGame}
+          options={{ headerShown: false }} />
+          <Stack.Screen name="Options" component={Options} />
+           {/* memory ends */}
         </Stack.Navigator>
       </FontLoader>
     </NavigationContainer>
+
   );
 }
 
