@@ -16,7 +16,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginScreen';
 import TopinpeliScreen from './screens/Memory';
-import MinesweeperScreen from './screens/MinesweeperScreen';
 import LoadingScreen from './screens/LoadingScreen';
 
 // Snakegame
@@ -31,6 +30,10 @@ import FlappybirdSettings from './screens/FlappybirdSettings';
 import FlappybirdScreen from './screens/FlappybirdScreen';
 import FlappybirdMenuScreen from './screens/FlappybirdMenuScreen';
 
+// Minesweeper
+import MinesweeperScreen from './screens/MinesweeperScreen';
+import MinesweeperMenuScreen from './screens/MinesweeperMenuScreen';
+import MinesweeperLeaderboard from './screens/MinesweeperLeaderboard';
 
 // for Firebase
 
@@ -113,7 +116,40 @@ export default function App() {
            />
           {/* flappy ends */}
 
-          <Stack.Screen name="minesweeper" component={MinesweeperScreen} />
+          {/* Minesweeper */}
+          <Stack.Screen
+          name="minesweeper" 
+          component={MinesweeperMenuScreen} 
+          options={{
+            headerShown: false
+          }}
+          />
+          <Stack.Screen
+          name="minesweeperLeaderboard"
+          component={MinesweeperLeaderboard}
+          options={
+            {
+              title: 'Leaderboard',
+              headerStyle: {
+                backgroundColor: '#EA8282',
+              },
+              headerTitleAlign: 'center',
+              headerTintColor: '#fff',
+              headerTitleStyle: {
+                fontFamily: 'comfortaa-variable',
+                alignItems: 'center',
+              },
+          }
+          }
+          />
+          <Stack.Screen 
+          name="minesweepergame"
+          component={MinesweeperScreen}
+          options={{
+            headerShown: false
+          }}
+          />
+          {/* Minesweeper ends */}
 
           {/* snake */}
           <Stack.Screen
