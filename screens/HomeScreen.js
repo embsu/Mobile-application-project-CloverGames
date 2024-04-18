@@ -4,7 +4,6 @@ import { TouchableOpacity } from 'react-native';
 import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
 export default function HomeScreen() {
   const navigation = useNavigation();
 

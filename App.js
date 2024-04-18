@@ -16,7 +16,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginScreen';
 import TopinpeliScreen from './screens/Memory';
-import FlappybirdScreen from './screens/FlappybirdScreen';
 import MinesweeperScreen from './screens/MinesweeperScreen';
 import LoadingScreen from './screens/LoadingScreen';
 
@@ -25,6 +24,13 @@ import SnakegameMenuScreen from './screens/SnakegameMenuScreen';
 import SnakegameScreen from './screens/SnakegameScreen';
 import SnakegameSettings from './screens/SnakegameSettings';
 import SnakegameLeaderboard from './screens/SnakegameLeaderboard';
+
+//Flappy Bird
+import FlappybirdLeaderboard from './screens/FlappybirdLeaderboard';
+import FlappybirdSettings from './screens/FlappybirdSettings';
+import FlappybirdScreen from './screens/FlappybirdScreen';
+import FlappybirdMenuScreen from './screens/FlappybirdMenuScreen';
+
 
 // for Firebase
 
@@ -36,16 +42,12 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
 
-  
-
-
   return (
 
     <NavigationContainer>
       {/* you can use fontloader to use custom fonts anywhere in the app */}
       <FontLoader>
         <Stack.Navigator>
-
           <Stack.Screen
             name="Loading"
             component={LoadingScreen}
@@ -69,8 +71,6 @@ export default function App() {
                 ),
               })}
             />
- 
-          
             <Stack.Screen
             name="Login"
             component={LoginScreen}
@@ -86,12 +86,33 @@ export default function App() {
               },
             })}
           >
-            
           </Stack.Screen>
-    
 
+          {/*Flappy Bird*/}
+           <Stack.Screen
+           name="flappybird" 
+           component={FlappybirdMenuScreen}
+           options={{
+            headerShown: false
+           }}
+          />
+          <Stack.Screen
+           name="flappybirdLeaderboard" 
+           component={FlappybirdLeaderboard} 
+           />
+               <Stack.Screen
+           name="flappybirdSettings" 
+           component={FlappybirdSettings} 
+           />
+           <Stack.Screen 
+           name="flappybirdgame" 
+           component={FlappybirdScreen}
+           options={{
+            headerShown: false
+           }} 
+           />
+          {/* flappy ends */}
 
-          <Stack.Screen name="flappybird" component={FlappybirdScreen} />
           <Stack.Screen name="minesweeper" component={MinesweeperScreen} />
 
           {/* snake */}
