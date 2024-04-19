@@ -16,16 +16,16 @@ export default function SnakegameMenuScreen({ navigation }) {
                     height: '100%',
                     resizeMode: 'cover',
                     alignItems: 'center',
-                
                 }}
                 imageStyle={{ opacity: 0.4, }} //only to the background
             >
 
-                <View style={{ 
-                    flex: 1, 
-                    justifyContent: 'flex-start', 
-                    alignItems: 'center', 
-                    paddingBottom: 10 }}>
+                <View style={{
+                    flex: 1,
+                    justifyContent: 'flex-start',
+                    alignItems: 'center',
+                    paddingBottom: 10
+                }}>
                     <Text style={{
                         fontFamily: 'pacifico-regular',
                         fontSize: 40,
@@ -37,24 +37,34 @@ export default function SnakegameMenuScreen({ navigation }) {
                     }}>Snake Game</Text>
                 </View>
 
-                <View style={styles.allButtons}>
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={handleStartPress}>
-                        <Text style={styles.buttonTxt}>Start</Text>
-                    </TouchableOpacity>
+                <View style={{
+                    flex: 1,
+                    justifyContent: 'space-around',
+                    alignItems: 'center',
+                    
+                    paddingBottom: '50%'
+                    
+                }}>
 
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={() => navigation.navigate('SnakegameLeaderboard')}>
-                        <Text style={styles.buttonTxt}>Leaderboard</Text>
-                    </TouchableOpacity>
+                    <View style={styles.allButtons}>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={handleStartPress}>
+                            <Text style={styles.buttonTxt}>Start</Text>
+                        </TouchableOpacity>
 
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={() => navigation.navigate('Home')}>
-                        <Text style={styles.buttonTxt}>Exit</Text>
-                    </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={() => navigation.navigate('SnakegameLeaderboard')}>
+                            <Text style={styles.buttonTxt}>Leaderboard</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={() => navigation.navigate('Home')}>
+                            <Text style={styles.buttonTxt}>Exit</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </ImageBackground>
         </View>
@@ -73,11 +83,13 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         width: '80%',
         gap: 20,
-        padding: 20,
+        padding: 40,
+       
         borderColor: '#EA8282',
         borderWidth: 2,
         borderStyle: 'dashed',
-        marginBottom: '50%',
+       
+
     },
     button: {
         width: 200,
