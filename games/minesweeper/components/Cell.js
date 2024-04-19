@@ -4,6 +4,8 @@ import React from 'react'
 export default function Cell({ col, row, isBomb, isRevealed, isFlagged, value, handlePress, handleLongPress }) {
   const textColor = () => {
     switch (value) {
+      case 0:
+        return styles.textzero;
       case 1:
         return styles.textOne;
       case 2:
@@ -30,6 +32,7 @@ export default function Cell({ col, row, isBomb, isRevealed, isFlagged, value, h
       onPress={() => handlePress(row, col)}
       onLongPress={() => handleLongPress(row, col)}
       style={[styles.container, !isRevealed && styles.isNotRevealed, isRevealed && styles.isRevealed]}
+
     >
       <Text style={[styles.text, textColor()]}>
         {isRevealed && (isBomb ? '💣' : value)}
@@ -57,6 +60,9 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 17,
     fontWeight: '800',
+  },
+  textzero: {
+    color: 'black',
   },
   textOne: {
     color: 'white',

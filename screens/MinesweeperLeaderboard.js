@@ -1,17 +1,20 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, Platform, ScrollView } from 'react-native'
 import { Picker } from '@react-native-picker/picker'
+import RNPickerSelect from 'react-native-picker-select';  
 import React, { useState, useEffect } from 'react'
 import { auth, firestore, collection, getDocs } from '../firebase/Config';
 import { orderBy, query, limit, where } from 'firebase/firestore';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
+// Minesweeper leaderboard component
 export default function MinesweeperLeaderboard() {
 
   const [highestScore, setHighestScore] = useState(null);
   const [leaderboard, setLeaderboard] = useState([]);
   const [selectedDifficulty, setSelectedDifficulty] = useState('easy'); // Default difficulty is easy
 
-  useEffect(() => {
+  // Fetch the highest personal score and global leaderboard
+  useEffect(() => { 
     fetchHighestScore(selectedDifficulty).then(score => {
       setHighestScore(score);
     });
@@ -20,10 +23,11 @@ export default function MinesweeperLeaderboard() {
     });
   }, [selectedDifficulty]);
 
+  // Function to fetch the highest score from Firestore
   const fetchHighestScore = async (difficulty) => {
     try {
       const currentUser = auth.currentUser;
-      // Query the scores collection to get the highest score from current user
+      // Query the scores collection to get the highest score and choosed difficulty for the current user
       const scoresQuery = query(
         collection(firestore, 'leaderboard_minesweeper'),
         where('userId', '==', currentUser.uid), // Filter by current user ID
@@ -31,6 +35,8 @@ export default function MinesweeperLeaderboard() {
         orderBy('score', 'asc'), // Order by score in ascending order
         limit(1) // Limit to 1 document
       );
+
+      // Get the query snapshot and check if it's empty or not
       const querySnapshot = await getDocs(scoresQuery);
       if (!querySnapshot.empty) {
         // Get the highest score from the first document
@@ -47,9 +53,10 @@ export default function MinesweeperLeaderboard() {
     }
   };
 
+  // Function to fetch the global leaderboard from Firestore
   const fetchGlobalLeaderboard = async (difficulty) => {
     try {
-      // Query the scores collection to get the top 10 scores from different users
+      // Query the scores collection to get the top 6 scores from different users
       const scoresQuery = query(
         collection(firestore, 'leaderboard_minesweeper'),
         where('difficulty', '==', difficulty), // Filter by selected difficulty
@@ -64,7 +71,6 @@ export default function MinesweeperLeaderboard() {
           difficulty: doc.data().difficulty
         };
       });
-      console.log('Global leaderboard:', leaderboard);
       return leaderboard;
     } catch (error) {
       console.error('Error fetching global leaderboard:', error);
@@ -73,19 +79,21 @@ export default function MinesweeperLeaderboard() {
   }
 
   return (
+    <ScrollView style= {{backgroundColor: 'black',}} >
     <View style={styles.container}>
       <View style={styles.yourHSContainer}>
         <MaterialCommunityIcons name="trophy" color="gold" size={50} />
         <Text style={styles.yourHS}>Select difficulty:</Text>
-        <Picker
-    selectedValue={selectedDifficulty}
-    style={styles.dropdown}
-    dropdownIconColor={'gray'}
-    onValueChange={(itemValue, itemIndex) => setSelectedDifficulty(itemValue)}>
-    <Picker.Item style={styles.dropdown} label="Easy" value="easy" />
-    <Picker.Item style={styles.dropdown} label="Medium" value="medium" />
-    <Picker.Item style={styles.dropdown} label="Hard" value="hard" />
-  </Picker>
+  <RNPickerSelect
+      style={{ inputAndroid: { color: 'white' }, inputIOS: { color: 'white' } }}
+      placeholder={{ label: 'Select difficulty', value: 'easy', }}
+      onValueChange={(value) => setSelectedDifficulty(value)}
+      items={[
+        { label: 'Easy', value: 'easy', color: 'black'},
+        { label: 'Medium', value: 'medium', color: 'black'},
+        { label: 'Hard', value: 'hard', color: 'black'},
+      ]}
+    />
         <Text style={styles.yourHS}>Your highscore:</Text>
         <Text style={styles.yourHS}>{highestScore}</Text>
       </View>
@@ -105,6 +113,7 @@ export default function MinesweeperLeaderboard() {
   )}
   </View>
     </View>
+    </ScrollView>
   )
 }
 
@@ -117,7 +126,7 @@ const styles = StyleSheet.create({
   yourHS: {
     fontSize: 30,
     fontFamily: 'comfortaa-variable',
-    color: 'gray',
+    color: 'white',
   },
   yourHSContainer: {
     marginTop: 10,
@@ -135,18 +144,23 @@ const styles = StyleSheet.create({
   },
   LBusername: {
     fontSize: 20,
-    color: 'gray',
+    color: 'white',
   },
   LBscore: {
     fontSize: 20,
-    color: 'gray',
+    color: 'white',
   },
   dropdown: {
     height: 50,
     width: 180,
     marginBottom: 10,
-    color: 'gray',
+    color: 'white',
     borderColor: 'white',
+    fontFamily: 'comfortaa-variable',
+    fontSize: 20,
+  },
+  dropdownText: {
+    color: 'black',
     fontFamily: 'comfortaa-variable',
     fontSize: 20,
   },

@@ -5,7 +5,6 @@ export function createCell(row, col) {
       isBomb: false,
       isRevealed: false,
       isFlagged: false,
-      // isEmpty: false,
-      value: null,
+      value: 0,
     };
   }
