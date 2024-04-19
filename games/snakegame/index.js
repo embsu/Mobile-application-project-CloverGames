@@ -120,7 +120,7 @@ export default class Snake extends Component {
                             width: this.boardSize,
                             height: this.boardSize,
                             flex: null,
-                            backgroundColor: '#F0CACA',
+                            backgroundColor: '#bda8a8',
                             borderRadius: 4,
                             borderColor: 'black',
                             borderWidth: 2,

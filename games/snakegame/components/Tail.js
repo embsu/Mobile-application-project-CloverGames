@@ -23,7 +23,7 @@ class Tail extends Component {
             return (
                 <View key={idx} style={tailStyle}>
                     <Image
-                        source={require("../assets/snakebody.png")}
+                        source={require("../assets/circle.png")}
                         style={styles.image}
                     />
                 </View>

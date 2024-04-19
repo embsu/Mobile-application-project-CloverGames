@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, Image } from 'react-native'
 import React from 'react'
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
 import IonIcon from 'react-native-vector-icons/Ionicons'
@@ -28,8 +28,9 @@ export default function Navbar(props) {
                 size={30}
                 onPress={reset}
             />
-            <IonIcon name="settings-sharp" size={30} color="#EC5E5E"
-                onPress={() => navigation.navigate('snakeSettings')}
+            <Image source={require('../assets/snakeiconnav.png')}
+                style={{ width: 55, height: 55 }}
+            
             />
         </View>
     )

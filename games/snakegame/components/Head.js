@@ -13,17 +13,17 @@ class Head extends Component {
     const { size, position, xspeed, yspeed } = this.props;
     const [x, y] = position;
 
-    let imageSource = require('../assets/snakehead_right.png'); //default img
+    let imageSource = require('../assets/mato_right.png'); //default img
 
     // rerender the head based on the direction
     if (xspeed > 0) {
-      imageSource = require('../assets/snakehead_right.png'); //right
+      imageSource = require('../assets/mato_right.png'); //right
     } else if (xspeed < 0) {
-      imageSource = require('../assets/snakehead_left.png'); //left
+      imageSource = require('../assets/mato_left.png'); //left
     } else if (yspeed > 0) {
-      imageSource = require('../assets/snakehead_down.png'); //down
+      imageSource = require('../assets/mato_down.png'); //down
     } else if (yspeed < 0) {
-      imageSource = require('../assets/snakehead_up.png'); //up
+      imageSource = require('../assets/mato_up.png'); //up
     }
 
 
