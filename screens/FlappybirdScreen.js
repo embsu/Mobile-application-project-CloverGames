@@ -1,5 +1,5 @@
 import React from "react";
-import { Canvas, matchFont, Text} from "@shopify/react-native-skia";
+import { Canvas, matchFont, Text } from "@shopify/react-native-skia";
 import { useWindowDimensions, Platform, Alert } from "react-native";
 import {
   useSharedValue,
@@ -15,7 +15,7 @@ import {
   runOnJS,
   cancelAnimation
 } from "react-native-reanimated";
-import { useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { GestureHandlerRootView, GestureDetector, Gesture } from "react-native-gesture-handler"
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
@@ -23,6 +23,7 @@ import BackgroundComponent from '../games/flappybird/components/BackgroundCompon
 import PipeComponent from "../games/flappybird/components/PipeComponent"
 import BirdComponent from "../games/flappybird/components/BirdComponent"
 import ScoreComponent from "../games/flappybird/components/ScoreComponent"
+import {SaveScoreToFirebase} from "../games/flappybird/components/SaveScoreToFirebase"
 //import RestartComponent from "../games/flappybird/components/RestartComponent"
 
 const pipeWidth = 104
@@ -32,31 +33,31 @@ const FlappybirdScreen = () => {
 
   const difficultyLevel = useSharedValue('Easy') // This is the difficulty level
 
-    // function to load the difficulty level from local storage
-    const loadDifficultyFromStorage = async () => {
-      try {
-        const difficultyFromStorage = await AsyncStorage.getItem('difficulty')
-        if (difficultyFromStorage !== null) {
-          console.log("Difficulty loaded from storage: ", difficultyFromStorage)
-          difficultyLevel.value = difficultyFromStorage
-        }
-      } catch (error) {
-        console.log("Error loading difficulty from storage: ", error)
-        return null 
+  // function to load the difficulty level from local storage
+  const loadDifficultyFromStorage = async () => {
+    try {
+      const difficultyFromStorage = await AsyncStorage.getItem('difficulty')
+      if (difficultyFromStorage !== null) {
+        console.log("Difficulty loaded from storage: ", difficultyFromStorage)
+        difficultyLevel.value = difficultyFromStorage
       }
+    } catch (error) {
+      console.log("Error loading difficulty from storage: ", error)
+      return null
     }
+  }
 
-    useEffect(() => {
-      console.log("Tullaanko me koskaan tänne?")
-      loadDifficultyFromStorage()
-    }, [])
+  // hook to load the difficulty level from local storage
+  useEffect(() => {
+    loadDifficultyFromStorage()
+  }, [])
 
   // This is the gravity values for the different difficulties
   const gravityValues = {
     'Easy': 900,
     'Medium': 1000,
     'Hard': 2100
-  } 
+  }
 
   // this is the jump force for the different difficulties
   const jumpForceValues = {
@@ -67,11 +68,6 @@ const FlappybirdScreen = () => {
   const GRAVITY = useDerivedValue(() => gravityValues[difficultyLevel.value]) // This is the gravity value for the current difficulty
   const JUMP_FORCE = useDerivedValue(() => jumpForceValues[difficultyLevel.value]) // This is the jump force for the current difficulty
 
-
-  console.log("Difficulty flapyssä: ", difficultyLevel.value)
-  console.log ("gravity: ", GRAVITY.value)
-  console.log ("jumpforce: ", JUMP_FORCE.value)
-  
   const { width, height } = useWindowDimensions()
   const [score, setScore] = useState(0)
 
@@ -144,7 +140,7 @@ const FlappybirdScreen = () => {
       const middle = birdPos.x
 
       // Lets change the pipe offset when the pipe is out of the screen, so that there is different pipes in the screen
-      if(previousValue && currentValue < -100 && previousValue > -100) {
+      if (previousValue && currentValue < -100 && previousValue > -100) {
         pipeOffset.value = Math.random() * 300 - 150 // To move up and down?? 
       }
 
@@ -158,7 +154,6 @@ const FlappybirdScreen = () => {
       }
     }
   )
-
 
   const isPointCollingWithRect = (point, rect) => {
     'worklet';
@@ -178,9 +173,9 @@ const FlappybirdScreen = () => {
       if (currentValue > height - 150 || currentValue < 0) {
         gameOver.value = true
       }
-      const isColliding = obstacles.value.some((rect) => 
+      const isColliding = obstacles.value.some((rect) =>
         isPointCollingWithRect(
-          { x: birdCenterX.value, y: birdCenterY.value }, 
+          { x: birdCenterX.value, y: birdCenterY.value },
           rect)
       )
       if (isColliding) {
@@ -195,7 +190,9 @@ const FlappybirdScreen = () => {
       if (currentValue && !previousValue) {
         cancelAnimation(x) // Stops the animation
         gameOverMenu.value = true
-        console.log("GameoverMenu " + gameOverMenu.value)
+        console.log("Score: ", score)
+        console.log("Difficulty: ", difficultyLevel.value)
+        runOnJS(SaveScoreToFirebase)(score, difficultyLevel.value)
       }
     })
 
@@ -209,7 +206,6 @@ const FlappybirdScreen = () => {
     }
     birdY.value = birdY.value + birdYVelocity.value * dt / 1000
     birdYVelocity.value = birdYVelocity.value + GRAVITY.value * dt / 1000 // The gravity has been taken into account
-    //console.log('Velocity:',birdYVelocity.value)
   })
 
   //Restart the game
@@ -265,14 +261,14 @@ const FlappybirdScreen = () => {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <GestureDetector gesture={gesture}>
-          <Canvas
-          style={{ width, height}}
+        <Canvas
+          style={{ width, height }}
         >
           <BackgroundComponent />
-          <PipeComponent x={x} topPipeY={topPipeY} bottomPipeY={bottomPipeY} pipeWidth={pipeWidth} pipeHeight={pipeHeight}/>
-          <BirdComponent birdX={birdPos.x} birdY={birdY} birdTransform={birdTransform} birdOrigin={birdOrigin}/>
+          <PipeComponent x={x} topPipeY={topPipeY} bottomPipeY={bottomPipeY} pipeWidth={pipeWidth} pipeHeight={pipeHeight} />
+          <BirdComponent birdX={birdPos.x} birdY={birdY} birdTransform={birdTransform} birdOrigin={birdOrigin} />
           <ScoreComponent score={score} width />
-          </Canvas>
+        </Canvas>
       </GestureDetector>
     </GestureHandlerRootView>
   )

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, StatusBar, ImageBackground } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import {SaveScoreToFirebase} from "./SaveScoreToFirebase"
 
 
 export default function DifficultyComponent({ navigation }) {
