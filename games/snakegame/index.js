@@ -103,7 +103,6 @@ export default class Snake extends Component {
 
 
         return (
-
             <View style={styles.container}>
                 {/* Render the custom alert component only when the showAlert state is true */}
                 <CustomAlert
@@ -114,85 +113,88 @@ export default class Snake extends Component {
                 />
                 <Navbar score={score} reset={this.reset} />
 
-             
-                <GameEngine
-                    ref={(ref) => { this.engine = ref; }}
-                    style={{
-                        width: this.boardSize,
-                        height: this.boardSize,
-                        flex: null,
-                        backgroundColor: '#F0CACA',
-                        borderRadius: 4,
-                        borderColor: 'black',
-                        borderWidth: 1,
-                        marginTop: 20,
+                <View style={styles.gameEngineAndControls}>
+                    <GameEngine
+                        ref={(ref) => { this.engine = ref; }}
+                        style={{
+                            width: this.boardSize,
+                            height: this.boardSize,
+                            flex: null,
+                            backgroundColor: '#F0CACA',
+                            borderRadius: 4,
+                            borderColor: 'black',
+                            borderWidth: 2,
+                            marginTop: 20,
+                        }}
 
-                    }}
+                        systems={[GameLoop]}
+                        entities={{
+                            head: {
+                                position: [0, 0],
+                                xspeed: 1,
+                                yspeed: 0,
+                                nextMove: 10,
+                                updateFrequency: 10,
+                                size: 20,
+                                renderer: <Head />,
+                            },
+                            food: {
+                                position: [
+                                    this.randomBetween(0, Constants.GRID_SIZE - 1),
+                                    this.randomBetween(0, Constants.GRID_SIZE - 1),
+                                ],
+                                size: 20,
+                                renderer: <Food />,
+                            },
+                            tail: { size: 20, elements: [], renderer: <Tail /> },
+                        }}
+                        running={this.state.running}
+                        onEvent={this.onEvent}>
 
-                    systems={[GameLoop]}
-                    entities={{
-                        head: {
-                            position: [0, 0],
-                            xspeed: 1,
-                            yspeed: 0,
-                            nextMove: 10,
-                            updateFrequency: 10,
-                            size: 20,
-                            renderer: <Head />,
-                        },
-                        food: {
-                            position: [
-                                this.randomBetween(0, Constants.GRID_SIZE - 1),
-                                this.randomBetween(0, Constants.GRID_SIZE - 1),
-                            ],
-                            size: 20,
-                            renderer: <Food />,
-                        },
-                        tail: { size: 20, elements: [], renderer: <Tail /> },
-                    }}
-                    running={this.state.running}
-                    onEvent={this.onEvent}>
-
-                    <StatusBar hidden={true} />
-                </GameEngine>
+                        <StatusBar hidden={true} />
+                    </GameEngine>
 
 
-                <View style={styles.controls}>
+                    <View style={styles.controls}>
 
-                    <View style={styles.controlRow}>
-                        <TouchableOpacity onPress={() => { this.engine.dispatch({ type: "move-up" }) }}>
-                            <View style={styles.controlBtn}>
-                                <MaterialIcon name="keyboard-arrow-up" size={50} color="black" />
-                            </View>
-                        </TouchableOpacity>
-                    </View>
+                        <View style={styles.controlRow}>
+                            <TouchableOpacity onPress={() => { this.engine.dispatch({ type: "move-up" }) }}>
+                                <View style={styles.controlBtn}>
+                                    <MaterialIcon name="keyboard-arrow-up" size={50} color="black" />
+                                </View>
+                            </TouchableOpacity>
+                        </View>
 
-                    <View style={styles.controlRow}>
-                        <TouchableOpacity onPress={() => { this.engine.dispatch({ type: "move-left" }) }}>
-                            <View style={styles.controlBtn} >
-                                <MaterialIcon name="keyboard-arrow-left" size={50} color="black" />
-                            </View>
-                        </TouchableOpacity>
+                        <View style={styles.controlRow}>
+                            <TouchableOpacity onPress={() => { this.engine.dispatch({ type: "move-left" }) }}>
+                                <View style={styles.controlBtn} >
+                                    <MaterialIcon name="keyboard-arrow-left" size={50} color="black" />
+                                </View>
+                            </TouchableOpacity>
 
-                        {/* one invisible button in between */}
-                        <View style={[styles.controlBtn, { backgroundColor: null, width: 80, height: 80 }]} />
-                        {/* end */}
+                            {/* one invisible button in between */}
+                            <View style={[styles.controlBtn, { backgroundColor: null, width: 80, height: 80 }]} />
+                            {/* end */}
 
-                        <TouchableOpacity onPress={() => { this.engine.dispatch({ type: "move-right" }) }}>
-                            <View style={styles.controlBtn} >
-                                <MaterialIcon name="keyboard-arrow-right" size={50} color="black" />
-                            </View>
-                        </TouchableOpacity>
-                    </View>
+                            <TouchableOpacity onPress={() => { this.engine.dispatch({ type: "move-right" }) }}>
+                                <View style={styles.controlBtn} >
+                                    <MaterialIcon name="keyboard-arrow-right" size={50} color="black" />
+                                </View>
+                            </TouchableOpacity>
+                        </View>
 
-                    <View style={styles.controlRow}>
-                        <TouchableOpacity onPress={() => { this.engine.dispatch({ type: "move-down" }) }}>
-                            <View style={styles.controlBtn} >
-                                <MaterialIcon name="keyboard-arrow-down" size={50} color="black" />
-                            </View>
-                        </TouchableOpacity>
+                        <View style={styles.controlRow}>
+                            <TouchableOpacity onPress={() => { this.engine.dispatch({ type: "move-down" }) }}>
+                                <View style={styles.controlBtn} >
+                                    <MaterialIcon name="keyboard-arrow-down" size={50} color="black" />
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+
+
                     </View>
                 </View>
+
             </View>
         );
     }
@@ -204,40 +206,40 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#3d3433',
         alignItems: 'center',
-        justifyContent: 'center'
     },
-
-    alertContainer: {
-        backgroundColor: 'white',
-        padding: 20,
-        borderRadius: 10,
-        alignItems: 'center',
-    },
+    
     message: {
         fontSize: 18,
         marginBottom: 20,
     },
-   
+
+    gameEngineAndControls: {
+        alignItems: 'center',
+        
+    },
     controls: {
-        width: '90%',
+        width: 280,
         height: 260,
         backgroundColor: 'rgba(0, 0, 0, 0.4)',
         justifyContent: 'center',
         borderRadius: 20,
+        borderColor: 'black',
+        borderWidth: 1,
+        borderStyle: 'solid',
+        alignItems: 'center',
+        marginTop: 10,
+        marginBottom: 10,
+
     },
     controlRow: {
-
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'row',
-        // backgroundColor: 'gray'
     },
     controlBtn: {
         width: 80,
         height: 80,
         backgroundColor: '#EA8282',
-        // borderColor: '#EC5E5E',
-        // borderWidth: 1,
         borderRadius: 50,
         justifyContent: 'center',
         alignItems: 'center',
