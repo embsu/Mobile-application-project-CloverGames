@@ -7,7 +7,7 @@ export default function FlappybirdSettings({ route }) {
     const navigation = route.params.navigation
 
     return (
-        <View style={styles.container}>
+        <View style={styles.FlappySettingscontainer}>
             <StatusBar hidden={true} />
             <ImageBackground
                 source={require('../games/flappybird/assets/FlappybirdSprites/background-day.png')}
@@ -27,7 +27,7 @@ export default function FlappybirdSettings({ route }) {
 }
 
 const styles = StyleSheet.create({
-    container: {
+    FlappySettingscontainer: {
         flex: 1,
         alignContent: 'center',
         justifyContent: 'center',

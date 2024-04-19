@@ -108,10 +108,16 @@ export default function App() {
           <Stack.Screen
            name="flappybirdLeaderboard" 
            component={FlappybirdLeaderboard} 
+           options={{
+            headerShown: false,
+          }}
            />
                <Stack.Screen
            name="flappybirdSettings" 
            component={FlappybirdSettings} 
+           options={{
+            headerShown: false,
+          }}
            />
            <Stack.Screen 
            name="flappybirdgame" 

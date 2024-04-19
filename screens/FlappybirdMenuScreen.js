@@ -20,7 +20,7 @@ export default function FlappybirdMenuScreen({ navigation }) {
                 imageStyle={{ opacity: 0.8, }} //only to the background
             >
                 <Text style={{
-                    marginTop: 150,
+                    marginTop: 100,
                     fontSize: 60,
                     padding: 10,
                     color: '#FFCC00',
