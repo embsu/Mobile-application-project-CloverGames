@@ -72,7 +72,6 @@ const FlappybirdScreen = ({route}) => {
   const { width, height } = useWindowDimensions()
   const [score, setScore] = useState(0)
   const gameOver = useSharedValue(false)
-  const gameOverMenu = useSharedValue(false)
   const x = useSharedValue(width)
   const birdY = useSharedValue(height / 3)
   const birdYVelocity = useSharedValue(100)
@@ -184,7 +183,6 @@ const FlappybirdScreen = ({route}) => {
     (currentValue, previousValue) => {
       if (currentValue && !previousValue) {
         cancelAnimation(x) // Stops the animation
-        gameOverMenu.value = true
         runOnJS(SaveScoreToFirebase)(score, difficultyLevel.value)
         runOnJS(navigation.navigate)('flappybirdgameover',{score: score, difficulty: difficultyLevel.value})
       }
@@ -208,21 +206,27 @@ const FlappybirdScreen = ({route}) => {
     birdY.value = height / 3
     birdYVelocity.value = 0
     gameOver.value = false
-    gameOverMenu.value = false
     x.value = width
     runOnJS(moveTheMap)()
     runOnJS(setScore)(0)
     navigation.setParams({ restartPressed: false })
   }
 
-  //This is for the restart button
+  useEffect(() => {
   if (route.params && route.params.restartPressed) {
     restartGame()
   }
+}, [route.params.restartPressed])
 
   //This is for the tap gesture. So when we tap the bird will jump
   const gesture = Gesture.Tap().onStart(() => {
+    if (gameOver.value) {
+      console.log("Game over")
+    }
+    else{
       birdYVelocity.value = JUMP_FORCE.value
+    }
+   
   })
 
   //This is for the rotation of the bird
