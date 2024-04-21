@@ -15,21 +15,31 @@ import {
   runOnJS,
   cancelAnimation
 } from "react-native-reanimated";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo} from "react";
 import { GestureHandlerRootView, GestureDetector, Gesture } from "react-native-gesture-handler"
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useNavigation } from '@react-navigation/native'
 
 import BackgroundComponent from '../games/flappybird/components/BackgroundComponent'
 import PipeComponent from "../games/flappybird/components/PipeComponent"
 import BirdComponent from "../games/flappybird/components/BirdComponent"
 import ScoreComponent from "../games/flappybird/components/ScoreComponent"
 import {SaveScoreToFirebase} from "../games/flappybird/components/SaveScoreToFirebase"
-//import RestartComponent from "../games/flappybird/components/RestartComponent"
+import RestartComponent from "../games/flappybird/components/RestartComponent";
+import { set } from "firebase/database";
+
 
 const pipeWidth = 104
 const pipeHeight = 640
 
-const FlappybirdScreen = () => {
+const FlappybirdScreen = ({route}) => {
+  const navigation = useNavigation()
+
+  const {restartPressed} =  useMemo(() => route.params.restartPressed, [route.params.restartPressed])
+
+  console.log("Mikä on restartPressed flappyssä: ", restartPressed)
+
+
 
   const difficultyLevel = useSharedValue('Easy') // This is the difficulty level
 
@@ -193,6 +203,7 @@ const FlappybirdScreen = () => {
         console.log("Score: ", score)
         console.log("Difficulty: ", difficultyLevel.value)
         runOnJS(SaveScoreToFirebase)(score, difficultyLevel.value)
+        runOnJS(navigation.navigate)('flappybirdgameover'),{score: score}
       }
     })
 
@@ -208,8 +219,10 @@ const FlappybirdScreen = () => {
     birdYVelocity.value = birdYVelocity.value + GRAVITY.value * dt / 1000 // The gravity has been taken into account
   })
 
+
   //Restart the game
   const restartGame = () => {
+    console.log('Restarting game at restartGame function in FlappybirdScreen.js')
     'worklet';
     birdY.value = height / 3
     birdYVelocity.value = 0
@@ -218,13 +231,22 @@ const FlappybirdScreen = () => {
     x.value = width
     runOnJS(moveTheMap)()
     runOnJS(setScore)(0)
+    navigation.setParams({ restartPressed: false })
   }
+
+//Tähän ehkä vielä useeffect 
+  if (route.params && route.params.restartPressed) {
+    console.log('Restarting game at FlappybirdScreen.js')
+    restartGame()
+  }
+
+
 
   //This is for the tap gesture. So when we tap the bird will jump
   const gesture = Gesture.Tap().onStart(() => {
     if (gameOver.value) {
       //restart
-      restartGame()
+      //restartGame()
     }
     else {
       //Jump

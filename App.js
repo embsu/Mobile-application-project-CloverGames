@@ -28,7 +28,7 @@ import SnakegameLeaderboard from './screens/SnakegameLeaderboard';
 //Flappy Bird
 import FlappybirdLeaderboard from './screens/FlappybirdLeaderboard';
 import FlappybirdSettings from './screens/FlappybirdSettings';
-
+import FlappybirdGameoverScreen from './screens/FlappybirdGameoverScreen';
 import FlappybirdScreen from './screens/FlappybirdScreen';
 import FlappybirdMenuScreen from './screens/FlappybirdMenuScreen';
 
@@ -122,6 +122,14 @@ export default function App() {
            <Stack.Screen 
            name="flappybirdgame" 
            component={FlappybirdScreen}
+           initialParams={{ restartPressed: false }}
+           options={{
+            headerShown: false
+           }} 
+           />
+              <Stack.Screen 
+           name="flappybirdgameover" 
+           component={FlappybirdGameoverScreen}
            options={{
             headerShown: false
            }} 
