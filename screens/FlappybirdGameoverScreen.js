@@ -1,18 +1,16 @@
-import React, { useEffect } from 'react';
-import { View, Text, Button, StyleSheet, TouchableOpacity, ImageBackground, Image} from 'react-native';
+import React from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, ImageBackground, Image} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useState } from 'react';
-import { set } from 'firebase/database';
 
 const FlappybirdGameoverScreen = ({ route }) => {
+    
+    // Get the score and difficulty from the route params
     const score = route.params.score
     const difficulty = route.params.difficulty
-    console.log('FlappybirdGameoverScreen: score:', score);
-
+ 
     const navigation = useNavigation();
 
     const handleRestart = () => {
-        console.log('Restarting game from game over screen');
         navigation.navigate('flappybirdgame', { restartPressed: true });
     }
 

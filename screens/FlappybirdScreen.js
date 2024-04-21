@@ -1,5 +1,5 @@
 import React from "react";
-import { Canvas, matchFont, Text } from "@shopify/react-native-skia";
+import { Canvas, matchFont} from "@shopify/react-native-skia";
 import { useWindowDimensions, Platform, Alert } from "react-native";
 import {
   useSharedValue,
@@ -19,15 +19,11 @@ import { useEffect, useState, useMemo} from "react";
 import { GestureHandlerRootView, GestureDetector, Gesture } from "react-native-gesture-handler"
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation } from '@react-navigation/native'
-
 import BackgroundComponent from '../games/flappybird/components/BackgroundComponent'
 import PipeComponent from "../games/flappybird/components/PipeComponent"
 import BirdComponent from "../games/flappybird/components/BirdComponent"
 import ScoreComponent from "../games/flappybird/components/ScoreComponent"
 import {SaveScoreToFirebase} from "../games/flappybird/components/SaveScoreToFirebase"
-import RestartComponent from "../games/flappybird/components/RestartComponent";
-import { set } from "firebase/database";
-
 
 const pipeWidth = 104
 const pipeHeight = 640
@@ -73,14 +69,11 @@ const FlappybirdScreen = ({route}) => {
   }
   const GRAVITY = useDerivedValue(() => gravityValues[difficultyLevel.value]) // This is the gravity value for the current difficulty
   const JUMP_FORCE = useDerivedValue(() => jumpForceValues[difficultyLevel.value]) // This is the jump force for the current difficulty
-
   const { width, height } = useWindowDimensions()
   const [score, setScore] = useState(0)
-
   const gameOver = useSharedValue(false)
   const gameOverMenu = useSharedValue(false)
   const x = useSharedValue(width)
-
   const birdY = useSharedValue(height / 3)
   const birdYVelocity = useSharedValue(100)
   const birdPos = {
@@ -89,8 +82,6 @@ const FlappybirdScreen = ({route}) => {
 
   const birdCenterX = useDerivedValue(() => birdPos.x + 32)
   const birdCenterY = useDerivedValue(() => birdY.value + 24)
-  //Let's set the pipe offset. If offset is -100 pipe is upper and otherwise. Toppipe: offset - x, bottonpipe x + offset. 
-  //Thats cause we dont want to move the pipes same direction. 
   const pipeOffset = useSharedValue(0)
   const topPipeY = useDerivedValue(() => pipeOffset.value - 320)
   const bottomPipeY = useDerivedValue(() => height - 320 + pipeOffset.value)
@@ -211,10 +202,8 @@ const FlappybirdScreen = ({route}) => {
     birdYVelocity.value = birdYVelocity.value + GRAVITY.value * dt / 1000 // The gravity has been taken into account
   })
 
-
   //Restart the game
   const restartGame = () => {
-    console.log('Restarting game at restartGame function in FlappybirdScreen.js')
     'worklet';
     birdY.value = height / 3
     birdYVelocity.value = 0
@@ -226,24 +215,14 @@ const FlappybirdScreen = ({route}) => {
     navigation.setParams({ restartPressed: false })
   }
 
-//Tähän ehkä vielä useeffect 
+  //This is for the restart button
   if (route.params && route.params.restartPressed) {
-    console.log('Restarting game at FlappybirdScreen.js')
     restartGame()
   }
 
-
-
   //This is for the tap gesture. So when we tap the bird will jump
   const gesture = Gesture.Tap().onStart(() => {
-    if (gameOver.value) {
-      //restart
-      //restartGame()
-    }
-    else {
-      //Jump
       birdYVelocity.value = JUMP_FORCE.value
-    }
   })
 
   //This is for the rotation of the bird

@@ -1,13 +1,13 @@
-import { View, Text, StyleSheet } from 'react-native'
-import { Picker } from '@react-native-picker/picker'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { auth, firestore, collection, getDocs } from '../firebase/Config';
 import { orderBy, query, limit, where } from 'firebase/firestore';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import RNPickerSelect from 'react-native-picker-select';
+import { useNavigation } from '@react-navigation/native'
 
 export default function FlappybirdLeaderboard() {
-
+  const navigation = useNavigation();
   const [highestScore, setHighestScore] = useState(null);
   const [leaderboard, setLeaderboard] = useState([]);
   const [selectedDifficulty, setSelectedDifficulty] = useState('Easy'); // Default difficulty is easy
@@ -79,34 +79,42 @@ export default function FlappybirdLeaderboard() {
         <MaterialCommunityIcons name="trophy" color="gold" size={50} />
         <Text style={styles.yourHS}>Select difficulty:</Text>
         <RNPickerSelect
-      style={{ inputAndroid: { color: 'white' }, inputIOS: { color: 'white'}, textalign: 'center'}}
-      placeholder={{ label: 'Select difficulty', value: 'Easy', }}
-      onValueChange={(value) => setSelectedDifficulty(value)}
-      items={[
-        { label: 'Easy', value: 'Easy', color: 'green'},
-        { label: 'Medium', value: 'Medium', color: 'orange'},
-        { label: 'Hard', value: 'Hard', color: 'red'},
-      ]}
-    />
+          style={{ inputAndroid: { color: 'white' }, inputIOS: { color: 'white' }, textalign: 'center' }}
+          placeholder={{ label: 'Select difficulty', value: 'Easy', }}
+          onValueChange={(value) => setSelectedDifficulty(value)}
+          items={[
+            { label: 'Easy', value: 'Easy', color: 'green' },
+            { label: 'Medium', value: 'Medium', color: 'orange' },
+            { label: 'Hard', value: 'Hard', color: 'red' },
+          ]}
+        />
         <Text style={styles.yourHS}>Your highscore:</Text>
         <Text style={styles.yourHS}>{highestScore}</Text>
       </View>
 
       <View style={styles.globalLeadersContainer}>
-  <Text style={styles.yourHS}>Global leaderboard:</Text>
-  
-  {leaderboard ? (
-    leaderboard.map((entry, index) => (
-      <View key={index} style={styles.leaderboardEntry}>
-        <Text style={styles.LBusername}>{entry.username}</Text>
-        <Text style={styles.LBscore}>{entry.score}</Text>
+        <Text style={styles.yourHS}>Global leaderboard:</Text>
+
+        {leaderboard ? (
+          leaderboard.map((entry, index) => (
+            <View key={index} style={styles.leaderboardEntry}>
+              <Text style={styles.LBusername}>{entry.username}</Text>
+              <Text style={styles.LBscore}>{entry.score}</Text>
+            </View>
+          ))
+        ) : (
+          <Text style={styles.LBusername}>Loading...</Text>
+        )}
       </View>
-    ))
-  ) : (
-    <Text style={styles.LBusername}>Loading...</Text>
-  )}
-  </View>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('flappybird')}
+      >
+        <Text style={styles.buttonTxt}>Exit</Text>
+      </TouchableOpacity>
+   
     </View>
+    
   )
 }
 
@@ -142,6 +150,17 @@ const styles = StyleSheet.create({
   LBscore: {
     fontSize: 20,
     color: 'white',
+  },
+  button: {
+    width: 200,
+    height: 70,
+    backgroundColor: '#FFF999',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+    borderColor: 'white',
+    borderWidth: 2,
+    margin: 10,
   },
 
 });

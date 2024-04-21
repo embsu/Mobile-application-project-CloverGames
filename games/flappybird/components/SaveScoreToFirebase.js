@@ -2,7 +2,6 @@ import { auth, firestore, collection} from '../../../firebase/Config';
 import { addDoc } from 'firebase/firestore';
 
 export const SaveScoreToFirebase = async (score, difficulty ) => {
-    console.log('Saving score to Firestore:', score, difficulty);
     try {
         // Get the currently logged-in user
         const currentUser = auth.currentUser;

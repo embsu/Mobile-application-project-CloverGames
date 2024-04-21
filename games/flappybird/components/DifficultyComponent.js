@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, StatusBar, ImageBackground } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import {SaveScoreToFirebase} from "./SaveScoreToFirebase"
-
 
 export default function DifficultyComponent({ navigation }) {
 
   const [selectedDifficulty, setSelectedDifficulty] = useState('');
-
   const handleDifficultySelection = (difficulty) => {
     setSelectedDifficulty(difficulty)
     saveDifficultyToStorage(difficulty)
@@ -45,7 +42,6 @@ export default function DifficultyComponent({ navigation }) {
         onPress={() => navigation.navigate('flappybird')}>
         <Text style={styles.buttonText}>Back</Text>
       </TouchableOpacity>
-
     </View>
   )
 }
@@ -98,7 +94,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   selectedButton: {
-    backgroundColor: '#CCC', // Tummempi taustaväri valitulle vaikeustasolle
+    backgroundColor: '#CCC', 
   },
   backbutton: {
     width: 200,
