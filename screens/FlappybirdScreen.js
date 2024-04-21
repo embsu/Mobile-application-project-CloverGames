@@ -33,14 +33,10 @@ const pipeWidth = 104
 const pipeHeight = 640
 
 const FlappybirdScreen = ({route}) => {
+
   const navigation = useNavigation()
 
-  const {restartPressed} =  useMemo(() => route.params.restartPressed, [route.params.restartPressed])
-
-  console.log("Mikä on restartPressed flappyssä: ", restartPressed)
-
-
-
+  const {restartPressed} =  useMemo(() => route.params.restartPressed, [route.params.restartPressed]) // Compares the restartPressed value to the previous value
   const difficultyLevel = useSharedValue('Easy') // This is the difficulty level
 
   // function to load the difficulty level from local storage
@@ -148,12 +144,10 @@ const FlappybirdScreen = ({route}) => {
     () => x.value,
     (currentValue, previousValue) => {
       const middle = birdPos.x
-
       // Lets change the pipe offset when the pipe is out of the screen, so that there is different pipes in the screen
       if (previousValue && currentValue < -100 && previousValue > -100) {
         pipeOffset.value = Math.random() * 300 - 150 // To move up and down?? 
       }
-
       if (
         currentValue !== previousValue &&
         previousValue &&
@@ -200,10 +194,8 @@ const FlappybirdScreen = ({route}) => {
       if (currentValue && !previousValue) {
         cancelAnimation(x) // Stops the animation
         gameOverMenu.value = true
-        console.log("Score: ", score)
-        console.log("Difficulty: ", difficultyLevel.value)
         runOnJS(SaveScoreToFirebase)(score, difficultyLevel.value)
-        runOnJS(navigation.navigate)('flappybirdgameover'),{score: score}
+        runOnJS(navigation.navigate)('flappybirdgameover',{score: score, difficulty: difficultyLevel.value})
       }
     })
 
