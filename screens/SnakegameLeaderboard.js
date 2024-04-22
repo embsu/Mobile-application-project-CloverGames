@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, ScrollView, Image } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { auth, firestore, collection, getDocs } from '../firebase/Config';
 import { orderBy, query, limit, where } from 'firebase/firestore';
@@ -79,32 +79,40 @@ export default function SnakegameLeaderboard() {
 
 
   return (
-    <View style={styles.container}>
-      <View style={styles.yourHSContainer}>
-        <MaterialCommunityIcons name="trophy" color="gold" size={50} />
-        <Text style={styles.yourHS}>Your highscore:</Text>
-        <Text style={styles.yourHS}>{highestScore}</Text>
-      </View>
-
-      <View style={styles.globalLeadersContainer}>
-        <Text style={styles.yourHS}>Global leaderboard:</Text>
-        {/* Display global leaderboard here */}
-        {leaderboard.map((entry, index) => (
-          <View key={index} style={styles.leaderboardEntry}>
-            <Text style={styles.LBusername}>{entry.username}</Text>
-            <Text style={styles.LBscore}>{entry.score}</Text>
+    <ScrollView
+    backgroundColor = 'black'>
+      <View style={styles.container}>
+        <View style={styles.yourHSContainer}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <MaterialCommunityIcons name="trophy" color="gold" size={50} />
+            <Image source={require('../games/snakegame/assets/snakeiconnav.png')} 
+              style={{ width: 50, height: 50 }}
+            />
           </View>
-        ))}
-      </View>
+          <Text style={styles.yourHS}>Your highscore:</Text>
+          <Text style={styles.yourHS}>{highestScore}</Text>
 
-    </View>
+        </View>
+
+        <View style={styles.globalLeadersContainer}>
+          <Text style={styles.yourHS}>Global leaderboard:</Text>
+          {/* Display global leaderboard here */}
+          {leaderboard.map((entry, index) => (
+            <View key={index} style={styles.leaderboardEntry}>
+              <Text style={styles.LBusername}>{entry.username}</Text>
+              <Text style={styles.LBscore}>{entry.score}</Text>
+            </View>
+          ))}
+        </View>
+
+      </View>
+    </ScrollView>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-   
     alignItems: 'center',
     backgroundColor: 'black',
   },
@@ -135,4 +143,4 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: 'white',
   },
-  })
+})

@@ -1,18 +1,9 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React, { useState, useEffect } from 'react';
-import { IconButton } from 'react-native-paper';
-import Icon from 'react-native-vector-icons/SimpleLineIcons';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
 import MemoryScreen from './screens/MemoryScreen';
-import { PaperProvider } from 'react-native-paper';
-import { useFonts } from 'expo-font';
 import FontLoader from './appComponents.js/FontLoader';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-// import * as SplashScreen from 'expo-splash-screen';
-
 
 //____SCREENS____
 import HomeScreen from './screens/HomeScreen';
@@ -42,7 +33,6 @@ import MemoryGame from './games/memorygame/components/MemoryGame';
 import Options from "./games/memorygame/components/Options";
 
 // for Firebase
-
 import { auth } from './firebase/Config';
 import LoginForm from './firebase/LoginForm';
 import Logout from './firebase/Logout';
@@ -65,22 +55,28 @@ export default function App() {
             }}
           />
 
-            <Stack.Screen
-              name="Home"
-              component={HomeScreen}
-              options={({navigation}) => ({
-                title: 'Home',
-                headerTitleAlign: 'center',
-                headerTitleStyle: {
-                  fontFamily: 'comfortaa-variable',
-                },
+          <Stack.Screen
+            name="Home"
+            component={HomeScreen}
+            options={({ navigation }) => ({
+              title: 'Home',
+              headerTintColor: 'white',
+              headerStyle: {
+                backgroundColor: '#332d2c',
+              },
+              headerTitleAlign: 'center',
+              headerTitleStyle: {
+                fontFamily: 'comfortaa-variable',
+                
+              },
+             
 
-                headerLeft: () => (
-                  <Logout navigation={navigation} />
-                ),
-              })}
-            />
-            <Stack.Screen
+              headerLeft: () => (
+                <Logout navigation={navigation} />
+              ),
+            })}
+          />
+          <Stack.Screen
             name="Login"
             component={LoginScreen}
             options={() => ({
@@ -89,21 +85,18 @@ export default function App() {
               headerStyle: {
                 backgroundColor: 'black',
               },
-              headerTitleStyle: {
-                fontFamily: 'comfortaa-variable',
-                color: 'white',
-              },
+              
             })}
           >
           </Stack.Screen>
 
           {/*Flappy Bird*/}
-           <Stack.Screen
-           name="flappybird" 
-           component={FlappybirdMenuScreen}
-           options={{
-            headerShown: false
-           }}
+          <Stack.Screen
+            name="flappybird"
+            component={FlappybirdMenuScreen}
+            options={{
+              headerShown: false
+            }}
           />
           <Stack.Screen
            name="flappybirdLeaderboard" 
@@ -134,40 +127,41 @@ export default function App() {
             headerShown: false
            }} 
            />
+
           {/* flappy ends */}
 
           {/* Minesweeper */}
           <Stack.Screen
-          name="minesweeper" 
-          component={MinesweeperMenuScreen} 
-          options={{
-            headerShown: false
-          }}
+            name="minesweeper"
+            component={MinesweeperMenuScreen}
+            options={{
+              headerShown: false
+            }}
           />
           <Stack.Screen
-          name="minesweeperLeaderboard"
-          component={MinesweeperLeaderboard}
-          options={
-            {
-              title: 'Leaderboard',
-              headerStyle: {
-                backgroundColor: '#EA8282',
-              },
-              headerTitleAlign: 'center',
-              headerTintColor: '#fff',
-              headerTitleStyle: {
-                fontFamily: 'comfortaa-variable',
-                alignItems: 'center',
-              },
-          }
-          }
+            name="minesweeperLeaderboard"
+            component={MinesweeperLeaderboard}
+            options={
+              {
+                title: 'Leaderboard',
+                headerStyle: {
+                  backgroundColor: '#EA8282',
+                },
+                headerTitleAlign: 'center',
+                headerTintColor: '#fff',
+                headerTitleStyle: {
+                  fontFamily: 'comfortaa-variable',
+                  alignItems: 'center',
+                },
+              }
+            }
           />
-          <Stack.Screen 
-          name="minesweepergame"
-          component={MinesweeperScreen}
-          options={{
-            headerShown: false
-          }}
+          <Stack.Screen
+            name="minesweepergame"
+            component={MinesweeperScreen}
+            options={{
+              headerShown: false
+            }}
           />
           {/* Minesweeper ends */}
 
@@ -181,7 +175,7 @@ export default function App() {
           />
           <Stack.Screen
             name="SnakegameLeaderboard"
-            component={SnakegameLeaderboard} 
+            component={SnakegameLeaderboard}
             options={{
               title: 'Leaderboard',
               headerStyle: {
@@ -223,11 +217,11 @@ export default function App() {
 
           {/* memory */}
           <Stack.Screen name="Memory" component={MemoryScreen}
-          options={{ headerShown: false }} />
+            options={{ headerShown: false }} />
           <Stack.Screen name="MemoryGame" component={MemoryGame}
-          options={{ headerShown: false }} />
+            options={{ headerShown: false }} />
           <Stack.Screen name="Options" component={Options} />
-           {/* memory ends */}
+          {/* memory ends */}
         </Stack.Navigator>
       </FontLoader>
     </NavigationContainer>

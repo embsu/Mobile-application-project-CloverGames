@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image, ImageBackground} from 'react-native'
+import { View, Text, StyleSheet, Image, ImageBackground } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { TouchableOpacity } from 'react-native';
 import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native';
@@ -36,38 +36,47 @@ export default function HomeScreen() {
 
       <View style={styles.gameAppsContainer}>
 
-        <View style={styles.gameAppAndText}>
-          <TouchableOpacity style={styles.gameApp}
-            onPress={() => navigation.navigate('flappybird')}>
-            <ImageBackground source={require('../assets/images/flappy.jpg')} style={styles.gameAppImage} />
-          </TouchableOpacity>
-          <Text style={styles.gameAppText}>Flappy Bird</Text>
+        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 20 }}>
+
+          <View style={styles.gameAppAndText}>
+            <TouchableOpacity style={styles.gameApp}
+              onPress={() => navigation.navigate('flappybird')}>
+              <ImageBackground source={require('../assets/images/flappy.jpg')} style={styles.gameAppImage} />
+            </TouchableOpacity>
+            <Text style={styles.gameAppText}>Flappy Bird</Text>
+          </View>
+
+          <View style={styles.gameAppAndText}>
+            <TouchableOpacity style={styles.gameApp}
+              onPress={() => navigation.navigate('minesweeper')}>
+              <ImageBackground source={require('../assets/images/minesweep.jpg')} style={styles.gameAppImage} />
+            </TouchableOpacity>
+            <Text style={styles.gameAppText}>Minesweeper</Text>
+          </View>
         </View>
 
-        <View style={styles.gameAppAndText}>
-          <TouchableOpacity style={styles.gameApp}
-            onPress={() => navigation.navigate('minesweeper')}>
-            <ImageBackground source={require('../assets/images/minesweep.jpg')} style={styles.gameAppImage} />
-          </TouchableOpacity>
-          <Text style={styles.gameAppText}>Minesweeper</Text>
-        </View>
+        <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 20 }}>
 
-        <View style={styles.gameAppAndText}>
-          <TouchableOpacity style={styles.gameApp}
-            onPress={() => navigation.navigate('snakegame')}>
-            <ImageBackground source={require('../assets/images/mato2.jpg')} style={styles.gameAppImage} />
-          </TouchableOpacity>
-          <Text style={styles.gameAppText}>Snake Game</Text>
-        </View>
-        <View style={styles.gameAppAndText}>
-          <TouchableOpacity style={styles.gameApp}
-            onPress={() => navigation.navigate('Memory')}>
-            <ImageBackground source={require('../assets/images/memorygame.jpg')} style={styles.gameAppImage} />
-          </TouchableOpacity>
-          <Text style={styles.gameAppText}>Memory Game</Text>
-        </View>
+          <View style={styles.gameAppAndText}>
+            <TouchableOpacity style={styles.gameApp}
+              onPress={() => navigation.navigate('snakegame')}>
+              <ImageBackground source={require('../assets/images/mato2.jpg')} style={styles.gameAppImage} />
+            </TouchableOpacity>
+            <Text style={styles.gameAppText}>Snake Game</Text>
+          </View>
+          <View style={styles.gameAppAndText}>
+            <TouchableOpacity style={styles.gameApp}
+              onPress={() => navigation.navigate('Memory')}>
+              <ImageBackground source={require('../assets/images/memorygame.jpg')} style={styles.gameAppImage} />
+            </TouchableOpacity>
+            <Text style={styles.gameAppText}>Memory Game</Text>
+          </View>
 
+        </View>
       </View>
+
+
+
     </View>
   )
 }
@@ -75,10 +84,9 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#ebf0ed',
-},
+    backgroundColor: '#332d2c',
+  },
   appnameAndImage: {
     flexDirection: 'row',
     justifyContent: 'center',
@@ -105,18 +113,17 @@ const styles = StyleSheet.create({
   welcomeTxt: {
     fontSize: 20,
     fontFamily: 'comfortaa-variable',
-    color: 'black',
+    color: 'white',
     alignContent: 'center',
     justifyContent: 'center',
   },
   gameAppsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignContent: 'center',
     marginTop: 20,
     gap: 20,
-    backgroundColor: '#faa0a0',
+    backgroundColor: 'rgba(250, 160, 160, 0.7)',
     borderRadius: 20,
     margin: 20,
     padding: 20,

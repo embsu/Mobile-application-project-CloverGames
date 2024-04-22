@@ -43,8 +43,8 @@ export default function Logout({ navigation }) {
     <View styles={styles.exitContainer}>
 
       <TouchableOpacity onPress={showModal} style={styles.touchable}>
-        <Icon style={styles.icon} name="logout" size={20} color="black" />
-        <Text style={{ fontSize: 10 }}>Logout</Text>
+        <Icon style={styles.icon} name="logout" size={20} color="white" />
+        <Text style={{ fontSize: 10, color: 'white' }}>Logout</Text>
       </TouchableOpacity>
 
       <Modal
@@ -85,7 +85,7 @@ styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 5,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#363636',
     borderRadius: 10,
 
   },
