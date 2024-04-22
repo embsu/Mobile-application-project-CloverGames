@@ -62,7 +62,7 @@ export default function App() {
               title: 'Home',
               headerTintColor: 'white',
               headerStyle: {
-                backgroundColor: '#332d2c',
+                backgroundColor: '#1a1a1a',
               },
               headerTitleAlign: 'center',
               headerTitleStyle: {
