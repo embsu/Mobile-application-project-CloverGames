@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderStyle: 'solid',
         alignItems: 'center',
-        marginTop: 10,
+        marginTop: 30,
         marginBottom: 10,
 
     },
