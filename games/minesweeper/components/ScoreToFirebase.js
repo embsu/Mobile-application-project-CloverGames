@@ -1,5 +1,5 @@
 import { auth, firestore, collection} from '../../../firebase/Config';
-import { addDoc } from 'firebase/firestore';
+import { Timestamp, addDoc } from 'firebase/firestore';
 
 
 export const saveScoreToFirebase = async (score, difficulty ) => {

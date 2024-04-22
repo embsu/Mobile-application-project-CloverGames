@@ -5,7 +5,7 @@ export function gameReducer(state, action) {
 
   switch (type) {
     case 'HANDLE_CELL_CLICK': {
-
+      
       if (state.board[row][col].isFlagged)
         return state
 
@@ -17,7 +17,7 @@ export function gameReducer(state, action) {
           isGameOn: false,
           isTimerOn: false,
         }
-      } else if (state.board[row][col].value === null) {
+      } else if (state.board[row][col].value === 0) {
         // expand
         return {
           ...state,
@@ -59,17 +59,16 @@ export function gameReducer(state, action) {
     case 'CHECK_GAME_WON': {
       const { board } = state;
       let nonBombCellsRevealed = 0;
-
+    
       // Count the number of revealed non-bomb cells
       for (let row = 0; row < board.length; row++) {
         for (let col = 0; col < board[row].length; col++) {
           if (board[row][col].isRevealed && !board[row][col].isBomb) {
             nonBombCellsRevealed++;
-            state.numOfOpenedCells = nonBombCellsRevealed
           }
         }
       }
-
+    
       // If all non-bomb cells are revealed, set isGameWon to true
       if (!state.isGameOver && nonBombCellsRevealed === state.numberOfNonBombCells) {
         return {
@@ -79,9 +78,10 @@ export function gameReducer(state, action) {
           isTimerOn: false,
         };
       }
-
+    
       return state;
     }
+    
 
     case 'START_TIMER': {
       return {
@@ -112,7 +112,8 @@ function revealCell(board, row, col) {
 function expand(board, row, col) {
   const newBoard = board.slice()
   const stack = [[row, col]]
-
+  console.log(newBoard[row][col])
+  revealCell(newBoard, row, col)
   while (stack.length > 0) {
     const [row, col] = stack.pop()
     const neighbors = getNeighbors(newBoard, row, col)
@@ -129,6 +130,7 @@ function expand(board, row, col) {
   }
   return newBoard
 }
+
 
 function revealAll(board) {
   const newBoard = board.slice()

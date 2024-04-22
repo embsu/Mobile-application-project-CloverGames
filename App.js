@@ -156,12 +156,23 @@ export default function App() {
               }
             }
           />
-          <Stack.Screen
-            name="minesweepergame"
-            component={MinesweeperScreen}
-            options={{
-              headerShown: false
-            }}
+          <Stack.Screen 
+          name="minesweepergame"
+          component={MinesweeperScreen}
+          options={
+            {
+              title: ' ',
+              headerStyle: {
+                backgroundColor: '#EA8282',
+              },
+              headerTitleAlign: 'center',
+              headerTintColor: '#fff',
+              headerTitleStyle: {
+                fontFamily: 'comfortaa-variable',
+                alignItems: 'center',
+              },
+          }
+          }
           />
           {/* Minesweeper ends */}
 
