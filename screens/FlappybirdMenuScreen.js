@@ -1,5 +1,5 @@
 import { View, Text, ImageBackground, TouchableOpacity, StyleSheet, StatusBar } from 'react-native'
-import React, { useEffect } from 'react'
+import React from 'react'
 
 export default function FlappybirdMenuScreen({ navigation }) {
 
@@ -20,7 +20,7 @@ export default function FlappybirdMenuScreen({ navigation }) {
                 imageStyle={{ opacity: 0.8, }} //only to the background
             >
                 <Text style={{
-                    marginTop: 150,
+                    marginTop: 100,
                     fontSize: 60,
                     padding: 10,
                     color: '#FFCC00',
@@ -28,30 +28,25 @@ export default function FlappybirdMenuScreen({ navigation }) {
                     textShadowOffset: { width: -1, height: 1.2 },
                     textShadowRadius: 4,
                 }}>Flappy Bird</Text>
-
                 <View style={styles.allButtons}>
-
                     <TouchableOpacity
                         style={styles.button}
                         onPress={handleStartPress}
                     >
                         <Text style={styles.buttonTxt}>Start</Text>
                     </TouchableOpacity>
-
                     <TouchableOpacity
                         style={styles.button}
                         onPress={() => navigation.navigate('flappybirdLeaderboard')}
                     >
                         <Text style={styles.buttonTxt}>Leaderboard</Text>
                     </TouchableOpacity>
-
                     <TouchableOpacity
                         style={styles.button}
                         onPress={() => navigation.navigate('flappybirdSettings', { navigation })}
                     >
                         <Text style={styles.buttonTxt}>Settings</Text>
                     </TouchableOpacity>
-
                     <TouchableOpacity
                         style={styles.button}
                         onPress={() => navigation.navigate('Home')}

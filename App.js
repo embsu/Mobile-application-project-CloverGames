@@ -19,7 +19,7 @@ import SnakegameLeaderboard from './screens/SnakegameLeaderboard';
 //Flappy Bird
 import FlappybirdLeaderboard from './screens/FlappybirdLeaderboard';
 import FlappybirdSettings from './screens/FlappybirdSettings';
-
+import FlappybirdGameoverScreen from './screens/FlappybirdGameoverScreen';
 import FlappybirdScreen from './screens/FlappybirdScreen';
 import FlappybirdMenuScreen from './screens/FlappybirdMenuScreen';
 
@@ -99,20 +99,35 @@ export default function App() {
             }}
           />
           <Stack.Screen
-            name="flappybirdLeaderboard"
-            component={FlappybirdLeaderboard}
-          />
-          <Stack.Screen
-            name="flappybirdSettings"
-            component={FlappybirdSettings}
-          />
-          <Stack.Screen
-            name="flappybirdgame"
-            component={FlappybirdScreen}
-            options={{
-              headerShown: false
-            }}
-          />
+           name="flappybirdLeaderboard" 
+           component={FlappybirdLeaderboard} 
+           options={{
+            headerShown: false,
+          }}
+           />
+               <Stack.Screen
+           name="flappybirdSettings" 
+           component={FlappybirdSettings} 
+           options={{
+            headerShown: false,
+          }}
+           />
+           <Stack.Screen 
+           name="flappybirdgame" 
+           component={FlappybirdScreen}
+           initialParams={{ restartPressed: false }}
+           options={{
+            headerShown: false
+           }} 
+           />
+              <Stack.Screen 
+           name="flappybirdgameover" 
+           component={FlappybirdGameoverScreen}
+           options={{
+            headerShown: false
+           }} 
+           />
+
           {/* flappy ends */}
 
           {/* Minesweeper */}

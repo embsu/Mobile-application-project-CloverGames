@@ -2,8 +2,6 @@ import React from 'react';
 import { Text, matchFont} from '@shopify/react-native-skia';
 import { useWindowDimensions, Platform } from 'react-native';
 
-
-
 const ScoreComponent = ({ score }) => {
     const { width, height } = useWindowDimensions()
     const fontFamily = Platform.select({ ios: 'Helvetica', default: 'serif' })
