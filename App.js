@@ -2,7 +2,6 @@ import { StyleSheet, Text, View } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import MemoryScreen from './screens/MemoryScreen';
 import FontLoader from './appComponents.js/FontLoader';
 
 //____SCREENS____
@@ -29,8 +28,11 @@ import MinesweeperMenuScreen from './screens/MinesweeperMenuScreen';
 import MinesweeperLeaderboard from './screens/MinesweeperLeaderboard';
 
 // Memory
+import MemoryScreen from './screens/MemoryScreen';
+import MemoryLeaderboard from './screens/MemoryLeaderboard';
 import MemoryGame from './games/memorygame/components/MemoryGame';
 import Options from "./games/memorygame/components/Options";
+
 
 // for Firebase
 import { auth } from './firebase/Config';
@@ -232,6 +234,20 @@ export default function App() {
           <Stack.Screen name="MemoryGame" component={MemoryGame}
             options={{ headerShown: false }} />
           <Stack.Screen name="Options" component={Options} />
+          <Stack.Screen name="MemoryLeaderboard" component={MemoryLeaderboard}
+          options={{
+            title: 'Leaderboard',
+            headerStyle: {
+              backgroundColor: '#EA8282',
+            },
+            headerTitleAlign: 'center',
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontFamily: 'comfortaa-variable',
+              alignItems: 'center',
+            },
+          }}
+          />
           {/* memory ends */}
         </Stack.Navigator>
       </FontLoader>
