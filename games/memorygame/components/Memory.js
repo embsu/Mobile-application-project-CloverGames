@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import MemoryGame from './MemoryGame'; // Varmista, että polku on oikea
+import MemoryGame from './MemoryGame';
 
 const MemoryScreen = () => {
   return (
@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'lightgray', // Taustaväri voi olla mikä tahansa
+    backgroundColor: 'lightgray',
   },
 });
 

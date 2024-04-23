@@ -41,11 +41,11 @@ const MemoryScreen = () => {
     navigation.navigate('MemoryGame');
   };
 
-  const handleOptions = () => {
+  const handleLeaderboard = () => {
     if (backgroundMusic) {
       backgroundMusic.stopAsync(); // Pysäytä äänilooppi
     }
-    navigation.navigate('Options');
+    navigation.navigate('MemoryLeaderboard');
   };
 
   const handleExit = () => {
@@ -63,9 +63,9 @@ const MemoryScreen = () => {
             <Text style={styles.buttonText}>New Game</Text>
           </ImageBackground>
         </TouchableOpacity>
-        <TouchableOpacity onPress={handleOptions} style={styles.button}>
+        <TouchableOpacity onPress={handleLeaderboard} style={styles.button}>
           <ImageBackground source={require('../games/memorygame/assets/background_button.png')} style={styles.imageBackground} borderRadius={10} borderWidth={4} borderColor="#121212" resizeMode="cover">
-            <Text style={styles.buttonText}>Options</Text>
+            <Text style={styles.buttonText}>Leaderboard</Text>
           </ImageBackground>
         </TouchableOpacity>
         <TouchableOpacity onPress={handleExit} style={styles.button}>
