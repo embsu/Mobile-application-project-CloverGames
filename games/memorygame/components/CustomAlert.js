@@ -10,10 +10,10 @@ const CustomAlert = ({ isVisible, message, points, onClose, reset }) => {
         <Text style={styles.pointsText}>Points: {points}</Text>
         <View style={styles.modalButtonContainer}>
           <TouchableOpacity onPress={reset} style={styles.modalBtns}>
-            <Text style={{ color: '#80ff00', fontFamily: 'comfortaa-variable', backgroundColor: '#0c1600' }}>Restart</Text>
+            <Text style={{ color: '#80ff00', fontFamily: 'comfortaa-variable', backgroundColor: 'black' }}>Restart</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={onClose} style={styles.modalBtns}>
-            <Text style={{ color: '#80ff00', fontFamily: 'comfortaa-variable', backgroundColor: '#0c1600' }}>Close</Text>
+            <Text style={{ color: '#80ff00', fontFamily: 'comfortaa-variable', backgroundColor: 'black' }}>Close</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -23,7 +23,7 @@ const CustomAlert = ({ isVisible, message, points, onClose, reset }) => {
 
 const styles = StyleSheet.create({
   alertContainer: {
-    backgroundColor: '#0c1600',
+    backgroundColor: '#161616',
     padding: 20,
     borderRadius: 10,
     alignItems: 'center',
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
   },
   message: {
-    fontSize: 18,
+    fontSize: 20,
     marginBottom: 10,
     color: '#80ff00',
     fontFamily: 'comfortaa-variable',
